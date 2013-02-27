@@ -25,7 +25,7 @@ define Package/$(PKG_NAME)
   CATEGORY:=Commotion
   DEPENDS:=+commotionbase +luci-commotion +luci-theme-commotion
   TITLE:=Commotion Application Portal
-  URL:=http://commotionwireless.net
+  URL:=https://commotionwireless.net
 endef
 
 define Build/Configure
@@ -39,8 +39,8 @@ define Package/$(PKG_NAME)/description
 endef
 
 define Package/$(PKG_NAME)/install
-	$(INSTALL_DIR) $(1)/www/luci-static/commotion
-	$(CP) -a ./luci-static/commotion/* $(1)/www/luci-static/commotion/ 2>/dev/null || true
+	$(INSTALL_DIR) $(1)/www/luci-static/$(THEME_NAME)
+	$(CP) -a ./luci-static/$(THEME_NAME)/* $(1)/www/luci-static/$(THEME_NAME)/ 2>/dev/null || true
 	$(INSTALL_DIR) $(1)/usr/lib/lua
 	$(CP) -a ./lua/* $(1)/usr/lib/lua/ 2>/dev/null || true
 	$(INSTALL_DIR) $(1)/usr/sbin
