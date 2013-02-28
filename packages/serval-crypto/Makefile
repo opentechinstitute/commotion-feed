@@ -1,5 +1,7 @@
 include $(TOPDIR)/rules.mk
 
+SERVAL_VERSION:=batphone-release-0.90
+
 PKG_NAME:=serval-crypto
 PKG_RELEASE:=1
 PKG_VERSION:=1.0
@@ -33,8 +35,8 @@ define Package/serval-crypto/description
   and verifying these signatures.
 endef
 
-TARGET_CFLAGS += $(TLS_CFLAGS) -I$(BUILD_DIR)/serval-dna-2012-10-29 -I$(BUILD_DIR)/serval-dna-2012-10-29/nacl/include -O3
-TARGET_LDFLAGS += -L$(BUILD_DIR)/serval-dna-2012-10-29/ -lservald
+TARGET_CFLAGS += $(TLS_CFLAGS) -I$(BUILD_DIR)/serval-dna-$(SERVAL_VERSION) -I$(BUILD_DIR)/serval-dna-$(SERVAL_VERSION)/nacl/include -O3
+TARGET_LDFLAGS += -L$(BUILD_DIR)/serval-dna-$(SERVAL_VERSION)/ -lservald
 
 define Package/serval-crypto/install
 	$(INSTALL_DIR) $(1)/usr/sbin
