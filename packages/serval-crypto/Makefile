@@ -16,17 +16,12 @@ PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
 
 include $(INCLUDE_DIR)/package.mk
 
-define Package/serval-crypto/default
+define Package/serval-crypto
   SECTION:=commotion
   CATEGORY:=Commotion
   TITLE:=Serval signing and verification
   MAINTAINER:=Open Technology Institute
   DEPENDS:=+serval-dna
-endef
-
-define Package/serval-crypto
-  $(Package/serval-crypto/default)
-  MENU:=1
 endef
 
 define Package/serval-crypto/description
