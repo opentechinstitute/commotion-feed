@@ -23,7 +23,7 @@ include $(INCLUDE_DIR)/package.mk
 define Package/$(PKG_NAME)
   SECTION:=commotion
   CATEGORY:=Commotion
-  DEPENDS:=+commotionbase +luci-commotion +luci-theme-commotion
+  DEPENDS:=+luci-commotion +luci-theme-commotion
   TITLE:=Commotion Application Portal
   URL:=https://commotionwireless.net
 endef

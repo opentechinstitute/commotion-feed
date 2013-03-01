@@ -21,7 +21,7 @@ define Package/luci-$(MODULE_NAME)
   SECTION:=luci
   CATEGORY:=LuCI
   SUBMENU:=2. Modules
-  DEPENDS:=+commotionbase
+#  DEPENDS:=+commotionbase
   TITLE:=LuCI Module - $(MODULE_TITLE)
   URL:=https://commotionwireless.net/
 endef
