@@ -23,7 +23,7 @@ include $(INCLUDE_DIR)/package.mk
 define Package/$(PKG_NAME)
   SECTION:=commotion
   CATEGORY:=Commotion
-  DEPENDS:=+luci-commotion +luci-theme-commotion
+  DEPENDS:=+luci-commotion +luci-theme-commotion +netcat
   TITLE:=Commotion Application Portal
   URL:=https://commotionwireless.net
 endef
@@ -39,12 +39,21 @@ define Package/$(PKG_NAME)/description
 endef
 
 define Package/$(PKG_NAME)/install
+	$(INSTALL_DIR) $(1)/etc/uci-defaults
+	$(CP) $(PKG_BUILD_DIR)/uci-defaults/commotion-apps $(1)/etc/uci-defaults/commotion-apps || true
 	$(INSTALL_DIR) $(1)/www/luci-static/$(THEME_NAME)
 	$(CP) $(PKG_BUILD_DIR)/luci-static/$(THEME_NAME)/* $(1)/www/luci-static/$(THEME_NAME)/ || true
 	$(INSTALL_DIR) $(1)/usr/lib/lua
 	$(CP) $(PKG_BUILD_DIR)/lua/* $(1)/usr/lib/lua/ || true
 	$(INSTALL_DIR) $(1)/usr/sbin
-	$(CP) $(PKG_BUILD_DIR)/commotion-service-parser $(1)/usr/sbin/ || true
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/commotion-service-parser $(1)/usr/sbin/ || true
+endef
+
+define Package/$(PKG_NAME)/postinst
+#!/bin/sh
+[ -n "$${IPKG_INSTROOT}" ] || {
+        ( . /etc/uci-defaults/commotion-apps ) && rm -f /etc/uci-defaults/commotion-apps
+}
 endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)))

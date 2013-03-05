@@ -1,0 +1,7 @@
+#!/bin/sh
+
+echo "export SERVALINSTANCE_PATH=/etc/serval" >> /etc/profile
+
+/usr/bin/servald keyring add
+
+exit 0
