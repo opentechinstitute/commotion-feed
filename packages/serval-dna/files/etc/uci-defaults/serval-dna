@@ -2,6 +2,6 @@
 
 echo "export SERVALINSTANCE_PATH=/etc/serval" >> /etc/profile
 
-/usr/bin/servald keyring add
+[ -z `/usr/bin/servald keyring list` ] && /usr/bin/servald keyring add
 
 exit 0
