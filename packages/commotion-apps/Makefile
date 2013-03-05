@@ -40,11 +40,11 @@ endef
 
 define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/www/luci-static/$(THEME_NAME)
-	$(CP) $(PKG_BUILD_DIR)/luci-static/$(THEME_NAME)/* $(1)/www/luci-static/$(THEME_NAME)/ 2>/dev/null || true
+	$(CP) $(PKG_BUILD_DIR)/luci-static/$(THEME_NAME)/* $(1)/www/luci-static/$(THEME_NAME)/ || true
 	$(INSTALL_DIR) $(1)/usr/lib/lua
-	$(CP) $(PKG_INSTALL_DIR)/lua/* $(1)/usr/lib/lua/ 2>/dev/null || true
+	$(CP) $(PKG_BUILD_DIR)/lua/* $(1)/usr/lib/lua/ || true
 	$(INSTALL_DIR) $(1)/usr/sbin
-	$(CP) -a ./commotion-service-parser $(1)/usr/sbin/ 2>/dev/null || true
+	$(CP) $(PKG_BUILD_DIR)/commotion-service-parser $(1)/usr/sbin/ || true
 endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)))

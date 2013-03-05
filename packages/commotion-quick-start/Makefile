@@ -36,7 +36,7 @@ endef
 
 define Package/commotion-quick-start/install
 	$(INSTALL_DIR) $(1)/
-	$(CP) -a ./files/* $(1)/ 2>/dev/null || true
+	$(CP) $(PKG_BUILD_DIR)/files/* $(1)/ || true
 endef
 
 $(eval $(call BuildPackage,commotion-quick-start))
