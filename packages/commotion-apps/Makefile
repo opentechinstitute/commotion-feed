@@ -40,7 +40,7 @@ endef
 
 define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/etc/uci-defaults
-	$(CP) $(PKG_BUILD_DIR)/uci-defaults/commotion-apps $(1)/etc/uci-defaults/commotion-apps || true
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/uci-defaults/commotion-apps $(1)/etc/uci-defaults/commotion-apps || true
 	$(INSTALL_DIR) $(1)/www/luci-static/$(THEME_NAME)
 	$(CP) $(PKG_BUILD_DIR)/luci-static/$(THEME_NAME)/* $(1)/www/luci-static/$(THEME_NAME)/ || true
 	$(INSTALL_DIR) $(1)/usr/lib/lua
