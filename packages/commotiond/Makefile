@@ -1,9 +1,9 @@
 include $(TOPDIR)/rules.mk
 
-MODULE_NAME:=commotion
-MODULE_TITLE:=Commotion
+MODULE_NAME:=commotiond
+MODULE_TITLE:=Commotiond
 
-PKG_NAME:=commotion
+PKG_NAME:=commotion-daemon
 PKG_VERSION:=0.1
 PKG_RELEASE:=1
 
