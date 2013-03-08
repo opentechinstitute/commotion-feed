@@ -1,9 +1,9 @@
 include $(TOPDIR)/rules.mk
 
-MODULE_NAME:=commotiond
-MODULE_TITLE:=Commotiond
+#MODULE_NAME:=commotion-daemon-bundle
+#MODULE_TITLE:=Commotion Daemon Bundle
 
-PKG_NAME:=commotion-daemon
+PKG_NAME:=commotion-daemon-bundle
 PKG_VERSION:=master
 PKG_RELEASE:=1
 
@@ -13,7 +13,7 @@ PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
 PKG_SOURCE_VERSION:=$(PKG_VERSION)
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_SOURCE_VERSION).tar.gz
-PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)/build
+PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)/$(PKG_NAME)-$(PKG_VERSION)
 
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/cmake.mk
@@ -25,19 +25,13 @@ define Package/libcommotion
   URL:=https://commotionwireless.net/
 endef
 
-define Build/Configure
-endef
-
-define Build/Compile
-endef
-
 define Package/libcommotion/description
   An embedded embedded library and API for managing mesh networks.
 endef
 
 define Package/libcommotion/install
 	$(INSTALL_DIR) $(1)/usr/lib
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/libcommotion $(1)/usr/lib
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/libcommotion.so $(1)/usr/lib
 endef
 
 define Package/libcommotion/postinst
@@ -48,18 +42,12 @@ define Package/libcommotion/postinst
 endef
 CO_BUILD_PACKAGES += libcommotion
 
-define Package/commotion-daemon
+define Package/commotiond
   SECTION:=commotion
   CATEGORY:=Commotion
   DEPENDS:=+libcommotion
-  TITLE:=Commotion Daemon
+  TITLE:=Commotion_Daemon
   URL:=https://commotionwireless.net/
-endef
-
-define Build/Configure
-endef
-
-define Build/Compile
 endef
 
 define Package/commotiond/description
@@ -83,14 +71,8 @@ define Package/commotion-client
   SECTION:=commotion
   CATEGORY:=Commotion
   DEPENDS:=+libcommotion +commotiond
-  TITLE:=Commotion Client
+  TITLE:=Commotion_Client
   URL:=https://commotionwireless.net/
-endef
-
-define Build/Configure
-endef
-
-define Build/Compile
 endef
 
 define Package/commotion-client/description
