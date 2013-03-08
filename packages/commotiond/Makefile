@@ -37,7 +37,7 @@ endef
 define Package/libcommotion/postinst
 #!/bin/sh
 [ -n "$${IPKG_INSTROOT}" ] || {
-	( . /etc/uci-defaults/libcommotion) ) && rm -f /etc/uci-defaults/libcommotion
+	( . /etc/uci-defaults/libcommotion ) && rm -f /etc/uci-defaults/libcommotion
 }
 endef
 CO_BUILD_PACKAGES += libcommotion
@@ -62,7 +62,7 @@ endef
 define Package/commotiond/postinst
 #!/bin/sh
 [ -n "$${IPKG_INSTROOT}" ] || {
-	( . /etc/uci-defaults/commotiond) ) && rm -f /etc/uci-defaults/commotiond
+	( . /etc/uci-defaults/commotiond ) && rm -f /etc/uci-defaults/commotiond
 }
 endef
 CO_BUILD_PACKAGES += commotiond
@@ -87,7 +87,7 @@ endef
 define Package/commotion-client/postinst
 #!/bin/sh
 [ -n "$${IPKG_INSTROOT}" ] || {
-	( . /etc/uci-defaults/commotion) ) && rm -f /etc/uci-defaults/commotion
+	( . /etc/uci-defaults/commotion ) && rm -f /etc/uci-defaults/commotion
 }
 endef
 CO_BUILD_PACKAGES += commotion-client

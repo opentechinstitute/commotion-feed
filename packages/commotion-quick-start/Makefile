@@ -37,6 +37,7 @@ endef
 define Package/commotion-quick-start/install
 	$(INSTALL_DIR) $(1)/
 	$(CP) -a ./files/* $(1)/ 2>/dev/null || true
+	$(INSTALL_BIN) ./files/etc/uci-defaults/commotion-quick-start $(1)/etc/uci-defaults/commotion-quick-start 2>/dev/null || true
 endef
 
 define Package/commotion-quick-start/postinst
