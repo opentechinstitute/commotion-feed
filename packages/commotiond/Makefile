@@ -4,6 +4,8 @@ MODULE_NAME:=commotiond
 MODULE_TITLE:=Commotiond
 
 PKG_NAME:=commotion-daemon
+PKG_VERSION:=master
+PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=git://github.com/jheretic/commotiond.git
