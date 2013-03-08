@@ -48,7 +48,7 @@ define Package/libcommotion/postinst
 endef
 CO_BUILD_PACKAGES += libcommotion
 
-define Package/commotiond
+define Package/commotion-daemon
   SECTION:=commotion
   CATEGORY:=Commotion
   DEPENDS:=+libcommotion
