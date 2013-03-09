@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
-#MODULE_NAME:=commotion-daemon-bundle
-#MODULE_TITLE:=Commotion Daemon Bundle
+MODULE_NAME:=commotion-daemon-bundle
+MODULE_TITLE:=Commotion Daemon Bundle
 
 PKG_NAME:=commotion-daemon-bundle
 PKG_VERSION:=master
@@ -46,7 +46,7 @@ define Package/commotiond
   SECTION:=commotion
   CATEGORY:=Commotion
   DEPENDS:=+libcommotion
-  TITLE:=Commotion_Daemon
+  TITLE:=Commotion Daemon
   URL:=https://commotionwireless.net/
 endef
 
@@ -71,7 +71,7 @@ define Package/commotion-client
   SECTION:=commotion
   CATEGORY:=Commotion
   DEPENDS:=+libcommotion +commotiond
-  TITLE:=Commotion_Client
+  TITLE:=Commotion Client
   URL:=https://commotionwireless.net/
 endef
 
