@@ -22,8 +22,7 @@ define Package/commotion-quick-start
   SECTION:=commotion
   CATEGORY:=Commotion
   TITLE:=Commotion Quick Start Wizard
-# Commotionbase will be superseded by daemon
-#  DEPENDS:=+commotionbase
+  DEPENDS:=+commotiond +commotion-apps
   URL:=https://commotionwireless.net
 endef
 
