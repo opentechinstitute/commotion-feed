@@ -35,16 +35,15 @@ endef
 
 define Package/commotion-quick-start/install
 	$(INSTALL_DIR) $(1)/
-	$(CP) -a ./files/* $(1)/ 2>/dev/null || true
-	$(INSTALL_BIN) ./files/etc/uci-defaults/commotion-quick-start $(1)/etc/uci-defaults/commotion-quick-start 2>/dev/null || true
+	$(CP) -a $(PKG_BUILD_DIR)/* $(1)/ 2>/dev/null || true
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/etc/uci-defaults/commotion-quick-start $(1)/etc/uci-defaults/commotion-quick-start 2>/dev/null || true
 endef
 
-define Package/commotion-quick-start/postinst
+define Package/$(PKG_NAME)/postinst
 #!/bin/sh
 [ -n "$${IPKG_INSTROOT}" ] || {
         ( . /etc/uci-defaults/commotion-quick-start ) && rm -f /etc/uci-defaults/commotion-quick-start
 }
 endef
-
 
 $(eval $(call BuildPackage,commotion-quick-start))
