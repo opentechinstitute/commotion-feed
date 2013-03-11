@@ -18,6 +18,8 @@ PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)/$(PKG_NAME)-$(PKG_VERSION)
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/cmake.mk
 
+CMAKE_OPTIONS+=-DDEBUG:Bool=Off -DOPENWRT:Bool=On
+
 define Package/libcommotion
   SECTION:=commotion
   CATEGORY:=Commotion
@@ -56,7 +58,19 @@ endef
 
 define Package/commotiond/install
 	$(INSTALL_DIR) $(1)/usr/sbin
+	$(INSTALL_DIR) $(1)/etc/init.d
+	$(INSTALL_DIR) $(1)/etc/config
+	$(INSTALL_DIR) $(1)/etc/uci-defaults
+	$(INSTALL_DIR) $(1)/etc/commotion
+	$(INSTALL_DIR) $(1)/etc/commotion/profiles.d
+	$(INSTALL_DIR) $(1)/lib/netifd/proto
+	$(INSTALL_DIR) $(1)/lib/functions
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/commotiond $(1)/usr/sbin
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/openwrt/etc/uci-defaults/commotiond $(1)/etc/uci-defaults
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/openwrt/etc/init.d/commotiond $(1)/etc/init.d
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/openwrt/lib/netifd/proto/commotion.sh $(1)/lib/netifd/proto
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/openwrt/lib/functions/commotion.sh $(1)/lib/functions
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/profiles.d/default $(1)/etc/commotion/profiles.d
 endef
 
 define Package/commotiond/postinst
