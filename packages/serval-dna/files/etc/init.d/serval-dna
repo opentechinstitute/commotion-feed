@@ -1,6 +1,6 @@
 #!/bin/sh /etc/rc.common
 
-START=93
+START=63
 
 boot() {
   /usr/bin/servald start
