@@ -36,12 +36,6 @@ define Package/libcommotion/install
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/libcommotion.so $(1)/usr/lib
 endef
 
-define Package/libcommotion/postinst
-#!/bin/sh
-[ -n "$${IPKG_INSTROOT}" ] || {
-	( . /etc/uci-defaults/libcommotion ) && rm -f /etc/uci-defaults/libcommotion
-}
-endef
 CO_BUILD_PACKAGES += libcommotion
 
 define Package/commotiond
@@ -98,11 +92,5 @@ define Package/commotion-client/install
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/commotion $(1)/usr/bin
 endef
 
-define Package/commotion-client/postinst
-#!/bin/sh
-[ -n "$${IPKG_INSTROOT}" ] || {
-	( . /etc/uci-defaults/commotion ) && rm -f /etc/uci-defaults/commotion
-}
-endef
 CO_BUILD_PACKAGES += commotion-client
 $(foreach b,$(CO_BUILD_PACKAGES),$(eval $(call BuildPackage,$(b))))
