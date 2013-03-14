@@ -8,7 +8,7 @@ PKG_VERSION:=master
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_URL:=git://github.com/jheretic/commotiond.git
+PKG_SOURCE_URL:=git://github.com/opentechinstitute/commotiond.git
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
 PKG_SOURCE_VERSION:=$(PKG_VERSION)
 
@@ -59,12 +59,19 @@ define Package/commotiond/install
 	$(INSTALL_DIR) $(1)/etc/commotion/profiles.d
 	$(INSTALL_DIR) $(1)/lib/netifd/proto
 	$(INSTALL_DIR) $(1)/lib/functions
+	$(INSTALL_DIR) $(1)/usr/share/commotion/patches
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/commotiond $(1)/usr/sbin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/openwrt/etc/uci-defaults/commotiond $(1)/etc/uci-defaults
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/openwrt/etc/init.d/commotiond $(1)/etc/init.d
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/openwrt/lib/netifd/proto/commotion.sh $(1)/lib/netifd/proto
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/openwrt/lib/functions/commotion.sh $(1)/lib/functions
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/openwrt/usr/share/commotion/patches/dnsmasq.patch $(1)/usr/share/commotion/patches
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/openwrt/usr/share/commotion/patches/mac80211.sh.patch $(1)/usr/share/commotion/patches
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/profiles.d/default $(1)/etc/commotion/profiles.d
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/profiles.d/defaultAP $(1)/etc/commotion/profiles.d
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/profiles.d/defaultMesh $(1)/etc/commotion/profiles.d
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/profiles.d/defaultPlug $(1)/etc/commotion/profiles.d
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/profiles.d/defaultSec $(1)/etc/commotion/profiles.d
 endef
 
 define Package/commotiond/postinst

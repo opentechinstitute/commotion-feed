@@ -6,7 +6,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=commotion-quick-start
 PKG_RELEASE:=1
-PKG_VERSION:=Version02
+PKG_VERSION:=master
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=git@github.com:opentechinstitute/commotion-quick-start.git
