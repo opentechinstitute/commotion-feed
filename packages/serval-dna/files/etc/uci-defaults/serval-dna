@@ -1,6 +1,7 @@
 #!/bin/sh
 
 echo "export SERVALINSTANCE_PATH=/etc/serval" >> /etc/profile
+ln -s /etc/serval/ /var/serval-node
 
 [ -z `/usr/bin/servald keyring list` ] && /usr/bin/servald keyring add
 
