@@ -67,7 +67,6 @@ define Package/commotiond/install
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/openwrt/lib/functions/commotion.sh $(1)/lib/functions
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/openwrt/usr/share/commotion/patches/dnsmasq.patch $(1)/usr/share/commotion/patches
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/openwrt/usr/share/commotion/patches/mac80211.sh.patch $(1)/usr/share/commotion/patches
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/profiles.d/default $(1)/etc/commotion/profiles.d
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/profiles.d/defaultAP $(1)/etc/commotion/profiles.d
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/profiles.d/defaultMesh $(1)/etc/commotion/profiles.d
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/profiles.d/defaultPlug $(1)/etc/commotion/profiles.d
