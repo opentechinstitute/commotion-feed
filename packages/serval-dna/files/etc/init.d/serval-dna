@@ -3,7 +3,8 @@
 START=63
 
 boot() {
-  /usr/bin/servald start
+  [ -z `SERVALINSTANCE_PATH=/etc/serval /usr/bin/servald keyring list` ] && SERVALINSTANCE_PATH=/etc/serval /usr/bin/servald keyring add
+  SERVALINSTANCE_PATH=/etc/serval /usr/bin/servald start
 }
 
 start() {
