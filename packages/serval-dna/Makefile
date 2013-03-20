@@ -33,6 +33,8 @@ define Package/serval-dna/install
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/servald $(1)/usr/bin
 	$(INSTALL_DIR) $(1)/usr/lib
 	$(CP) $(PKG_BUILD_DIR)/libservald.so $(1)/usr/lib/
+	$(INSTALL_DIR) $(1)/etc/serval
+	$(CP) ./files/etc/serval/serval.conf $(1)/etc/serval/serval.conf
 	$(INSTALL_DIR) $(1)/etc/uci-defaults
 	$(INSTALL_BIN) ./files/etc/uci-defaults/serval-dna $(1)/etc/uci-defaults/serval-dna
 	$(INSTALL_DIR) $(1)/etc/init.d
