@@ -57,12 +57,14 @@ define Package/commotiond/install
 	$(INSTALL_DIR) $(1)/etc/uci-defaults
 	$(INSTALL_DIR) $(1)/etc/commotion
 	$(INSTALL_DIR) $(1)/etc/commotion/profiles.d
+	$(INSTALL_DIR) $(1)/lib/netifd
 	$(INSTALL_DIR) $(1)/lib/netifd/proto
 	$(INSTALL_DIR) $(1)/lib/functions
 	$(INSTALL_DIR) $(1)/usr/share/commotion/patches
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/commotiond $(1)/usr/sbin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/openwrt/etc/uci-defaults/commotiond $(1)/etc/uci-defaults
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/openwrt/etc/init.d/commotiond $(1)/etc/init.d
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/openwrt/lib/netifd/commotion.dhcp.script $(1)/lib/netifd
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/openwrt/lib/netifd/proto/commotion.sh $(1)/lib/netifd/proto
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/openwrt/lib/functions/commotion.sh $(1)/lib/functions
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/openwrt/usr/share/commotion/patches/dnsmasq.patch $(1)/usr/share/commotion/patches
