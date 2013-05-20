@@ -4,7 +4,7 @@ THEME_NAME:=commotion
 THEME_TITLE:=Commotion
 
 PKG_NAME:=luci-theme-$(THEME_NAME)
-PKG_VERSION:=master
+PKG_VERSION:=1.1
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git

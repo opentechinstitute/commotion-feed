@@ -4,7 +4,7 @@ MODULE_NAME:=commotion-daemon-bundle
 MODULE_TITLE:=Commotion Daemon Bundle
 
 PKG_NAME:=commotion-daemon-bundle
-PKG_VERSION:=master
+PKG_VERSION:=0.1
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
