@@ -1,13 +1,19 @@
 if PACKAGE_commotion-luci-i18n
 
-menu "Commotion i18n Languages"
-
 config COMMOTION_LUCI_I18N_SPANISH
 	bool "Enable Spanish language set"
 	default n
 	select PACKAGE_luci-i18n-spanish
+	select PACKAGE_commotion-luci-i18n
 	help
 		Enable spanish language set on Commotion LuCI pages
-endchoice
+
+config COMMOTION_LUCI_I18N_FRENCH
+	bool "Enable French language set"
+	default n
+	select PACKAGE_luci-i18n-french
+	select PACKAGE_commotion-luci-i18n
+	help
+		Enable french language set on Commotion LuCI pages
 
 endif
