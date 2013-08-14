@@ -42,10 +42,10 @@ define Package/commotion-debug-helper/install
 	for LANG in SPANISH FRENCH do
 		ifeq ($(CONFIG_COMMOTION_LUCI_I18N_$$LANG),y)
 			lang=`echo ${LANG:0:2} | tr [:upper:] [:lower:]`
-			$(CP) $(PKG_BUILD_DIR)/lang/commotion-$$lang.lmo $(1)/usr/lib/lua/luci/i18n/ || true
+			$(CP) $(PKG_BUILD_DIR)/lang/commotion.$$lang.lmo $(1)/usr/lib/lua/luci/i18n/
 		endif
 	done
-	$(CP) $(PKG_BUILD_DIR)/lang/test.lmo $(1)/usr/lib/lua/luci/i18n/ || true
+	$(CP) $(PKG_BUILD_DIR)/lang/test.lmo $(1)/usr/lib/lua/luci/i18n/
 endef
 
 $(eval $(call BuildPackage,commotion-luci-i18n))
