@@ -5,16 +5,19 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=commotion-luci-i18n
-PKG_VERSION:=Feature_582
+PKG_VERSION:=0.2
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_URL:=git://github.com/opentechinstitute/commotion-luci-i18n.git:
+PKG_SOURCE_URL:=git://github.com/opentechinstitute/commotion-luci-i18n.git
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
 PKG_SOURCE_VERSION:=$(PKG_VERSION)
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_SOURCE_VERSION).tar.gz
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
+
+SVN = svn
+MAKE = make
 
 include $(INCLUDE_DIR)/package.mk
 
@@ -34,18 +37,29 @@ define Package/commotion-luci-i18n/config
 	source "$(SOURCE)/Config.in"
 endef
 
-define Package/commotion-debug-helper/description
+define Package/commotion-luci-i18n/description
   Commotion tranlation installation manager.
 endef
 
-define Package/commotion-debug-helper/install
-	for LANG in SPANISH FRENCH do
-		ifeq ($(CONFIG_COMMOTION_LUCI_I18N_$$LANG),y)
-			lang=`echo ${LANG:0:2} | tr [:upper:] [:lower:]`
-			$(CP) $(PKG_BUILD_DIR)/lang/commotion-$$lang.lmo $(1)/usr/lib/lua/luci/i18n/ || true
-		endif
-	done
-	$(CP) $(PKG_BUILD_DIR)/lang/test.lmo $(1)/usr/lib/lua/luci/i18n/ || true
+languages := french spanish
+
+
+define Package/commotion-luci-i18n/install
+	$(LS) $(PKG_BUILD_DIR)/translations/
+	$(SVN) co http://svn.luci.subsignal.org/luci/branches/luci-0.9/libs/lmo $(PKG_BUILD_DIR)/po2lmo/.
+	$(MAKE) -C $(PKG_BUILD_DIR)/po2lmo/
+	#!/bin/bash
+	IFS='  '; \
+	for i in $(foreach lang, $(languages), $(lang):$(CONFIG_commotion-luci-i18n-$(lang))); do \
+	  lang=`echo $$$$i |sed s/:.*//`; \
+	  lg=`echo $$$$lang |cut -c1-2`;\
+	  bool=`echo $$$$i |sed s/^.*://`; \
+	  if [ "$$$$bool" = "y" ]; then \
+		$(PKG_BUILD_DIR)/po2lmo/src/po2lmo $(PKG_BUILD_DIR)/translations/commotion-luci-$$$$lg.po $(PKG_BUILD_DIR)/lang/commotion-luci-$$$$lg.lmo; \
+	  fi ; \
+	done; 
+
+	$(CP) $(PKG_BUILD_DIR)/lang/* $(1)/usr/lib/lua/luci/i18n/ || true
 endef
 
 $(eval $(call BuildPackage,commotion-luci-i18n))
