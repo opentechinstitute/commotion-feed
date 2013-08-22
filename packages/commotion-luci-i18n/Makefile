@@ -52,7 +52,7 @@ endif
 
 define Build/Prepare
 	$(call Build/Prepare/Default,)
-	$(SVN) co http://svn.luci.subsignal.org/luci/branches/luci-0.9/libs/lmo $(PKG_BUILD_DIR)/po2lmo/.
+	$(SVN) co http://svn.luci.subsignal.org/luci/trunk/libs/web/ $(PKG_BUILD_DIR)/po2lmo/.
 	$(MKDIR) $(PKG_BUILD_DIR)/lang
 	$(MAKE_po2lmo) || ("Missing Lua Dev package. This is a build dependency. Please install liblua5.1-dev" && false)
 	#!/bin/bash
@@ -62,12 +62,13 @@ define Build/Prepare
 	  lg=`echo $$$$lang |cut -c1-2`;\
 	  bool=`echo $$$$i |sed s/^.*://`; \
 	  if [ "$$$$bool" = "y" ]; then \
-		$(PKG_BUILD_DIR)/po2lmo/src/po2lmo $(PKG_BUILD_DIR)/translations/commotion-luci-$$$$lg.po $(PKG_BUILD_DIR)/lang/commotion-luci-$$$$lg.lmo; \
+		$(PKG_BUILD_DIR)/po2lmo/src/po2lmo $(PKG_BUILD_DIR)/translations/commotion-luci-$$$$lg.po $(PKG_BUILD_DIR)/lang/commotion-luci.$$$$lg.lmo; \
 	  fi ; \
 	done; 
 endef
 
 define Package/commotion-luci-i18n/install
+	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/i18n/
 	$(CP) $(PKG_BUILD_DIR)/lang/* $(1)/usr/lib/lua/luci/i18n/ || true
 endef
 
