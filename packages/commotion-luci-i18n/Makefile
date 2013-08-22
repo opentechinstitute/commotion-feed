@@ -18,6 +18,8 @@ PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
 
 SVN = svn
 MAKE = make
+MAKE_po2lmo = $(MAKE) -C $(PKG_BUILD_DIR)/po2lmo/
+MKDIR = mkdir
 
 include $(INCLUDE_DIR)/package.mk
 
@@ -43,11 +45,21 @@ endef
 
 languages := french spanish
 
+define Package/preinst
+#!/bin/bash
+#wget -P $(PKG_BUILD_DIR) #http://ftp.de.debian.org/debian/pool/main/l/lua5.1/lua5.1_5.1.5-4.debian.tar.gz
+endef
 
-define Package/commotion-luci-i18n/install
-	$(LS) $(PKG_BUILD_DIR)/translations/
+
+ifdef ERROR_DEP
+$(error Missing Lua Dev package. This is a build dependency. Please install liblua5.1-dev))
+endif
+
+define Build/Prepare
+	$(call Build/Prepare/Default,)
 	$(SVN) co http://svn.luci.subsignal.org/luci/branches/luci-0.9/libs/lmo $(PKG_BUILD_DIR)/po2lmo/.
-	$(MAKE) -C $(PKG_BUILD_DIR)/po2lmo/
+	$(MKDIR) $(PKG_BUILD_DIR)/lang
+	$(MAKE_po2lmo) || ("Missing Lua Dev package. This is a build dependency. Please install liblua5.1-dev" && false)
 	#!/bin/bash
 	IFS='  '; \
 	for i in $(foreach lang, $(languages), $(lang):$(CONFIG_commotion-luci-i18n-$(lang))); do \
@@ -58,7 +70,9 @@ define Package/commotion-luci-i18n/install
 		$(PKG_BUILD_DIR)/po2lmo/src/po2lmo $(PKG_BUILD_DIR)/translations/commotion-luci-$$$$lg.po $(PKG_BUILD_DIR)/lang/commotion-luci-$$$$lg.lmo; \
 	  fi ; \
 	done; 
+endef
 
+define Package/commotion-luci-i18n/install
 	$(CP) $(PKG_BUILD_DIR)/lang/* $(1)/usr/lib/lua/luci/i18n/ || true
 endef
 
