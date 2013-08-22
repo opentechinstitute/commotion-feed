@@ -43,13 +43,8 @@ define Package/commotion-luci-i18n/description
   Commotion tranlation installation manager.
 endef
 
+#TODO add the language code for future compatability with standard country codes germany:de then modify parsing in build/prepare
 languages := french spanish
-
-define Package/preinst
-#!/bin/bash
-#wget -P $(PKG_BUILD_DIR) #http://ftp.de.debian.org/debian/pool/main/l/lua5.1/lua5.1_5.1.5-4.debian.tar.gz
-endef
-
 
 ifdef ERROR_DEP
 $(error Missing Lua Dev package. This is a build dependency. Please install liblua5.1-dev))
