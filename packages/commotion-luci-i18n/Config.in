@@ -1,0 +1,11 @@
+if PACKAGE_commotion-luci-i18n
+
+config commotion-luci-i18n-french
+	bool "Enable French language set"
+	default n
+	select PACKAGE_luci-i18n-french
+	select PACKAGE_commotion-luci-i18n
+	help
+		Enable french language set on Commotion LuCI pages
+
+endif
