@@ -22,7 +22,7 @@ define Package/commotion-quick-start
   SECTION:=commotion
   CATEGORY:=Commotion
   TITLE:=Commotion Quick Start Wizard
-  DEPENDS:=+commotiond +commotion-apps +luci-commotion
+  DEPENDS:=+commotiond +commotion-apps +luci-commotion +coreutils-sha1sum +coreutils
   URL:=https://commotionwireless.net
 endef
 
