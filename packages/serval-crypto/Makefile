@@ -21,7 +21,7 @@ define Package/serval-crypto
   CATEGORY:=Commotion
   TITLE:=Serval signing and verification
   MAINTAINER:=Open Technology Institute
-  DEPENDS:=+serval-dna
+  DEPENDS:=+serval-dna +argp-standalone
 endef
 
 define Package/serval-crypto/description
