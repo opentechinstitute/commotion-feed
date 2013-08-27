@@ -21,11 +21,11 @@ PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
 include $(INCLUDE_DIR)/package.mk
 
 define Package/$(PKG_NAME)
-  SECTION:=commotion
-  CATEGORY:=Commotion
-  DEPENDS:=+curl
-  TITLE:=Commotion Bigboard Sender
-  URL:=https://commotionwireless.net
+	SECTION:=commotion
+	CATEGORY:=Commotion
+	DEPENDS:=+curl
+	TITLE:=Commotion Bigboard Sender
+	URL:=https://commotionwireless.net
 endef
 
 define Build/Configure
@@ -35,12 +35,12 @@ define Build/Compile
 endef
 
 define Package/$(PKG_NAME)/description
-  Provides a transport mechanism to a remote Commotion Bigboard
+	Provides a transport mechanism to a remote Commotion Bigboard
 endef
 
 define Package/$(PKG_NAME)/install
-$(CP) $(PKG_BUILD_DIR)/bin/commotion-bigboard-send /usr/bin/
-$(CP) $(PKG_BULD_DIR)/conf/commotion-dash /etc/config/
+	$(CP) $(PKG_BUILD_DIR)/bin/commotion-bigboard-send /usr/bin/
+	$(CP) $(PKG_BULD_DIR)/conf/commotion-dash /etc/config/
 endef
 
 define Package/$(PKG_NAME)/postinst
