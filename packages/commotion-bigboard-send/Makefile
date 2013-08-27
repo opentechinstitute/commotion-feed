@@ -44,6 +44,9 @@ $(CP) $(PKG_BULD_DIR)/conf/commotion-dash /etc/config/
 endef
 
 define Package/$(PKG_NAME)/postinst
+#!/bin/sh
+cronline ='* * * * *  /usr/bin/commotion-bigboard-send'
+echo "$cronline" >> /etc/crontabs/root
 endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)))
