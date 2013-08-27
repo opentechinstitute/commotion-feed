@@ -7,7 +7,7 @@ THEME_NAME:=commotion
 THEME_TITLE:=Commotion
 
 PKG_NAME:=$(MODULE_NAME)
-PKG_VERSION:=1.0
+PKG_VERSION:=release-0.1
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
@@ -39,8 +39,10 @@ define Package/$(PKG_NAME)/description
 endef
 
 define Package/$(PKG_NAME)/install
-	$(CP) $(PKG_BUILD_DIR)/bin/commotion-bigboard-send /usr/bin/
-	$(CP) $(PKG_BULD_DIR)/conf/commotion-dash /etc/config/
+	$(INSTALL_DIR) $(1)/usr/bin/
+	$(CP) $(PKG_BUILD_DIR)/bin/commotion-bigboard-send $(1)/usr/bin/
+	$(INSTALL_DIR) $(1)/etc/config/
+	$(CP) $(PKG_BUILD_DIR)/config/commotion-dash $(1)/etc/config/
 endef
 
 define Package/$(PKG_NAME)/postinst
