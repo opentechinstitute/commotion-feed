@@ -43,12 +43,8 @@ define Package/$(PKG_NAME)/install
 	$(CP) $(PKG_BUILD_DIR)/bin/commotion-bigboard-send $(1)/usr/bin/
 	$(INSTALL_DIR) $(1)/etc/config/
 	$(CP) $(PKG_BUILD_DIR)/config/commotion-dash $(1)/etc/config/
-endef
-
-define Package/$(PKG_NAME)/postinst
-#!/bin/sh
-cronline ='* * * * *  /usr/bin/commotion-bigboard-send'
-echo "$cronline" >> /etc/crontabs/root
+	$(INSTALL_DIR) $(1)/etc/uci-defaults/
+	$(CP) $(PKG_BUILD_DIR)/bin/commotion-bigboard-send-install-cron.sh $(1)/etc/uci-defaults/
 endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)))
