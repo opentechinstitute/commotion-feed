@@ -42,8 +42,8 @@ define Package/luci-$(MODULE_NAME)/conffile
 endef
 
 define Package/luci-$(MODULE_NAME)/install
-	$(INSTALL_DIR) $(1)
-	$(CP) -a $(PKG_BUILD_DIR)/* $(1) 2>/dev/null || true
+	$(INSTALL_DIR) $(1)/usr/lib/lua/luci
+	$(CP) $(PKG_BUILD_DIR)/luasrc/* $(1)/usr/lib/lua/luci 2>/dev/null || true
 endef
 
 define Package/luci-$(MODULE_NAME)/postinst
