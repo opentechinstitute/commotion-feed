@@ -16,6 +16,8 @@ PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
 
 include $(INCLUDE_DIR)/package.mk
 
+TARGET_CFLAGS += -DHAVE_BZERO -DHAVE_BCMP -DHAVE_BCOPY
+
 define Package/serval-crypto
   SECTION:=commotion
   CATEGORY:=Commotion
