@@ -5,7 +5,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=commotion-luci-i18n
-PKG_VERSION:=0.2
+PKG_VERSION:=0.1
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
