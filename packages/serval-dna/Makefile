@@ -17,6 +17,8 @@ PKG_BUILD_DEPENDS:=
 
 include $(INCLUDE_DIR)/package.mk
 
+TARGET_CFLAGS += -DHAVE_BZERO -DHAVE_BCMP -DHAVE_BCOPY
+
 define Package/serval-dna
 	SECTION:=utils
 	CATEGORY:=Utilities
