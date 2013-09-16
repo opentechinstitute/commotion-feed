@@ -1,6 +1,6 @@
 include $(TOPDIR)/rules.mk
 
-SERVAL_VERSION:=batphone-release-0.90
+SERVAL_VERSION:=batphone-release-0.91
 
 PKG_NAME:=serval-crypto
 PKG_RELEASE:=1
