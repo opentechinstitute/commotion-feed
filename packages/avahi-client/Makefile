@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=avahi-client
 PKG_RELEASE:=1
-PKG_VERSION=0.1
+PKG_VERSION=master
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=git://github.com/opentechinstitute/avahi-client.git
@@ -22,8 +22,9 @@ PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
 include $(INCLUDE_DIR)/package.mk
 
 define Package/avahi-client/default
-  SECTION:=net
-  CATEGORY:=Network
+  SECTION:=commotion
+  CATEGORY:=Commotion
+  SUBMENU:=Utilities
   SUBMENU:=IP Addresses and Names
   TITLE:=Avahi mDNS Browser
   MAINTAINER:=Open Technology Institute
