@@ -1,13 +1,13 @@
 include $(TOPDIR)/rules.mk
 
 MODULE_NAME:=commotion-bigboard-send
-MODULE_TITLE:=Commotion-Bigboard
+MODULE_TITLE:=Commotion-Bigboard-Send
 
 THEME_NAME:=commotion
 THEME_TITLE:=Commotion
 
 PKG_NAME:=$(MODULE_NAME)
-PKG_VERSION:=release-0.1.1
+PKG_VERSION:=master
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
@@ -23,6 +23,7 @@ include $(INCLUDE_DIR)/package.mk
 define Package/$(PKG_NAME)
 	SECTION:=commotion
 	CATEGORY:=Commotion
+  SUBMENU:=Utilities
 	DEPENDS:=+curl
 	TITLE:=Commotion Bigboard Sender
 	URL:=https://commotionwireless.net
