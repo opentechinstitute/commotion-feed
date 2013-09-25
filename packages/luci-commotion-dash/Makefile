@@ -19,12 +19,12 @@ PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
 include $(INCLUDE_DIR)/package.mk
 
 define Package/luci-$(MODULE_NAME)
-  SECTION:=luci
-  CATEGORY:=LuCI
-  SUBMENU:=2. Modules
+  SECTION:=commotion
+  CATEGORY:=Commotion
+  SUBMENU:=User Interface
   TITLE:=LuCI Module - $(MODULE_TITLE)
   URL:=https://commotionwireless.net/
-  DEPENDS:=+luci-commotion +commotion-bigboard-send
+  DEPENDS:=+commotion-lua +commotion-bigboard-send
 endef
 
 define Build/Configure
