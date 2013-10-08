@@ -5,11 +5,11 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=commotion-debug-helper
-PKG_VERSION:=0.1
+PKG_VERSION:=master
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_URL:=git://github.com/opentechinstitute/commotion-bug-info.git
+PKG_SOURCE_URL:=git://github.com/opentechinstitute/commotion-debug-helper.git
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
 PKG_SOURCE_VERSION:=$(PKG_VERSION)
 
@@ -21,8 +21,8 @@ include $(INCLUDE_DIR)/package.mk
 define Package/commotion-debug-helper
   SECTION:=commotion
   CATEGORY:=Commotion
-  TITLE:=Commotion Debug System
-  DEPENDS:=+luci-commotion +luci-theme-commotion
+  SUBMENU:=Utilities
+  TITLE:=Commotion Debug Helper
   URL:=https://commotionwireless.net
 endef
 
@@ -36,10 +36,32 @@ endef
 define Package/commotion-debug-helper/install
 	$(INSTALL_DIR) $(1)/usr/sbin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/cdh.sh $(1)/usr/sbin/cdh || true
+endef
+
+CO_BUILD_PACKAGES += commotion-debug-helper
+
+define Package/luci-commotion-dh
+  SECTION:=commotion
+  CATEGORY:=Commotion
+  SUBMENU:=User Interface
+  TITLE:=Commotion Debug Interface
+  DEPENDS:=+luci-commotion +luci-theme-commotion +commotion-debug-helper
+  URL:=https://commotionwireless.net
+endef
+
+define Build/Compile
+endef
+
+define Package/luci-commotion-dh/description
+  Commotion tool for generating a report file used for troubleshooting (Web UI)
+endef
+
+define Package/luci-commotion-dh/install
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/controller/$(PKG_NAME)
 	$(CP) $(PKG_BUILD_DIR)/luasrc/controller/* $(1)/usr/lib/lua/luci/controller/$(PKG_NAME)/ || true
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/view/$(PKG_NAME)
 	$(CP) $(PKG_BUILD_DIR)/luasrc/view/* $(1)/usr/lib/lua/luci/view/$(PKG_NAME)/ || true
 endef
 
-$(eval $(call BuildPackage,commotion-debug-helper))
+CO_BUILD_PACKAGES += luci-commotion-dh
+$(foreach b,$(CO_BUILD_PACKAGES),$(eval $(call BuildPackage,$(b))))
