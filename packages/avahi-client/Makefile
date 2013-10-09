@@ -21,18 +21,13 @@ PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
 
 include $(INCLUDE_DIR)/package.mk
 
-define Package/avahi-client/default
+define Package/avahi-client
   SECTION:=commotion
   CATEGORY:=Commotion
   SUBMENU:=Utilities
   TITLE:=Avahi mDNS Browser
   MAINTAINER:=Open Technology Institute
   DEPENDS:=+libavahi
-endef
-
-define Package/avahi-client
-  $(Package/avahi-client/default)
-  MENU:=1
 endef
 
 define Package/avahi-client/description
