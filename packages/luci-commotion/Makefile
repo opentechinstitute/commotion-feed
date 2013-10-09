@@ -66,7 +66,7 @@ define Package/luci-proto-commotion
   CATEGORY:=Commotion
   SUBMENU:=User Interface
   DEPENDS:=+commotiond
-  TITLE:=Commotion LuCI Module
+  TITLE:=Commotion LuCI Protocol Extensions
   URL:=https://commotionwireless.net/
 endef
 
