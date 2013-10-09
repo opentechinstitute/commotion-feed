@@ -40,7 +40,7 @@ endef
 
 CO_BUILD_PACKAGES += commotion-debug-helper
 
-define Package/luci-commotion-dh
+define Package/luci-commotion-debug
   SECTION:=commotion
   CATEGORY:=Commotion
   SUBMENU:=User Interface
@@ -52,16 +52,16 @@ endef
 define Build/Compile
 endef
 
-define Package/luci-commotion-dh/description
+define Package/luci-commotion-debug/description
   Commotion tool for generating a report file used for troubleshooting (Web UI)
 endef
 
-define Package/luci-commotion-dh/install
+define Package/luci-commotion-debug/install
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/controller/$(PKG_NAME)
 	$(CP) $(PKG_BUILD_DIR)/luasrc/controller/* $(1)/usr/lib/lua/luci/controller/$(PKG_NAME)/ || true
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/view/$(PKG_NAME)
 	$(CP) $(PKG_BUILD_DIR)/luasrc/view/* $(1)/usr/lib/lua/luci/view/$(PKG_NAME)/ || true
 endef
 
-CO_BUILD_PACKAGES += luci-commotion-dh
+CO_BUILD_PACKAGES += luci-commotion-debug
 $(foreach b,$(CO_BUILD_PACKAGES),$(eval $(call BuildPackage,$(b))))
