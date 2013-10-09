@@ -4,12 +4,12 @@
 # See /LICENSE for more information.
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=commotion-quick-start
+PKG_NAME:=luci-commotion-quickstart
 PKG_RELEASE:=1
 PKG_VERSION:=0.2
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_URL:=git://github.com/opentechinstitute/commotion-quick-start.git
+PKG_SOURCE_URL:=git://github.com/opentechinstitute/luci-commotion-quickstart.git
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
 PKG_SOURCE_VERSION:=$(PKG_VERSION)
 
@@ -18,22 +18,24 @@ PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
 
 include $(INCLUDE_DIR)/package.mk
 
-define Package/commotion-quick-start
+define Package/$(PKG_NAME)
   SECTION:=commotion
   CATEGORY:=Commotion
+  SUBMENU:=User Interface
   TITLE:=Commotion Quick Start Wizard
-  DEPENDS:=+commotiond +commotion-apps +luci-commotion +coreutils-sha1sum +coreutils
+  DEPENDS:=+commotiond +luci-commotion-apps +commotion-lua +luci-mod-commotion \
++coreutils +coreutils-sha1sum
   URL:=https://commotionwireless.net
 endef
 
 define Build/Compile
 endef
 
-define Package/commotion-quick-start/description
+define Package/$(PKG_NAME)/description
   Commotion Quick Start Wizard is an easy interface for users to set up and customize their Commotion devices
 endef
 
-define Package/commotion-quick-start/install
+define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/
 	$(CP) -a $(PKG_BUILD_DIR)/* $(1)/ 2>/dev/null || true
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/etc/uci-defaults/commotion-quick-start $(1)/etc/uci-defaults/commotion-quick-start 2>/dev/null || true
@@ -46,4 +48,4 @@ define Package/$(PKG_NAME)/postinst
 }
 endef
 
-$(eval $(call BuildPackage,commotion-quick-start))
+$(eval $(call BuildPackage,$(PKG_NAME)))

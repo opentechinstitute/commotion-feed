@@ -1,10 +1,7 @@
 include $(TOPDIR)/rules.mk
 
-MODULE_NAME:=commotion
-MODULE_TITLE:=Commotion
-
-PKG_NAME:=luci-$(MODULE_NAME)
-PKG_VERSION:=0.1
+PKG_NAME:=luci-commotion
+PKG_VERSION:=master
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
@@ -17,12 +14,12 @@ PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
 
 include $(INCLUDE_DIR)/package.mk
 
-define Package/luci-$(MODULE_NAME)
-  SECTION:=luci
-  CATEGORY:=LuCI
-  SUBMENU:=2. Modules
-  DEPENDS:=+coreutils-sha1sum +coreutils
-  TITLE:=LuCI Module - $(MODULE_TITLE)
+define Package/luci-mod-commotion
+  SECTION:=commotion
+  CATEGORY:=Commotion
+  SUBMENU:=User Interface
+  DEPENDS:=+coreutils-sha1sum +coreutils +commotion-lua +luci
+  TITLE:=Commotion LuCI Module
   URL:=https://commotionwireless.net/
 endef
 
@@ -32,40 +29,98 @@ endef
 define Build/Compile
 endef
 
-define Package/luci-commotion/description
-  Commotion project webGUI add-on
+define Package/luci-mod-commotion/description
+  Contains Commotion Wireless Project tweaks and additions to stock LuCI interface.
 endef
 
-define Package/luci-$(MODULE_NAME)/install
+define Package/luci-mod-commotion/install
 	$(INSTALL_DIR) $(1)/etc/uci-defaults
 	$(CP) $(PKG_BUILD_DIR)/files/etc/uci-defaults/* $(1)/etc/uci-defaults/ 2>/dev/null || true
 	$(INSTALL_DIR) $(1)/usr/share/commotion/files
 	$(CP) $(PKG_BUILD_DIR)/files/usr/share/commotion/files/* $(1)/usr/share/commotion/files/ 2>/dev/null || true
 	$(INSTALL_DIR) $(1)/usr/share/commotion/patches
 	$(CP) $(PKG_BUILD_DIR)/files/usr/share/commotion/patches/* $(1)/usr/share/commotion/patches/ 2>/dev/null || true
-	$(INSTALL_DIR) $(1)/usr/lib/lua
-	$(CP) $(PKG_BUILD_DIR)/luasrc/commotion_helpers.lua $(1)/usr/lib/lua/ 2>/dev/null || true
-	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/controller/$(MODULE_NAME)
-	$(CP) $(PKG_BUILD_DIR)/luasrc/controller/$(MODULE_NAME)/* $(1)/usr/lib/lua/luci/controller/$(MODULE_NAME)/ 2>/dev/null || true
-	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/model/cbi/$(MODULE_NAME)
-	$(CP) $(PKG_BUILD_DIR)/luasrc/model/cbi/$(MODULE_NAME)/* $(1)/usr/lib/lua/luci/model/cbi/$(MODULE_NAME)/ 2>/dev/null || true
-	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/model/cbi/admin_network
-	$(CP) $(PKG_BUILD_DIR)/luasrc/model/cbi/admin_network/* $(1)/usr/lib/lua/luci/model/cbi/admin_network/ 2>/dev/null || true
-	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/model/network
-	$(CP) $(PKG_BUILD_DIR)/luasrc/model/network/* $(1)/usr/lib/lua/luci/model/network/ 2>/dev/null || true
-	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/view/$(MODULE_NAME)
-	$(CP) $(PKG_BUILD_DIR)/luasrc/view/$(MODULE_NAME)/* $(1)/usr/lib/lua/luci/view/$(MODULE_NAME)/ 2>/dev/null || true
+	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/controller/commotion
+	$(CP) $(PKG_BUILD_DIR)/luasrc/controller/commotion/* $(1)/usr/lib/lua/luci/controller/commotion/ 2>/dev/null || true
+	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/model/cbi/commotion
+	$(CP) $(PKG_BUILD_DIR)/luasrc/model/cbi/commotion/* $(1)/usr/lib/lua/luci/model/cbi/commotion/ 2>/dev/null || true
+	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/view/commotion
+	$(CP) $(PKG_BUILD_DIR)/luasrc/view/commotion/* $(1)/usr/lib/lua/luci/view/commotion/ 2>/dev/null || true
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/view/cbi
 	$(CP) $(PKG_BUILD_DIR)/luasrc/view/cbi/* $(1)/usr/lib/lua/luci/view/cbi/ 2>/dev/null || true
 	$(INSTALL_DIR) $(1)/www/luci-static/resources/
 	$(CP) $(PKG_BUILD_DIR)/htdocs/luci-static/* $(1)/www/luci-static/ 2>/dev/null || true
 endef
 
-define Package/luci-$(MODULE_NAME)/postinst
+define Package/luci-mod-commotion/postinst
 #!/bin/sh
 [ -n "$${IPKG_INSTROOT}" ] || {
-	( . /etc/uci-defaults/luci-$(MODULE_NAME) ) && rm -f /etc/uci-defaults/luci-$(MODULE_NAME)
+	( . /etc/uci-defaults/luci-mod-commotion ) && rm -f /etc/uci-defaults/luci-mod-commotion
 }
 endef
 
-$(eval $(call BuildPackage,luci-$(MODULE_NAME)))
+CO_BUILD_PACKAGES += luci-mod-commotion
+
+define Package/luci-proto-commotion
+  SECTION:=commotion
+  CATEGORY:=Commotion
+  SUBMENU:=User Interface
+  DEPENDS:=+commotiond
+  TITLE:=Commotion LuCI Module
+  URL:=https://commotionwireless.net/
+endef
+
+define Build/Configure
+endef
+
+define Build/Compile
+endef
+
+define Package/luci-proto-commotion/description
+  OpenWRT script hooks for Commotion interfaces.
+endef
+
+define Package/luci-proto-commotion/install
+	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/model/cbi/admin_network
+	$(CP) $(PKG_BUILD_DIR)/luasrc/model/cbi/admin_network/* $(1)/usr/lib/lua/luci/model/cbi/admin_network/ 2>/dev/null || true
+	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/model/network
+	$(CP) $(PKG_BUILD_DIR)/luasrc/model/network/* $(1)/usr/lib/lua/luci/model/network/ 2>/dev/null || true
+endef
+
+define Package/luci-proto-commotion/postinst
+#!/bin/sh
+[ -n "$${IPKG_INSTROOT}" ] || {
+	( . /etc/uci-defaults/luci-proto-commotion ) && rm -f /etc/uci-defaults/luci-proto-commotion
+}
+endef
+
+CO_BUILD_PACKAGES += luci-proto-commotion
+
+define Package/commotion-lua
+  SECTION:=commotion
+  CATEGORY:=Commotion
+  SUBMENU:=Libraries
+  TITLE:=Commotion-Lua
+  URL:=https://commotionwireless.net/
+endef
+
+define Build/Configure
+endef
+
+define Build/Compile
+endef
+
+define Package/commotion-lua/description
+  Helper library of shared lua functions for Commotion.
+endef
+
+define Package/commotion-lua/install
+	$(INSTALL_DIR) $(1)/usr/lib/lua
+	$(CP) $(PKG_BUILD_DIR)/luasrc/commotion_helpers.lua $(1)/usr/lib/lua/ 2>/dev/null || true
+endef
+
+define Package/commotion-lua/postinst
+endef
+
+CO_BUILD_PACKAGES += commotion-lua
+$(foreach b,$(CO_BUILD_PACKAGES),$(eval $(call BuildPackage,$(b))))
