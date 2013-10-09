@@ -30,7 +30,8 @@ define Package/$(PKG_NAME)-gui
   CATEGORY:=Commotion
   SUBMENU:=Collections
   DEPENDS:=+commotion +luci-mod-commotion +luci-proto-commotion +commotion-lua \
-+luci-commotion-dashboard +luci-commotion-apps +luci-commotion-quickstart +luci-commotion-splash +luci-i18n-commotion +luci-theme-commotion 
++luci-commotion-dashboard +luci-commotion-apps +luci-commotion-quickstart \
++luci-commotion-splash +luci-i18n-commotion +luci-theme-commotion +luci-commotion-debug 
   TITLE:=Commotion GUI
   URL:=https://commotionwireless.net/
 endef
