@@ -49,6 +49,10 @@ define Package/commotiond/description
   An embedded C daemon for managing mesh networks.
 endef
 
+define Package/commotiond/conffile
+	/etc/config/commotiond
+endef
+
 define Package/commotiond/install
 	$(INSTALL_DIR) $(1)/usr/sbin
 	$(INSTALL_DIR) $(1)/etc/init.d
