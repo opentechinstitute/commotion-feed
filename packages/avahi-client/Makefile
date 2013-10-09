@@ -25,7 +25,6 @@ define Package/avahi-client/default
   SECTION:=commotion
   CATEGORY:=Commotion
   SUBMENU:=Utilities
-  SUBMENU:=IP Addresses and Names
   TITLE:=Avahi mDNS Browser
   MAINTAINER:=Open Technology Institute
   DEPENDS:=+libavahi

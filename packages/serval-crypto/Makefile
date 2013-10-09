@@ -19,6 +19,7 @@ include $(INCLUDE_DIR)/package.mk
 define Package/serval-crypto
   SECTION:=commotion
   CATEGORY:=Commotion
+  SUBMENU:=Utilities
   TITLE:=Serval signing and verification
   MAINTAINER:=Open Technology Institute
   DEPENDS:=+serval-dna +argp-standalone
