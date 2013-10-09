@@ -24,7 +24,7 @@ define Package/$(PKG_NAME)
   SECTION:=commotion
   CATEGORY:=Commotion
   SUBMENU:=User Interface
-  DEPENDS:=+commotion-lua +luci-theme-commotion +netcat
+  DEPENDS:=+commotion-lua +luci-mod-commotion +luci-theme-commotion +netcat
   TITLE:=Commotion Application Portal
   URL:=https://commotionwireless.net
 endef

@@ -21,7 +21,7 @@ define Package/$(PKG_NAME)
   SECTION:=commotion
   CATEGORY:=Commotion
   SUBMENU:=User Interface
-  DEPENDS:=+nodogsplash
+  DEPENDS:=+nodogsplash +luci-mod-commotion
   TITLE:=Commotion Captive Portal
   URL:=https://commotionwireless.net
 endef

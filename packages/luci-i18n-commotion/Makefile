@@ -28,7 +28,7 @@ define Package/$(PKG_NAME)
   CATEGORY:=Commotion
   SUBMENU:=User Interface
   TITLE:=Commotion LuCI Translation
-  DEPENDS:=+luci-commotion +luci-theme-commotion
+  DEPENDS:=+luci-mod-commotion +luci-theme-commotion
   URL:=https://commotionwireless.net
   MENU:=1
 endef

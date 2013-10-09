@@ -45,7 +45,7 @@ define Package/luci-commotion-debug
   CATEGORY:=Commotion
   SUBMENU:=User Interface
   TITLE:=Commotion Debug Interface
-  DEPENDS:=+luci-commotion +luci-theme-commotion +commotion-debug-helper
+  DEPENDS:=+luci-mod-commotion +luci-theme-commotion +commotion-debug-helper
   URL:=https://commotionwireless.net
 endef
 
