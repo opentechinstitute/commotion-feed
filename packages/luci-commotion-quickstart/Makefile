@@ -24,7 +24,7 @@ define Package/$(PKG_NAME)
   SUBMENU:=User Interface
   TITLE:=Commotion Quick Start Wizard
   DEPENDS:=+commotiond +luci-commotion-apps +commotion-lua +luci-mod-commotion \
-+coreutils +coreutils-sha1sum
++coreutils +coreutils-sha1sum +luci-ssl
   URL:=https://commotionwireless.net
 endef
 
