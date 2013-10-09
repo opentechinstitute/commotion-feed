@@ -4,12 +4,12 @@
 # See /LICENSE for more information.
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=commotion-luci-i18n
-PKG_VERSION:=0.2
+PKG_NAME:=luci-i18n-commotion
+PKG_VERSION:=master
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_URL:=git://github.com/opentechinstitute/commotion-luci-i18n.git
+PKG_SOURCE_URL:=git://github.com/opentechinstitute/luci-i18n-commotion.git
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
 PKG_SOURCE_VERSION:=$(PKG_VERSION)
 
@@ -23,11 +23,12 @@ MKDIR = mkdir
 
 include $(INCLUDE_DIR)/package.mk
 
-define Package/commotion-luci-i18n
+define Package/$(PKG_NAME)
   SECTION:=commotion
   CATEGORY:=Commotion
+  SUBMENU:=User Interface
   TITLE:=Commotion LuCI Translation
-  DEPENDS:=+luci-commotion +luci-theme-commotion
+  DEPENDS:=+luci-mod-commotion +luci-theme-commotion
   URL:=https://commotionwireless.net
   MENU:=1
 endef
@@ -35,11 +36,11 @@ endef
 define Build/Compile
 endef
 
-define Package/commotion-luci-i18n/config
+define Package/$(PKG_NAME)/config
 	source "$(SOURCE)/Config.in"
 endef
 
-define Package/commotion-luci-i18n/description
+define Package/$(PKG_NAME)/description
   Commotion tranlation installation manager.
 endef
 
@@ -67,9 +68,9 @@ define Build/Prepare
 	done; 
 endef
 
-define Package/commotion-luci-i18n/install
+define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/i18n/
 	$(CP) $(PKG_BUILD_DIR)/lang/* $(1)/usr/lib/lua/luci/i18n/ || true
 endef
 
-$(eval $(call BuildPackage,commotion-luci-i18n))
+$(eval $(call BuildPackage,$(PKG_NAME)))

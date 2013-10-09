@@ -1,10 +1,7 @@
 include $(TOPDIR)/rules.mk
 
-MODULE_NAME:=commotion-daemon-bundle
-MODULE_TITLE:=Commotion Daemon Bundle
-
-PKG_NAME:=commotion-daemon-bundle
-PKG_VERSION:=0.1
+PKG_NAME:=commotiond
+PKG_VERSION:=master
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
@@ -23,17 +20,18 @@ CMAKE_OPTIONS+=-DDEBUG:Bool=Off -DOPENWRT:Bool=On
 define Package/libcommotion
   SECTION:=commotion
   CATEGORY:=Commotion
+  SUBMENU:=Libraries
   TITLE:=libcommotion
   URL:=https://commotionwireless.net/
 endef
 
 define Package/libcommotion/description
-  An embedded embedded library and API for managing mesh networks.
+  An embedded library and API for managing mesh networks.
 endef
 
 define Package/libcommotion/install
 	$(INSTALL_DIR) $(1)/usr/lib
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/libcommotion.so $(1)/usr/lib
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/libcommotion.so $(1)/usr/lib
 endef
 
 CO_BUILD_PACKAGES += libcommotion
@@ -41,6 +39,7 @@ CO_BUILD_PACKAGES += libcommotion
 define Package/commotiond
   SECTION:=commotion
   CATEGORY:=Commotion
+  SUBMENU:=Utilities
   DEPENDS:=+libcommotion
   TITLE:=Commotion Daemon
   URL:=https://commotionwireless.net/
@@ -48,6 +47,10 @@ endef
 
 define Package/commotiond/description
   An embedded C daemon for managing mesh networks.
+endef
+
+define Package/commotiond/conffile
+	/etc/config/commotiond
 endef
 
 define Package/commotiond/install
@@ -62,18 +65,14 @@ define Package/commotiond/install
 	$(INSTALL_DIR) $(1)/lib/functions
 	$(INSTALL_DIR) $(1)/usr/share/commotion/patches
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/commotiond $(1)/usr/sbin
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/openwrt/etc/uci-defaults/commotiond $(1)/etc/uci-defaults
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/openwrt/etc/config/commotiond $(1)/etc/config
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/openwrt/etc/uci-defaults/commotiond $(1)/etc/uci-defaults
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/openwrt/etc/config/commotiond $(1)/etc/config
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/openwrt/etc/init.d/commotiond $(1)/etc/init.d
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/openwrt/lib/netifd/commotion.dhcp.script $(1)/lib/netifd
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/openwrt/lib/netifd/proto/commotion.sh $(1)/lib/netifd/proto
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/openwrt/lib/functions/commotion.sh $(1)/lib/functions
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/openwrt/usr/share/commotion/patches/dnsmasq.patch $(1)/usr/share/commotion/patches
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/openwrt/usr/share/commotion/patches/mac80211.sh.patch $(1)/usr/share/commotion/patches
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/profiles.d/defaultAP $(1)/etc/commotion/profiles.d
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/profiles.d/defaultMesh $(1)/etc/commotion/profiles.d
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/profiles.d/defaultPlug $(1)/etc/commotion/profiles.d
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/profiles.d/defaultSec $(1)/etc/commotion/profiles.d
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/openwrt/lib/netifd/proto/commotion.sh $(1)/lib/netifd/proto
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/openwrt/lib/functions/commotion.sh $(1)/lib/functions
+	$(CP) $(PKG_BUILD_DIR)/openwrt/usr/share/commotion/patches/* $(1)/usr/share/commotion/patches/
+	$(CP) $(PKG_BUILD_DIR)/files/profiles.d/* $(1)/etc/commotion/profiles.d/
 endef
 
 define Package/commotiond/postinst
@@ -87,6 +86,7 @@ CO_BUILD_PACKAGES += commotiond
 define Package/commotion-client
   SECTION:=commotion
   CATEGORY:=Commotion
+  SUBMENU:=Utilities
   DEPENDS:=+libcommotion +commotiond
   TITLE:=Commotion Client
   URL:=https://commotionwireless.net/

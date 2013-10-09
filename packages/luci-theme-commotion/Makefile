@@ -4,11 +4,11 @@ THEME_NAME:=commotion
 THEME_TITLE:=Commotion
 
 PKG_NAME:=luci-theme-$(THEME_NAME)
-PKG_VERSION:=1.1
+PKG_VERSION:=master
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_URL:=git://github.com/opentechinstitute/commotion-openwrt-theme.git
+PKG_SOURCE_URL:=git://github.com/opentechinstitute/luci-theme-commotion.git
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
 PKG_SOURCE_VERSION:=$(PKG_VERSION)
 
@@ -18,10 +18,10 @@ PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
 include $(INCLUDE_DIR)/package.mk
 
 define Package/luci-theme-$(THEME_NAME)
-  SECTION:=luci
-  CATEGORY:=LuCI
-  SUBMENU:=4. Themes
-  DEPENDS:=+luci-theme-base +coreutils-sha1sum +coreutils
+  SECTION:=commotion
+  CATEGORY:=Commotion
+  SUBMENU:=User Interface
+  DEPENDS:=+luci-theme-base +coreutils +coreutils-sha1sum
   TITLE:=LuCI Theme - $(THEME_TITLE)
   URL:=https://www.commotionwireless.net/
 endef
