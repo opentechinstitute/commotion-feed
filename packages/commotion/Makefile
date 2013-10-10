@@ -14,7 +14,7 @@ define Package/$(PKG_NAME)
 +commotion-dashboard-helper +olsrd +olsrd-mod-arprefresh +olsrd-mod-dnssd \
 +olsrd-mod-dyn-gw-plain +olsrd-mod-jsoninfo +olsrd-mod-mdp +olsrd-mod-txtinfo \
 +serval-crypto +iperf +crda +wpad +freifunk-firewall +freifunk-gwcheck \
-+remote-update +patch
++remote-update +patch +bridge
   TITLE:=Commotion
   URL:=https://commotionwireless.net/
 endef
@@ -35,7 +35,8 @@ define Package/$(PKG_NAME)-gui
   DEPENDS:=+commotion +luci-mod-commotion +luci-proto-commotion +commotion-lua \
 +luci-commotion-dashboard +luci-commotion-apps +luci-commotion-quickstart \
 +luci-commotion-splash +luci-i18n-commotion +luci-theme-commotion \
-+luci-commotion-debug +luci-app-olsr +luci-app-olsr-viz +luci-app-qos
++luci-commotion-debug +luci-app-olsr +luci-app-olsr-viz +luci-app-qos \
++luci-mod-failsafe
   TITLE:=Commotion GUI
   URL:=https://commotionwireless.net/
 endef
