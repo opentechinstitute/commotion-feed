@@ -23,6 +23,12 @@ define Package/$(PKG_NAME)/description
   A metapackage that includes all available non-GUI Commotion packages.
 endef
 
+define Build/Configure
+endef
+
+define Build/Compile
+endef
+
 define Package/$(PKG_NAME)/install
 	true
 endef
@@ -43,6 +49,12 @@ endef
 
 define Package/$(PKG_NAME)/description
   A metapackage that includes all available GUI Commotion packages.
+endef
+
+define Build/Configure
+endef
+
+define Build/Compile
 endef
 
 define Package/$(PKG_NAME)/install
