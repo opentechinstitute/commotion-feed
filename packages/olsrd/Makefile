@@ -67,7 +67,7 @@ endef
 
 define Package/olsrd-mod-dnssd
   $(call Package/olsrd/template)
-  DEPENDS:=olsrd +libldns
+  DEPENDS:=olsrd +libldns +avahi-daemon
   TITLE:=Forward mDNS/DNS-SD packets with custom TTL values
   MAINTAINER:=Dan Staples <danstaples AT opentechinstitute DOT org>
 endef
