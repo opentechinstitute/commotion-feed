@@ -100,6 +100,7 @@ define Package/commotion-lua
   SECTION:=commotion
   CATEGORY:=Commotion
   SUBMENU:=Libraries
+  DEPENDS:=+lua-uri
   TITLE:=Commotion-Lua
   URL:=https://commotionwireless.net/
 endef
