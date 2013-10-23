@@ -4,7 +4,7 @@ SERVAL_VERSION:=batphone-release-0.91
 
 PKG_NAME:=serval-crypto
 PKG_RELEASE:=1
-PKG_VERSION:=3.0
+PKG_VERSION:=master
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=git://github.com/opentechinstitute/serval-crypto.git
