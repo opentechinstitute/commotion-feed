@@ -28,6 +28,11 @@ define Package/serval-dna/description
   Serval Daemon
 endef
 
+define Build/InstallDev
+	$(INSTALL_DIR) $(1)/usr/lib
+	$(CP) $(PKG_BUILD_DIR)/libservald.so $(1)/usr/lib/
+endef
+
 define Package/serval-dna/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/servald $(1)/usr/bin

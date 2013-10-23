@@ -16,8 +16,7 @@ PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
 
 include $(INCLUDE_DIR)/package.mk
 
-TARGET_CFLAGS += -I$(BUILD_DIR)/serval-dna-$(SERVAL_VERSION) -I$(BUILD_DIR)/serval-dna-$(SERVAL_VERSION)/nacl/include -DHAVE_BCOPY -O3
-TARGET_LDFLAGS += -L$(BUILD_DIR)/serval-dna-$(SERVAL_VERSION)/ -lservald
+TARGET_CFLAGS += -I$(BUILD_DIR)/serval-dna-$(SERVAL_VERSION) -I$(BUILD_DIR)/serval-dna-$(SERVAL_VERSION)/nacl/include -O3
 
 define Package/libserval-crypto
   SECTION:=commotion
@@ -33,6 +32,13 @@ define Package/libserval-crypto/description
   This package provides a library for signing 
   arbitrary strings using Serval keypairs, 
   and verifying these signatures.
+endef
+
+define Build/InstallDev
+	$(INSTALL_DIR) $(1)/usr/include
+	$(CP) $(PKG_BUILD_DIR)/serval-crypto.h $(1)/usr/include/
+	$(INSTALL_DIR) $(1)/usr/lib
+	$(CP) $(PKG_BUILD_DIR)/libserval-crypto.so $(1)/usr/lib/
 endef
 
 define Package/libserval-crypto/install
