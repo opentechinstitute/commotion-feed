@@ -41,7 +41,7 @@ define Package/$(PKG_NAME)/config
 endef
 
 define Package/$(PKG_NAME)/description
-  Commotion tranlation installation manager.
+  Commotion translation installation manager.
 endef
 
 #TODO add the language code for future compatability with standard country codes germany:de then modify parsing in build/prepare
