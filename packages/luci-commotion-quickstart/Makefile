@@ -6,7 +6,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-commotion-quickstart
 PKG_RELEASE:=1
-PKG_VERSION:=0.2
+PKG_VERSION:=issue_30
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=git://github.com/opentechinstitute/luci-commotion-quickstart.git
