@@ -23,8 +23,7 @@ define Package/$(PKG_NAME)
   CATEGORY:=Commotion
   SUBMENU:=User Interface
   TITLE:=Commotion Quick Start Wizard
-  DEPENDS:=+commotiond +luci-commotion-apps +commotion-lua +luci-mod-commotion \
- +lua-helpers-crypto +lua-helpers-debugger +lua-helpers-identify
+  DEPENDS:=+commotiond +luci-commotion-apps +commotion-lua +luci-mod-commotion +lua-helpers-crypto +lua-helpers-debugger +lua-helpers-identify
   URL:=https://commotionwireless.net
 endef
 
