@@ -16,7 +16,7 @@ include $(INCLUDE_DIR)/package.mk
 
 #create lua helper packages
 define lua-helpers
-  define Package/commotion-lua-helper-$(1)
+  define Package/lua-helper-$(1)
 	SECTION:=commotion
 	CATEGORY:=Commotion
 	SUBMENU:=Libraries
@@ -25,26 +25,22 @@ define lua-helpers
     TITLE:=$(if $(2),$(2),$(1))
   endef
 
-  define Package/commotion-lua-helper-$(1)/install
-	$(call Package/commotion-lua-helper/install/template,$$(1),modules/$(1))
+  define Package/lua-helpers-$(1)/install
+	$(call Package/lua-helpers/install/template,$$(1),modules/$(1))
 #calls the install template passing the name and the path modules/[name]
   endef
 
-  ifneq ($(CONFIG_PACKAGE_helpers-$(1)),)
-    LUCI_SELECTED_MODULES+=modules/$(1)
-  endif
-
-  CO_BUILD_PACKAGES += commotion-lua-helper-$(1)
+  CO_BUILD_PACKAGES += lua-helpers-$(1)
 endef
 
 ### Install Template ###
 #TODO make this reflect the actual install of each lua module
-define Package/commotion-lua-helpers/install/template
+define Package/lua-helpers/install/template
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/commotion/
 	$(CP) -a $(PKG_BUILD_DIR)/$(2)/* $(1)/ #2>/dev/null || true
 endef
 
-CRYDEP:=+coreutils +coreutils-sha1sum +luci
+CRYDEP:=+coreutils +coreutils-sha1sum +luci +luci-ssl
 LUCIDEP:=+luci
 DEBDEP:=+luci +BUSYBOX_CONFIG_LOGGER:busybox
 NETDEP:=+luci +ubus  +BUSYBOX_CONFIG_CUT:busybox +BUSYBOX_CONFIG_GREP:busybox 

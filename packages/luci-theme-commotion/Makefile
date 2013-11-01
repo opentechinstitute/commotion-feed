@@ -21,7 +21,7 @@ define Package/luci-theme-$(THEME_NAME)
   SECTION:=commotion
   CATEGORY:=Commotion
   SUBMENU:=User Interface
-  DEPENDS:=+luci-theme-base +coreutils +coreutils-sha1sum
+  DEPENDS:=+luci-theme-base +lua-helpers-crypto
   TITLE:=LuCI Theme - $(THEME_TITLE)
   URL:=https://www.commotionwireless.net/
 endef
