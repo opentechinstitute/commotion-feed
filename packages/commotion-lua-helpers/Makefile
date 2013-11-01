@@ -46,7 +46,7 @@ endef
 
 CRYDEP:=+coreutils +coreutils-sha1sum +luci
 LUCIDEP:=+luci
-DEBDEP:=+luci +logger
+DEBDEP:=+luci +BUSYBOX_CONFIG_LOGGER:busybox
 NETDEP:=+luci +ubus  +BUSYBOX_CONFIG_CUT:busybox +BUSYBOX_CONFIG_GREP:busybox 
 
 #call lua-helpers,NAME,TITLE,DEPENDENCIES
