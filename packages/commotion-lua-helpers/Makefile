@@ -12,11 +12,12 @@ PKG_SOURCE_VERSION:=$(PKG_VERSION)
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_SOURCE_VERSION).tar.gz
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
 CO_BUILD_PACKAGES:=
+
 include $(INCLUDE_DIR)/package.mk
 
 #create lua helper packages
 define lua-helpers
-  define Package/lua-helper-$(1)
+  define Package/lua-helpers-$(1)
 	SECTION:=commotion
 	CATEGORY:=Commotion
 	SUBMENU:=Libraries
@@ -40,6 +41,7 @@ define Package/lua-helpers/install/template
 	$(CP) -a $(PKG_BUILD_DIR)/$(2)/* $(1)/ #2>/dev/null || true
 endef
 
+#Dependencies
 CRYDEP:=+coreutils +coreutils-sha1sum +luci +luci-ssl
 LUCIDEP:=+luci
 DEBDEP:=+luci +BUSYBOX_CONFIG_LOGGER:busybox
