@@ -15,30 +15,33 @@ CO_BUILD_PACKAGES:=
 
 include $(INCLUDE_DIR)/package.mk
 
+define Build/Configure
+endef
+
+define Build/Compile
+endef
+
 #create lua helper packages
 define lua-helpers
   define Package/lua-helpers-$(1)
-	SECTION:=commotion
-	CATEGORY:=Commotion
-	SUBMENU:=Libraries
-	DEPENDS:=$(if $(3),$(3),$(2))
-	URL:=https://commotionwireless.net/
+    SECTION:=commotion
+    CATEGORY:=Commotion
+    SUBMENU:=Libraries
+    DEPENDS:=$(if $(3),$(3),$(2))
+    URL:=https://commotionwireless.net/
     TITLE:=$(if $(2),$(2),$(1))
   endef
 
+  define Package/lua-helpers-$(1)/description
+    Contains Commotion Wireless lua helper functions related to $(1).
+  endef
+
   define Package/lua-helpers-$(1)/install
-	$(call Package/lua-helpers/install/template,$$(1),modules/$(1))
-#calls the install template passing the name and the path modules/[name]
+	$(INSTALL_DIR) $$(1)/usr/lib/lua/luci/commotion
+	$(CP) $(PKG_BUILD_DIR)/modules/$(1).lua $$(1)/usr/lib/lua/luci/commotion #2>/dev/null || true
   endef
 
   CO_BUILD_PACKAGES += lua-helpers-$(1)
-endef
-
-### Install Template ###
-#TODO make this reflect the actual install of each lua module
-define Package/lua-helpers/install/template
-	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/commotion/
-	$(CP) -a $(PKG_BUILD_DIR)/$(2)/* $(1)/ #2>/dev/null || true
 endef
 
 #Dependencies
