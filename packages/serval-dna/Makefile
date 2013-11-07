@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=serval-dna
-PKG_VERSION:=batphone-release-0.90
+PKG_VERSION:=batphone-release-0.91
 PKG_RELEASE=$(PKG_SOURCE_VERSION)
 
 PKG_SOURCE_PROTO:=git
@@ -26,6 +26,11 @@ endef
 
 define Package/serval-dna/description
   Serval Daemon
+endef
+
+define Build/InstallDev
+	$(INSTALL_DIR) $(1)/usr/lib
+	$(CP) $(PKG_BUILD_DIR)/libservald.so $(1)/usr/lib/
 endef
 
 define Package/serval-dna/install
