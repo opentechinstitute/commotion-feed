@@ -7,7 +7,7 @@
 
 include $(TOPDIR)/rules.mk
 
-SERVAL_VERSION:=batphone-release-0.90
+SERVAL_VERSION:=batphone-release-0.91
 COMMOTION_VERSION:=commotion-0.1
 
 PKG_NAME:=olsrd
@@ -25,8 +25,7 @@ PKG_INSTALL:=1
 
 include $(INCLUDE_DIR)/package.mk
 
-TARGET_CFLAGS += $(FPIC) -idirafter$(BUILD_DIR)/serval-dna-$(SERVAL_VERSION) -I$(BUILD_DIR)/serval-dna-$(SERVAL_VERSION)/nacl/include
-TARGET_LDFLAGS += -L$(BUILD_DIR)/serval-dna-$(SERVAL_VERSION)/
+TARGET_CFLAGS += $(FPIC) -idirafter$(BUILD_DIR)/serval-dna-$(SERVAL_VERSION) -I$(BUILD_DIR)/serval-dna-$(SERVAL_VERSION)/nacl/include -DHAVE_BCOPY
 
 define Package/olsrd/template
   SECTION:=net

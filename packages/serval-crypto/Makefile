@@ -1,10 +1,10 @@
 include $(TOPDIR)/rules.mk
 
-SERVAL_VERSION:=batphone-release-0.90
+SERVAL_VERSION:=batphone-release-0.91
 
 PKG_NAME:=serval-crypto
 PKG_RELEASE:=1
-PKG_VERSION:=2.0
+PKG_VERSION:=master
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=git://github.com/opentechinstitute/serval-crypto.git
@@ -16,27 +16,59 @@ PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
 
 include $(INCLUDE_DIR)/package.mk
 
-define Package/serval-crypto
+TARGET_CFLAGS += -I$(BUILD_DIR)/serval-dna-$(SERVAL_VERSION) -I$(BUILD_DIR)/serval-dna-$(SERVAL_VERSION)/nacl/include -O3
+
+define Package/libserval-crypto
   SECTION:=commotion
   CATEGORY:=Commotion
   SUBMENU:=Utilities
-  TITLE:=Serval signing and verification
+  TITLE:=Serval signing and verification library
   MAINTAINER:=Open Technology Institute
-  DEPENDS:=+serval-dna +argp-standalone
+  DEPENDS:=+serval-dna
+  URL:=https://commotionwireless.net/
 endef
 
-define Package/serval-crypto/description
-  This package provides functions for signing 
+define Package/libserval-crypto/description
+  This package provides a library for signing 
   arbitrary strings using Serval keypairs, 
   and verifying these signatures.
 endef
 
-TARGET_CFLAGS += $(TLS_CFLAGS) -I$(BUILD_DIR)/serval-dna-$(SERVAL_VERSION) -I$(BUILD_DIR)/serval-dna-$(SERVAL_VERSION)/nacl/include -O3
-TARGET_LDFLAGS += -L$(BUILD_DIR)/serval-dna-$(SERVAL_VERSION)/ -lservald -largp
+define Build/InstallDev
+	$(INSTALL_DIR) $(1)/usr/include
+	$(CP) $(PKG_BUILD_DIR)/serval-crypto.h $(1)/usr/include/
+	$(INSTALL_DIR) $(1)/usr/lib
+	$(CP) $(PKG_BUILD_DIR)/libserval-crypto.so $(1)/usr/lib/
+endef
+
+define Package/libserval-crypto/install
+	$(INSTALL_DIR) $(1)/usr/lib
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/libserval-crypto.so $(1)/usr/lib
+endef
+
+CO_BUILD_PACKAGES += libserval-crypto
+
+define Package/serval-crypto
+  SECTION:=commotion
+  CATEGORY:=Commotion
+  SUBMENU:=Utilities
+  TITLE:=Serval signing and verification programs
+  MAINTAINER:=Open Technology Institute
+  DEPENDS:=+serval-dna +libserval-crypto
+  URL:=https://commotionwireless.net/
+endef
+
+define Package/serval-crypto/description
+  This package provides programs for signing 
+  arbitrary strings using Serval keypairs, 
+  and verifying these signatures.
+endef
 
 define Package/serval-crypto/install
 	$(INSTALL_DIR) $(1)/usr/sbin
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/serval-* $(1)/usr/sbin/
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/serval-crypto $(1)/usr/sbin/
 endef
 
-$(eval $(call BuildPackage,serval-crypto))
+CO_BUILD_PACKAGES += serval-crypto
+
+$(foreach b,$(CO_BUILD_PACKAGES),$(eval $(call BuildPackage,$(b))))
