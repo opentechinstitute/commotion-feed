@@ -1,0 +1,1 @@
+UserParameter=general.splash,cat /tmp/ndsctl.status | grep 'Current clients:' | awk '{print $3;}'
