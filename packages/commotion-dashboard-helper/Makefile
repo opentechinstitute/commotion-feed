@@ -58,7 +58,7 @@ define Package/luci-commotion-dashboard
 	SECTION:=commotion
 	CATEGORY:=Commotion
   SUBMENU:=User Interface
-	DEPENDS:=+commotion-dashboard-helper +luci-mod-commotion
+	DEPENDS:=+commotion-dashboard-helper +luci-mod-commotion +lua-helpers-identify +lua-helpers-encode +lua-helpers-debugger
 	TITLE:=Commotion Dashboard Helper Interface
 	URL:=https://commotionwireless.net
 endef
