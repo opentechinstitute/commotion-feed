@@ -8,7 +8,7 @@
 include $(TOPDIR)/rules.mk
 
 SERVAL_VERSION:=batphone-release-0.91
-COMMOTION_VERSION:=commotion-0.1
+COMMOTION_VERSION:=commotion
 
 PKG_NAME:=olsrd
 PKG_VERSION:=0.6.5.4-$(COMMOTION_VERSION)
