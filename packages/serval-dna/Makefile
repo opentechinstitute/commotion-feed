@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=serval-dna
-PKG_VERSION:=batphone-release-0.91
+PKG_VERSION:=commotion-wireless
 PKG_RELEASE=$(PKG_SOURCE_VERSION)
 
 PKG_SOURCE_PROTO:=git
