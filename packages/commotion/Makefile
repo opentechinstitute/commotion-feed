@@ -12,7 +12,7 @@ define Package/$(PKG_NAME)
   SUBMENU:=Collections
   DEPENDS:=+libcommotion +commotiond +commotion-client +commotion-debug-helper \
 +commotion-dashboard-helper +olsrd +olsrd-mod-arprefresh +olsrd-mod-dnssd \
-+olsrd-mod-dyn-gw-plain +olsrd-mod-jsoninfo +olsrd-mod-mdp +olsrd-mod-txtinfo \
++olsrd-mod-dyn-gw-plain +olsrd-mod-dyn-gw +olsrd-mod-jsoninfo +olsrd-mod-mdp +olsrd-mod-txtinfo \
 +serval-crypto +iperf +crda +wpad +freifunk-firewall +freifunk-gwcheck \
 +remote-update +patch +bridge
   TITLE:=Commotion
