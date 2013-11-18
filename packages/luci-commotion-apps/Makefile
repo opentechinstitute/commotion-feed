@@ -25,7 +25,7 @@ define Package/$(PKG_NAME)
   CATEGORY:=Commotion
   SUBMENU:=User Interface
   DEPENDS:=+commotion-lua +luci-mod-commotion +luci-theme-commotion +netcat \
-+avahi-client +serval-crypto +avahi-daemon +lua-helpers-identify +lua-helpers-encode \
++serval-crypto +avahi-daemon +lua-helpers-identify +lua-helpers-encode \
 +lua-helpers-util +commotion-service-manager
   TITLE:=Commotion Application Portal
   URL:=https://commotionwireless.net
