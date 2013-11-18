@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
-MODULE_NAME:=commotion-apps
-MODULE_TITLE:=Commotion-Apps
+MODULE_NAME:=luci-commotion-apps
+MODULE_TITLE:=luci-commotion-apps
 
 THEME_NAME:=commotion
 THEME_TITLE:=Commotion
@@ -11,7 +11,7 @@ PKG_VERSION:=master
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_URL:=git://github.com/opentechinstitute/commotion-apps.git
+PKG_SOURCE_URL:=git://github.com/opentechinstitute/luci-commotion-apps.git
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
 PKG_SOURCE_VERSION:=$(PKG_VERSION)
 
