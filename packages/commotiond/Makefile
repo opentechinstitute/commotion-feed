@@ -21,6 +21,7 @@ define Package/libcommotion
   SECTION:=commotion
   CATEGORY:=Commotion
   SUBMENU:=Libraries
+  DEPENDS:=+librt
   TITLE:=libcommotion
   URL:=https://commotionwireless.net/
 endef
