@@ -18,7 +18,7 @@ define Package/luci-mod-commotion
   SECTION:=commotion
   CATEGORY:=Commotion
   SUBMENU:=User Interface
-  DEPENDS:=+coreutils +coreutils-sha1sum +commotion-lua +luci +lua-helpers-debugger
+  DEPENDS:=+coreutils +coreutils-sha1sum +commotion-lua +luci +lua-helpers-debugger +freifunk-p2pblock
   TITLE:=Commotion LuCI Module
   URL:=https://commotionwireless.net/
 endef
