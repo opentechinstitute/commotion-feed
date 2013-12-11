@@ -36,6 +36,10 @@ endef
 define Package/luci-mod-commotion/install
 	$(INSTALL_DIR) $(1)/etc/uci-defaults
 	$(CP) $(PKG_BUILD_DIR)/files/etc/uci-defaults/* $(1)/etc/uci-defaults/ 2>/dev/null || true
+	$(INSTALL_DIR) $(1)/etc/config
+	$(CP) $(PKG_BUILD_DIR)/files/etc/config/* $(1)/etc/config/ 2>/dev/null || true
+	$(INSTALL_DIR) $(1)/etc/init.d
+	$(CP) $(PKG_BUILD_DIR)/files/etc/init.d/* $(1)/etc/init.d/ 2>/dev/null || true
 	$(INSTALL_DIR) $(1)/usr/share/commotion/files
 	$(CP) $(PKG_BUILD_DIR)/files/usr/share/commotion/files/* $(1)/usr/share/commotion/files/ 2>/dev/null || true
 	$(INSTALL_DIR) $(1)/usr/share/commotion/patches
@@ -96,32 +100,4 @@ endef
 
 CO_BUILD_PACKAGES += luci-proto-commotion
 
-define Package/commotion-lua
-  SECTION:=commotion
-  CATEGORY:=Commotion
-  SUBMENU:=Libraries
-  DEPENDS:=+lua-uri
-  TITLE:=Commotion-Lua
-  URL:=https://commotionwireless.net/
-endef
-
-define Build/Configure
-endef
-
-define Build/Compile
-endef
-
-define Package/commotion-lua/description
-  Helper library of shared lua functions for Commotion.
-endef
-
-define Package/commotion-lua/install
-	$(INSTALL_DIR) $(1)/usr/lib/lua
-	$(CP) $(PKG_BUILD_DIR)/luasrc/commotion_helpers.lua $(1)/usr/lib/lua/ 2>/dev/null || true
-endef
-
-define Package/commotion-lua/postinst
-endef
-
-CO_BUILD_PACKAGES += commotion-lua
 $(foreach b,$(CO_BUILD_PACKAGES),$(eval $(call BuildPackage,$(b))))
