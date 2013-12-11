@@ -57,10 +57,10 @@ define Package/luci-commotion-debug/description
 endef
 
 define Package/luci-commotion-debug/install
-	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/controller/$(PKG_NAME)
-	$(CP) $(PKG_BUILD_DIR)/luasrc/controller/* $(1)/usr/lib/lua/luci/controller/$(PKG_NAME)/ || true
-	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/view/$(PKG_NAME)
-	$(CP) $(PKG_BUILD_DIR)/luasrc/view/* $(1)/usr/lib/lua/luci/view/$(PKG_NAME)/ || true
+	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/controller/commotion
+	$(CP) $(PKG_BUILD_DIR)/luasrc/controller/* $(1)/usr/lib/lua/luci/controller/commotion/ || true
+	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/view/commotion
+	$(CP) $(PKG_BUILD_DIR)/luasrc/view/* $(1)/usr/lib/lua/luci/view/commotion/ || true
 endef
 
 CO_BUILD_PACKAGES += luci-commotion-debug
