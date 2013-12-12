@@ -59,7 +59,8 @@ $(eval $(call lua-helpers,network,Networking,$(NETDEP)))
 $(eval $(call lua-helpers,util,Utilities,$(LUCIDEP)))
 $(eval $(call lua-helpers,encode,Encode,$(LUCIDEP)))
 $(eval $(call lua-helpers,ccbi,Commotion-CBI,$(LUCIDEP)))
-$(eval $(call lua-helpers,setup_wizard,Setup Wizard,$(LUCIDEP)))
+$(eval $(call lua-helpers,setup_wizard,Setup-Wizard,$(LUCIDEP)))
+$(eval $(call lua-helpers,dispatch,Dispatch,$(LUCIDEP)))
 
 #actually build packages if added to the CO_BUILD_PACKAGES and checked in menuconfig
 $(foreach b,$(CO_BUILD_PACKAGES),$(eval $(call BuildPackage,$(b))))
