@@ -18,7 +18,7 @@ define Package/$(PKG_NAME)
 	SECTION:=commotion
 	CATEGORY:=Commotion
   SUBMENU:=Utilities
-	DEPENDS:=+httpclient +nixio_cyassl
+	DEPENDS:=+luci-lib-httpclient +luci-lib-nixio_cyassl
 	TITLE:=Commotion Dashboard Helper
 	URL:=https://commotionwireless.net
 endef
