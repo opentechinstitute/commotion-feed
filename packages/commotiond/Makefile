@@ -68,6 +68,7 @@ define Package/commotiond/install
 	$(INSTALL_DIR) $(1)/lib/netifd/proto
 	$(INSTALL_DIR) $(1)/lib/functions
 	$(INSTALL_DIR) $(1)/usr/share/commotion/patches
+	$(INSTALL_DIR) $(1)/usr/lib/commotion/plugins
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/commotiond $(1)/usr/sbin
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/openwrt/etc/uci-defaults/commotiond $(1)/etc/uci-defaults
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/openwrt/etc/config/commotiond $(1)/etc/config
@@ -122,9 +123,11 @@ define Package/commotion-client/description
 endef
 
 define Package/commotion-plugins/install
+	$(INSTALL_DIR) $(1)/usr/lib/commotion/plugins
+	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/plugins/libcommotion_serval-dna.so $(1)/usr/lib/commotion/plugins
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/plugins/libcommotion_serval-sas.so $(1)/usr/lib
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/serval-client $(1)/usr/bin
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/serval-client $(1)/usr/bin/
 endef
 CO_BUILD_PACKAGES += commotion-plugins
 
