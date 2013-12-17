@@ -18,7 +18,7 @@ define Package/$(PKG_NAME)
 	SECTION:=commotion
 	CATEGORY:=Commotion
   SUBMENU:=Utilities
-	DEPENDS:=+curl
+	DEPENDS:=+luci-lib-httpclient +luci-lib-nixio_cyassl
 	TITLE:=Commotion Dashboard Helper
 	URL:=https://commotionwireless.net
 endef
@@ -39,7 +39,7 @@ endef
 
 define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/usr/bin/
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/bin/commotion-bigboard-send $(1)/usr/bin/
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/bin/* $(1)/usr/bin/
 	$(INSTALL_DIR) $(1)/etc/config/
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/files/config/commotion-dash $(1)/etc/config/
 	$(INSTALL_DIR) $(1)/etc/uci-defaults/
