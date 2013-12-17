@@ -120,7 +120,7 @@ define Package/commotion-client/description
 	Additional plugins for the commotion management libraries.
 endef
 
-define Package/commotion-client/install
+define Package/commotion-plugins/install
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/plugins/libcommotion_serval-dna.so $(1)/usr/lib/commotion/plugins
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/plugins/libcommotion_serval-sas.so $(1)/usr/lib
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/serval-client $(1)/usr/bin
