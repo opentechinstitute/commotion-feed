@@ -3,6 +3,6 @@
 echo "export SERVALINSTANCE_PATH=/etc/serval" >> /etc/profile
 ln -s /etc/serval/ /var/serval-node
 
-[ -z `SERVALINSTANCE_PATH=/etc/serval /usr/bin/servald keyring list` ] && SERVALINSTANCE_PATH=/etc/serval /usr/bin/servald keyring add
+[ -f /usr/bin/servald -a -z `SERVALINSTANCE_PATH=/etc/serval /usr/bin/servald keyring list` ] && SERVALINSTANCE_PATH=/etc/serval /usr/bin/servald keyring add
 
 exit 0
