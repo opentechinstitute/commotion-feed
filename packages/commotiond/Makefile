@@ -15,13 +15,16 @@ PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)/$(PKG_NAME)-$(PKG_VERSION)
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/cmake.mk
 
+SERVAL_VERSION:=commotion-wireless
+
+TARGET_CFLAGS += -I$(BUILD_DIR)/serval-dna-$(SERVAL_VERSION) -I$(BUILD_DIR)/serval-dna-$(SERVAL_VERSION)/nacl/include -I$(BUILD_DIR)/serval-dna-$(SERVAL_VERSION)/sqlite-amalgamation-3070900 -O3
 CMAKE_OPTIONS+=-DDEBUG:Bool=Off -DOPENWRT:Bool=On
 
 define Package/libcommotion
   SECTION:=commotion
   CATEGORY:=Commotion
   SUBMENU:=Libraries
-  DEPENDS:=+librt
+  DEPENDS:=+librt +libserval-dna
   TITLE:=libcommotion
   URL:=https://commotionwireless.net/
 endef

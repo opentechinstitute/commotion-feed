@@ -103,7 +103,7 @@ endef
 
 define Package/olsrd-mod-mdp
   $(call Package/olsrd/template)
-  DEPENDS:=olsrd +serval-dna
+  DEPENDS:=olsrd +libserval-dna
   TITLE:=Sign olsrd traffic with a Serval key
   MAINTAINER:=Will Hawkins <hawkinsw AT opentechinstitute DOT org>
 endef
