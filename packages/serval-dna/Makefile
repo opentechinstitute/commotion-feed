@@ -49,11 +49,11 @@ define Package/libserval-dna
 	URL:=http://www.servalproject.org/
 endef
 
-define Package/serval-dna/description
-  Serval Daemon
+define Package/libserval-dna/description
+  Serval Library
 endef
 
-define Package/serval-dna/install
+define Package/libserval-dna/install
 	$(INSTALL_DIR) $(1)/usr/lib
 	$(CP) $(PKG_BUILD_DIR)/libservald.so $(1)/usr/lib/
 	$(INSTALL_DIR) $(1)/etc/serval
