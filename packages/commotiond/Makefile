@@ -106,4 +106,25 @@ define Package/commotion-client/install
 endef
 
 CO_BUILD_PACKAGES += commotion-client
+
+define Package/commotion-plugins
+  SECTION:=commotion
+  CATEGORY:=Commotion
+  SUBMENU:=Utilities
+  DEPENDS:=+libcommotion +commotiond
+  TITLE:=Commotion Plugins
+  URL:=https://commotionwireless.net/
+endef
+
+define Package/commotion-client/description
+	Additional plugins for the commotion management libraries.
+endef
+
+define Package/commotion-client/install
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/plugins/libcommotion_serval-dna.so $(1)/usr/lib/commotion/plugins
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/plugins/libcommotion_serval-sas.so $(1)/usr/lib
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/serval-client $(1)/usr/bin
+endef
+CO_BUILD_PACKAGES += commotion-plugins
+
 $(foreach b,$(CO_BUILD_PACKAGES),$(eval $(call BuildPackage,$(b))))
