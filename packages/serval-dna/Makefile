@@ -73,5 +73,6 @@ define Build/InstallDev
 endef
 
 $(eval $(call BuildPackage,serval-dna))
+$(eval $(call BuildPackage,libserval-dna))
 
 
