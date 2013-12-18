@@ -38,6 +38,13 @@ define Package/libcommotion/install
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/libcommotion.so $(1)/usr/lib
 endef
 
+define Build/InstallDev
+  $(INSTALL_DIR) $(1)/usr/include
+  $(INSTALL_DATA) $(PKG_BUILD_DIR)/src/commotion.h $(1)/usr/include
+  $(INSTALL_DIR) $(1)/usr/lib
+  $(INSTALL_DATA) $(PKG_BUILD_DIR)/libcommotion.so $(1)/usr/lib
+endef
+
 CO_BUILD_PACKAGES += libcommotion
 
 define Package/commotiond
