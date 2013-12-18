@@ -49,7 +49,7 @@ endef
 CRYDEP:=+coreutils +coreutils-sha1sum +luci +luci-ssl
 LUCIDEP:=+luci
 DEBDEP:=+luci +BUSYBOX_CONFIG_LOGGER:busybox
-NETDEP:=+luci +ubus  +BUSYBOX_CONFIG_CUT:busybox +BUSYBOX_CONFIG_GREP:busybox 
+NETDEP:=+luci +ubus +BUSYBOX_CONFIG_CUT:busybox +BUSYBOX_CONFIG_GREP:busybox +luci-lib-json +commotiond
 
 #call lua-helpers,NAME,TITLE,DEPENDENCIES
 $(eval $(call lua-helpers,crypto,Crypto,$(CRYDEP)))

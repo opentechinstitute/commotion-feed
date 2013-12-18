@@ -14,7 +14,7 @@ define Package/$(PKG_NAME)
 +commotion-dashboard-helper +olsrd +olsrd-mod-arprefresh +olsrd-mod-dnssd \
 +olsrd-mod-dyn-gw-plain +olsrd-mod-dyn-gw +olsrd-mod-jsoninfo +olsrd-mod-mdp +olsrd-mod-txtinfo \
 +serval-crypto +iperf +crda +wpad-mini +freifunk-firewall +freifunk-gwcheck \
-+remote-update +patch +bridge
++remote-update +patch +bridge +commotion-plugins +commotion-mdp-client
   TITLE:=Commotion
   URL:=https://commotionwireless.net/
 endef
@@ -39,7 +39,7 @@ define Package/$(PKG_NAME)-gui
   CATEGORY:=Commotion
   SUBMENU:=Collections
   DEPENDS:=+commotion +luci-mod-commotion +luci-proto-commotion +commotion-lua \
-+luci-commotion-dashboard +luci-commotion-apps +luci-commotion-quickstart \
++luci-commotion-dashboard +luci-commotion-apps \
 +luci-commotion-splash +luci-i18n-commotion +luci-theme-commotion \
 +luci-commotion-debug +luci-app-olsr +luci-app-olsr-viz +luci-app-qos \
 +luci-mod-failsafe
