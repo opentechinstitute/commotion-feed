@@ -7,7 +7,7 @@ THEME_NAME:=commotion
 THEME_TITLE:=Commotion
 
 PKG_NAME:=$(MODULE_NAME)
-PKG_VERSION:=master
+PKG_VERSION:=usability
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git

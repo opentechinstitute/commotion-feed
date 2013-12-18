@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=commotiond
-PKG_VERSION:=master
+PKG_VERSION:=plugins
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
