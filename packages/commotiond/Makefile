@@ -112,23 +112,41 @@ CO_BUILD_PACKAGES += commotion-client
 define Package/commotion-plugins
   SECTION:=commotion
   CATEGORY:=Commotion
-  SUBMENU:=Utilities
+  SUBMENU:=Libraries
   DEPENDS:=+libcommotion +commotiond
   TITLE:=Commotion Plugins
   URL:=https://commotionwireless.net/
 endef
 
-define Package/commotion-client/description
+define Package/commotion-plugins/description
 	Additional plugins for the commotion management libraries.
 endef
 
 define Package/commotion-plugins/install
 	$(INSTALL_DIR) $(1)/usr/lib/commotion/plugins
-	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/plugins/libcommotion_serval-dna.so $(1)/usr/lib/commotion/plugins
+endef
+CO_BUILD_PACKAGES += commotion-plugins
+
+define Package/commotion-mdp-client
+  SECTION:=commotion
+  CATEGORY:=Commotion
+  SUBMENU:=Utilities
+  DEPENDS:=+libcommotion +commotiond
+  TITLE:=Commotion MDP Client
+  URL:=https://commotionwireless.net/
+endef
+
+define Package/commotion-mdp-client/description
+	Commotion client for Serval's Mesh Datagram Protocol.
+endef
+
+define Package/commotion-plugins/install
+	$(INSTALL_DIR) $(1)/usr/lib
+	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/plugins/libcommotion_serval-sas.so $(1)/usr/lib
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/serval-client $(1)/usr/bin/
 endef
-CO_BUILD_PACKAGES += commotion-plugins
+CO_BUILD_PACKAGES += commotion-mdp-client
 
 $(foreach b,$(CO_BUILD_PACKAGES),$(eval $(call BuildPackage,$(b))))
