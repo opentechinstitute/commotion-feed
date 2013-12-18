@@ -141,7 +141,7 @@ define Package/commotion-mdp-client/description
 	Commotion client for Serval's Mesh Datagram Protocol.
 endef
 
-define Package/commotion-plugins/install
+define Package/commotion-mdp-client/install
 	$(INSTALL_DIR) $(1)/usr/lib
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/plugins/libcommotion_serval-sas.so $(1)/usr/lib
