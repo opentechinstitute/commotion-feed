@@ -25,7 +25,8 @@ define Package/$(PKG_NAME)
   CATEGORY:=Commotion
   SUBMENU:=User Interface
   DEPENDS:=+commotion-lua +luci-mod-commotion +luci-theme-commotion +netcat \
-+avahi-client +serval-crypto +avahi-daemon +lua-helpers-identify +lua-helpers-encode +lua-helpers-util
++commotiond +avahi-daemon +lua-helpers-identify +lua-helpers-encode \
++lua-helpers-util +commotion-service-manager
   TITLE:=Commotion Application Portal
   URL:=https://commotionwireless.net
 endef
@@ -37,25 +38,14 @@ define Build/Compile
 endef
 
 define Package/$(PKG_NAME)/description
-  Provides a discovery mechanism and LuCI interface for local applications on a Commotion mesh network
+  Provides a LuCI interface for local applications on a Commotion mesh network
 endef
 
 define Package/$(PKG_NAME)/install
-	$(INSTALL_DIR) $(1)/etc/uci-defaults
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/uci-defaults/commotion-apps $(1)/etc/uci-defaults/commotion-apps || true
 	$(INSTALL_DIR) $(1)/www/luci-static/$(THEME_NAME)
 	$(CP) $(PKG_BUILD_DIR)/luci-static/$(THEME_NAME)/* $(1)/www/luci-static/$(THEME_NAME)/ || true
 	$(INSTALL_DIR) $(1)/usr/lib/lua
 	$(CP) $(PKG_BUILD_DIR)/lua/* $(1)/usr/lib/lua/ || true
-	$(INSTALL_DIR) $(1)/usr/sbin
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/commotion-service-parser $(1)/usr/sbin/ || true
-endef
-
-define Package/$(PKG_NAME)/postinst
-#!/bin/sh
-[ -n "$${IPKG_INSTROOT}" ] || {
-        ( . /etc/uci-defaults/commotion-apps ) && rm -f /etc/uci-defaults/commotion-apps
-}
 endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)))

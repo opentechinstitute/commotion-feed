@@ -13,7 +13,7 @@ define Package/$(PKG_NAME)
   DEPENDS:=+libcommotion +commotiond +commotion-client +commotion-debug-helper \
 +commotion-dashboard-helper +olsrd +olsrd-mod-arprefresh +olsrd-mod-dnssd \
 +olsrd-mod-dyn-gw-plain +olsrd-mod-dyn-gw +olsrd-mod-jsoninfo +olsrd-mod-mdp +olsrd-mod-txtinfo \
-+serval-crypto +iperf +crda +wpad-mini +freifunk-firewall +freifunk-gwcheck \
++commotion-service-manager +iperf +crda +wpad-mini +freifunk-firewall +freifunk-gwcheck \
 +remote-update +patch +bridge +commotion-plugins +commotion-mdp-client
   TITLE:=Commotion
   URL:=https://commotionwireless.net/
