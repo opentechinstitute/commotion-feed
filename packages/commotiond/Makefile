@@ -15,13 +15,16 @@ PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)/$(PKG_NAME)-$(PKG_VERSION)
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/cmake.mk
 
+SERVAL_VERSION:=commotion-wireless
+
+TARGET_CFLAGS += -I$(BUILD_DIR)/serval-dna-$(SERVAL_VERSION) -I$(BUILD_DIR)/serval-dna-$(SERVAL_VERSION)/nacl/include -I$(BUILD_DIR)/serval-dna-$(SERVAL_VERSION)/sqlite-amalgamation-3070900 -O3
 CMAKE_OPTIONS+=-DDEBUG:Bool=Off -DOPENWRT:Bool=On
 
 define Package/libcommotion
   SECTION:=commotion
   CATEGORY:=Commotion
   SUBMENU:=Libraries
-  DEPENDS:=+librt
+  DEPENDS:=+librt +libserval-dna
   TITLE:=libcommotion
   URL:=https://commotionwireless.net/
 endef
@@ -65,6 +68,7 @@ define Package/commotiond/install
 	$(INSTALL_DIR) $(1)/lib/netifd/proto
 	$(INSTALL_DIR) $(1)/lib/functions
 	$(INSTALL_DIR) $(1)/usr/share/commotion/patches
+	$(INSTALL_DIR) $(1)/usr/lib/commotion/plugins
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/commotiond $(1)/usr/sbin
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/openwrt/etc/uci-defaults/commotiond $(1)/etc/uci-defaults
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/openwrt/etc/config/commotiond $(1)/etc/config
@@ -74,6 +78,7 @@ define Package/commotiond/install
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/openwrt/lib/functions/commotion.sh $(1)/lib/functions
 	$(CP) $(PKG_BUILD_DIR)/openwrt/usr/share/commotion/patches/* $(1)/usr/share/commotion/patches/
 	$(CP) $(PKG_BUILD_DIR)/files/profiles.d/* $(1)/etc/commotion/profiles.d/
+	$(CP) $(PKG_BUILD_DIR)/files/commotiond.conf $(1)/etc/commotion/
 endef
 
 define Package/commotiond/postinst
@@ -103,4 +108,27 @@ define Package/commotion-client/install
 endef
 
 CO_BUILD_PACKAGES += commotion-client
+
+define Package/commotion-plugins
+  SECTION:=commotion
+  CATEGORY:=Commotion
+  SUBMENU:=Utilities
+  DEPENDS:=+libcommotion +commotiond
+  TITLE:=Commotion Plugins
+  URL:=https://commotionwireless.net/
+endef
+
+define Package/commotion-client/description
+	Additional plugins for the commotion management libraries.
+endef
+
+define Package/commotion-plugins/install
+	$(INSTALL_DIR) $(1)/usr/lib/commotion/plugins
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/plugins/libcommotion_serval-dna.so $(1)/usr/lib/commotion/plugins
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/plugins/libcommotion_serval-sas.so $(1)/usr/lib
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/serval-client $(1)/usr/bin/
+endef
+CO_BUILD_PACKAGES += commotion-plugins
+
 $(foreach b,$(CO_BUILD_PACKAGES),$(eval $(call BuildPackage,$(b))))

@@ -24,7 +24,7 @@ define Package/libserval-crypto
   SUBMENU:=Utilities
   TITLE:=Serval signing and verification library
   MAINTAINER:=Open Technology Institute
-  DEPENDS:=+serval-dna
+  DEPENDS:=+serval-dna +libserval-dna
   URL:=https://commotionwireless.net/
 endef
 
@@ -54,7 +54,7 @@ define Package/serval-crypto
   SUBMENU:=Utilities
   TITLE:=Serval signing and verification programs
   MAINTAINER:=Open Technology Institute
-  DEPENDS:=+serval-dna +libserval-crypto
+  DEPENDS:=+serval-dna +libserval-dna +libserval-crypto
   URL:=https://commotionwireless.net/
 endef
 
