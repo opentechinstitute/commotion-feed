@@ -85,7 +85,6 @@ define Package/commotiond/install
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/openwrt/lib/netifd/proto/commotion.sh $(1)/lib/netifd/proto
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/openwrt/lib/functions/commotion.sh $(1)/lib/functions
 	$(CP) $(PKG_BUILD_DIR)/openwrt/usr/share/commotion/patches/* $(1)/usr/share/commotion/patches/
-	$(CP) $(PKG_BUILD_DIR)/files/profiles.d/* $(1)/etc/commotion/profiles.d/
 	$(CP) $(PKG_BUILD_DIR)/files/commotiond.conf $(1)/etc/commotion/
 endef
 
