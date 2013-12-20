@@ -17,7 +17,7 @@ include $(INCLUDE_DIR)/cmake.mk
 
 SERVAL_VERSION:=commotion-wireless
 
-TARGET_CFLAGS += -I$(BUILD_DIR)/serval-dna-$(SERVAL_VERSION) -I$(BUILD_DIR)/serval-dna-$(SERVAL_VERSION)/nacl/include -I$(BUILD_DIR)/serval-dna-$(SERVAL_VERSION)/sqlite-amalgamation-3070900 -O3
+TARGET_CFLAGS += -I$(BUILD_DIR)/serval-dna-$(SERVAL_VERSION) -I$(BUILD_DIR)/serval-dna-$(SERVAL_VERSION)/nacl/include -I$(BUILD_DIR)/serval-dna-$(SERVAL_VERSION)/sqlite-amalgamation-3070900
 CMAKE_OPTIONS+=-DDEBUG:Bool=On -DOPENWRT:Bool=On
 
 define Package/libcommotion
