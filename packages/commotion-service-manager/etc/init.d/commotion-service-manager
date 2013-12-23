@@ -7,6 +7,7 @@ DAEMON_ARGS="-u -o $OUTPUT_FILE"
 
 boot() {
   mkdir -p /var/run/commotion
+  /etc/init.d/commotiond restart
   commotion-service-manager $DAEMON_ARGS
 }
 
