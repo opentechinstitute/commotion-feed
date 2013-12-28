@@ -2,7 +2,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=commotion-lua-helpers
-PKG_VERSION:=usability
+PKG_VERSION:=master
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git

@@ -7,7 +7,7 @@
 
 include $(TOPDIR)/rules.mk
 
-COMMOTION_VERSION:=serval-plugin
+COMMOTION_VERSION:=commotion
 
 PKG_NAME:=olsrd
 PKG_VERSION:=0.6.5.4-$(COMMOTION_VERSION)
