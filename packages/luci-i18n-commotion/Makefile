@@ -20,57 +20,49 @@ SVN = svn
 MAKE = make
 MAKE_po2lmo = $(MAKE) -C $(PKG_BUILD_DIR)/po2lmo/
 MKDIR = mkdir
+CO_BUILD_PACKAGES:=
 
 include $(INCLUDE_DIR)/package.mk
-
-define Package/$(PKG_NAME)
-  SECTION:=commotion
-  CATEGORY:=Commotion
-  SUBMENU:=User Interface
-  TITLE:=Commotion LuCI Translation
-  DEPENDS:=+luci-mod-commotion +luci-theme-commotion
-  URL:=https://commotionwireless.net
-  MENU:=1
-endef
 
 define Build/Compile
 endef
 
-define Package/$(PKG_NAME)/config
-	source "$(SOURCE)/Config.in"
-endef
-
-define Package/$(PKG_NAME)/description
-  Commotion translation installation manager.
-endef
-
-#TODO add the language code for future compatability with standard country codes germany:de then modify parsing in build/prepare
-languages := french spanish
-
-ifdef ERROR_DEP
-$(error Missing Lua Dev package. This is a build dependency. Please install liblua5.1-dev))
-endif
-
+#Get and make the po2lmo po->lmo script
 define Build/Prepare
 	$(call Build/Prepare/Default,)
 	$(SVN) co http://svn.luci.subsignal.org/luci/trunk/libs/web/ $(PKG_BUILD_DIR)/po2lmo/.
 	$(MKDIR) $(PKG_BUILD_DIR)/lang
-	$(MAKE_po2lmo) || ("Missing Lua Dev package. This is a build dependency. Please install liblua5.1-dev" && false)
-	#!/bin/bash
-	IFS='  '; \
-	for i in $(foreach lang, $(languages), $(lang):$(CONFIG_commotion-luci-i18n-$(lang))); do \
-	  lang=`echo $$$$i |sed s/:.*//`; \
-	  lg=`echo $$$$lang |cut -c1-2`;\
-	  bool=`echo $$$$i |sed s/^.*://`; \
-	  if [ "$$$$bool" = "y" ]; then \
-		$(PKG_BUILD_DIR)/po2lmo/src/po2lmo $(PKG_BUILD_DIR)/translations/commotion-luci-$$$$lg.po $(PKG_BUILD_DIR)/lang/commotion-luci.$$$$lg.lmo; \
-	  fi ; \
-	done; 
+	$(MAKE_po2lmo)
 endef
 
-define Package/$(PKG_NAME)/install
-	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/i18n/
-	$(CP) $(PKG_BUILD_DIR)/lang/* $(1)/usr/lib/lua/luci/i18n/ || true
+#Define Language Packages
+define prep-package
+  define Package/Commotion-$(1)
+    SECTION:=commotion
+    CATEGORY:=Commotion
+    SUBMENU:=Translations
+    DEPENDS:=+luci-i18n-$(2)
+    URL:=https://commotionwireless.net/
+    TITLE:=Commotion-$(1)
+  endef
+
+  define Package/Commotion-$(1)/description
+    $(1) language tranlations for the Commotion Wireless Router user interfaces.
+  endef
+
+  #Compile and move chosen language lmo files
+  define Package/Commotion-$(1)/install
+	$(PKG_BUILD_DIR)/po2lmo/src/po2lmo $(PKG_BUILD_DIR)/translations/commotion-luci-$(3).po $(PKG_BUILD_DIR)/lang/commotion-luci-$(3).lmo
+	$(INSTALL_DIR) $$(1)/usr/lib/lua/luci/i18n/
+	$(CP) $(PKG_BUILD_DIR)/lang/commotion-luci-$(3).lmo $$(1)/usr/lib/lua/luci/i18n/
+  endef
+
+  CO_BUILD_PACKAGES += Commotion-$(1)
 endef
 
-$(eval $(call BuildPackage,$(PKG_NAME)))
+#languages to offer
+$(eval $(call prep-package,French,french,fr))
+$(eval $(call prep-package,Spanish,spanish,sp))
+
+#actually build packages if added to the CO_BUILD_PACKAGES and checked in menuconfig
+$(foreach b,$(CO_BUILD_PACKAGES),$(eval $(call BuildPackage,$(b))))
