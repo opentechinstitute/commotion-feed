@@ -47,7 +47,7 @@ define prep-package
   endef
 
   define Package/Commotion-$(1)/description
-    $(1) language tranlations for the Commotion Wireless Router user interfaces.
+    $(1) language tranlations for the Commotion Wireless Router user interfaces. You can contribute at www.transifex.com/projects/p/commotion-user-interface/.
   endef
 
   #Compile and move chosen language lmo files
