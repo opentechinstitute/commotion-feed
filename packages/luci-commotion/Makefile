@@ -20,7 +20,7 @@ define Package/luci-mod-commotion
   SUBMENU:=User Interface
   DEPENDS:=+coreutils +coreutils-sha1sum +commotion-lua +luci +lua-helpers-debugger +lua-helpers-ccbi \
 	+lua-helpers-crypto +lua-helpers-debugger +lua-helpers-dispatch +lua-helpers-encode \
-	+lua-helpers-identify +lua-helpers-network +lua-helpers-setup_wizard +lua-helpers-util +luci-lib-json
+	+lua-helpers-validate +lua-helpers-network +lua-helpers-setup_wizard +lua-helpers-util +luci-lib-json
   TITLE:=Commotion LuCI Module
   URL:=https://commotionwireless.net/
 endef

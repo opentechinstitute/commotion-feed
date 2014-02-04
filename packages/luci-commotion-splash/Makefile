@@ -21,7 +21,7 @@ define Package/$(PKG_NAME)
   SECTION:=commotion
   CATEGORY:=Commotion
   SUBMENU:=User Interface
-  DEPENDS:=+nodogsplash +luci-mod-commotion +lua-helpers-encode +lua-helpers-util +lua-helpers-debugger +lua-helpers-identify +lua-helpers-network
+  DEPENDS:=+nodogsplash +luci-mod-commotion +lua-helpers-encode +lua-helpers-util +lua-helpers-debugger +lua-helpers-validate +lua-helpers-network
   TITLE:=Commotion Captive Portal
   URL:=https://commotionwireless.net
 endef

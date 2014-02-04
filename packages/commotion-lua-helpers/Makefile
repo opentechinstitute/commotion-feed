@@ -47,14 +47,14 @@ endef
 
 #Dependencies
 CRYDEP:=+coreutils +coreutils-sha1sum +luci +luci-ssl
-LUCIDEP:=+luci
+LUCIDEP:=+luci +lua-uri
 DEBDEP:=+luci +BUSYBOX_CONFIG_LOGGER:busybox
 NETDEP:=+luci +ubus +BUSYBOX_CONFIG_CUT:busybox +BUSYBOX_CONFIG_GREP:busybox +luci-lib-json +commotiond
 
 #call lua-helpers,NAME,TITLE,DEPENDENCIES
 $(eval $(call lua-helpers,crypto,Crypto,$(CRYDEP)))
 $(eval $(call lua-helpers,debugger,Debugger,$(DEBDEP)))
-$(eval $(call lua-helpers,identify,Identify,$(LUCIDEP)))
+$(eval $(call lua-helpers,validate,Validate,$(LUCIDEP)))
 $(eval $(call lua-helpers,network,Networking,$(NETDEP)))
 $(eval $(call lua-helpers,util,Utilities,$(LUCIDEP)))
 $(eval $(call lua-helpers,encode,Encode,$(LUCIDEP)))
