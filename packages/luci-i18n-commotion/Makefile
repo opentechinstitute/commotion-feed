@@ -27,12 +27,31 @@ include $(INCLUDE_DIR)/package.mk
 define Build/Compile
 endef
 
+define Package/Translation-Build-Options
+  SECTION:=commotion
+  CATEGORY:=Commotion
+  SUBMENU:=Translations
+  URL:=https://commotionwireless.net/
+  TITLE:=Translation-Build-Options
+  HIDDEN:=True
+  MENU:=1
+endef
+
+define Package/Translation-Build-Options/config
+	source "$(SOURCE)/Config.in"
+endef
+
+CO_BUILD_PACKAGES += Translation-Build-Options
+
 #Get and make the po2lmo po->lmo script
 define Build/Prepare
 	$(call Build/Prepare/Default,)
 	$(SVN) co http://svn.luci.subsignal.org/luci/trunk/libs/web/ $(PKG_BUILD_DIR)/po2lmo/.
 	$(MKDIR) $(PKG_BUILD_DIR)/lang
 	$(MAKE_po2lmo)
+  ifeq ($(CONFIG_BUNDLE_I18N),y)
+	  $(SVN) co http://svn.luci.subsignal.org/luci/trunk/po $(PKG_BUILD_DIR)/.
+  endif
 endef
 
 #Define Language Packages
@@ -41,7 +60,10 @@ define prep-package
     SECTION:=commotion
     CATEGORY:=Commotion
     SUBMENU:=Translations
-    DEPENDS:=+luci-i18n-$(2)
+    #if not bundled require the luci-translation pack for this language
+    ifneq ($(CONFIG_BUNDLE_I18N),y)
+      DEPENDS:=+luci-i18n-$(2)
+    endif
     URL:=https://commotionwireless.net/
     TITLE:=Commotion-$(1)
   endef
@@ -53,10 +75,43 @@ define prep-package
   #Compile and move chosen language lmo files
   define Package/Commotion-$(1)/install
 	$(PKG_BUILD_DIR)/po2lmo/src/po2lmo $(PKG_BUILD_DIR)/translations/commotion-luci-$(3).po $(PKG_BUILD_DIR)/lang/commotion-luci-$(3).lmo
+  #get other po files from luci if bundling
+    ifeq ($(CONFIG_BUNDLE_I18N),y)
+	  for file in $(PKG_BUILD_DIR)/po/$(3)/*.po; do \
+	    $(PKG_BUILD_DIR)/po2lmo/src/po2lmo $$file.po $(PKG_BUILD_DIR)/lang/$$file.lmo \
+	  done
+    endif
 	$(INSTALL_DIR) $$(1)/usr/lib/lua/luci/i18n/
-	$(CP) $(PKG_BUILD_DIR)/lang/commotion-luci-$(3).lmo $$(1)/usr/lib/lua/luci/i18n/
+	$(CP) $(PKG_BUILD_DIR)/lang/* $$(1)/usr/lib/lua/luci/i18n/
+    ifeq ($(CONFIG_BUNDLE_I18N),y)
+	  $(CP) $(PKG_BUILD_DIR)/scripts/uci-defaults/luci-i18n-$$(2) $$(1)/etc/uci-defaults/
+    endif
   endef
 
+  #If bundled with luci files then prepare the language as luci would
+  ifeq ($(CONFIG_BUNDLE_I18N),y)
+    #After install run the uci-defaults file so it works without rebooting.
+    define Package/Commotion-$(1)/postinst
+    #!/bin/sh
+    # check if we are on real system
+    if [ -z "$${IPKG_INSTROOT}" ]; then
+          ( . /etc/uci-defaults/luci-i18n-$$(2) ) &&	rm -f /etc/uci-defaults/luci-i18n-$$(2)
+          echo "Adding $$(1) to available translations."
+    fi
+    exit 0
+    endef
+
+    #before removing package on uninstall
+    define Package/Commotion-$(1)/prerm
+    #!/bin/sh
+    #remove language from luci translation options
+    if [ -z "$${IPKG_INSTROOT}" ]; then
+          uci delete luci.languages.$$(3)
+          uci commit luci
+    fi
+    exit 0
+    endef
+  endif
   CO_BUILD_PACKAGES += Commotion-$(1)
 endef
 

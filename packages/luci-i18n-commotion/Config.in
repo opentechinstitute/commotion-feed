@@ -1,11 +1,8 @@
-if PACKAGE_commotion-luci-i18n
-
-config commotion-luci-i18n-french
-	bool "Enable French language set"
-	default n
-	select PACKAGE_luci-i18n-french
-	select PACKAGE_commotion-luci-i18n
-	help
-		Enable french language set on Commotion LuCI pages
-
-endif
+	config BUNDLE_I18N
+		   bool "Bundle translations"
+		   default n
+		   help
+				Bundle LuCI and Commotion translation files into a single package.
+				This will allow both basic and advanced menu translations to be installed
+				with a single package. Without this Commotion translation files will only
+				include Commotion specific translations.
