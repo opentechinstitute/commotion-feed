@@ -47,10 +47,11 @@ CO_BUILD_PACKAGES += Translation-Build-Options
 define Build/Prepare
 	$(call Build/Prepare/Default,)
 	$(SVN) co http://svn.luci.subsignal.org/luci/trunk/libs/web/ $(PKG_BUILD_DIR)/po2lmo/.
-	$(MKDIR) $(PKG_BUILD_DIR)/lang
+	$(MKDIR) $(PKG_BUILD_DIR)/lang || true
 	$(MAKE_po2lmo)
   ifeq ($(CONFIG_BUNDLE_I18N),y)
-	  $(SVN) co http://svn.luci.subsignal.org/luci/trunk/po $(PKG_BUILD_DIR)/.
+	  $(MKDIR) $(PKG_BUILD_DIR)/po || true
+	  $(SVN) co http://svn.luci.subsignal.org/luci/trunk/po $(PKG_BUILD_DIR)/po/.
   endif
 endef
 
@@ -74,17 +75,25 @@ define prep-package
 
   #Compile and move chosen language lmo files
   define Package/Commotion-$(1)/install
-	$(PKG_BUILD_DIR)/po2lmo/src/po2lmo $(PKG_BUILD_DIR)/translations/commotion-luci-$(3).po $(PKG_BUILD_DIR)/lang/commotion-luci-$(3).lmo
+	$(MKDIR) $(PKG_BUILD_DIR)/lang/$(3) || true
+	$(PKG_BUILD_DIR)/po2lmo/src/po2lmo $(PKG_BUILD_DIR)/translations/commotion-luci-$(3).po $(PKG_BUILD_DIR)/lang/$(3)/commotion-luci-$(3).lmo
   #get other po files from luci if bundling
     ifeq ($(CONFIG_BUNDLE_I18N),y)
+	  ls $(PKG_BUILD_DIR)/po/$(3)/
 	  for file in $(PKG_BUILD_DIR)/po/$(3)/*.po; do \
-	    $(PKG_BUILD_DIR)/po2lmo/src/po2lmo $$file.po $(PKG_BUILD_DIR)/lang/$$file.lmo \
-	  done
+	    #file path without the .po. Also, count 'em 8 dollar signs to properly escape here... seriously!
+	    lmofile=$$$$$$$${file%.po}; \
+	    #compile the .po files
+	    $(PKG_BUILD_DIR)/po2lmo/src/po2lmo $$$$$$$$file $$$$$$$$lmofile.lmo; \
+	    #move compiled file to the lang directory (##=substring removal from the front to remove the path)
+	    mv -v $(PKG_BUILD_DIR)/po/$(3)/$$$$$$$${lmofile##*/}.lmo $(PKG_BUILD_DIR)/lang/$(3);\
+      done
     endif
 	$(INSTALL_DIR) $$(1)/usr/lib/lua/luci/i18n/
-	$(CP) $(PKG_BUILD_DIR)/lang/* $$(1)/usr/lib/lua/luci/i18n/
+	$(CP) $(PKG_BUILD_DIR)/lang/$(3)/* $$(1)/usr/lib/lua/luci/i18n/
     ifeq ($(CONFIG_BUNDLE_I18N),y)
-	  $(CP) $(PKG_BUILD_DIR)/scripts/uci-defaults/luci-i18n-$$(2) $$(1)/etc/uci-defaults/
+	  $(INSTALL_DIR) $$(1)/etc/uci-defaults/
+	  $(CP) $(PKG_BUILD_DIR)/scripts/uci-defaults/luci-i18n-$(2) $$(1)/etc/uci-defaults/
     endif
   endef
 
