@@ -46,15 +46,6 @@ define Package/$(PKG_NAME)/install
 	$(CP) $(PKG_BUILD_DIR)/luci-static/$(THEME_NAME)/* $(1)/www/luci-static/$(THEME_NAME)/ || true
 	$(INSTALL_DIR) $(1)/usr/lib/lua
 	$(CP) $(PKG_BUILD_DIR)/lua/* $(1)/usr/lib/lua/ || true
-	$(INSTALL_DIR) $(1)/etc/uci-defaults
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/uci-defaults/* $(1)/etc/uci-defaults/
-endef
-
-define Package/$(PKG_NAME)/postinst
-#!/bin/sh
-[ -n "$${IPKG_INSTROOT}" ] || {
-        ( . /etc/uci-defaults/$(PKG_NAME) ) && rm -f /etc/uci-defaults/$(PKG_NAME)
-}
 endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)))
