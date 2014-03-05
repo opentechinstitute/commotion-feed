@@ -61,7 +61,7 @@ define prep-package
 endef
 
 #languages to offer
-$(eval $(call prep-package,French,french,fr))
+#$(eval $(call prep-package,French,french,fr))
 $(eval $(call prep-package,Spanish,spanish,es))
 
 #actually build packages if added to the CO_BUILD_PACKAGES and checked in menuconfig
