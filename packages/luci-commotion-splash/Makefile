@@ -47,6 +47,8 @@ define Package/$(PKG_NAME)/install
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/etc/init.d/ucidog $(1)/etc/init.d/
 	$(INSTALL_DIR) $(1)/usr/bin/
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/usr/bin/uci2nds.lua $(1)/usr/bin/
+	$(INSTALL_DIR) $(1)/etc/config
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/etc/config/nodogsplash $(1)/etc/config/
 	$(INSTALL_DIR) $(1)/www/luci-static/commotion
 	$(CP) $(PKG_BUILD_DIR)/htdocs/commotion/* $(1)/www/luci-static/commotion/
 endef
