@@ -43,6 +43,10 @@ define Package/$(PKG_NAME)/install
 	$(CP) $(PKG_BUILD_DIR)/files/usr/share/commotion/files/splash.html $(1)/usr/share/commotion/files/
 	$(INSTALL_DIR) $(1)/etc/uci-defaults
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/etc/uci-defaults/commotion-splash $(1)/etc/uci-defaults/
+	$(INSTALL_DIR) $(1)/etc/init.d
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/etc/init.d/ucidog $(1)/etc/init.d/
+	$(INSTALL_DIR) $(1)/usr/bin/
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/usr/bin/uci2nds.lua $(1)/usr/bin/
 	$(INSTALL_DIR) $(1)/www/luci-static/commotion
 	$(CP) $(PKG_BUILD_DIR)/htdocs/commotion/* $(1)/www/luci-static/commotion/
 endef
