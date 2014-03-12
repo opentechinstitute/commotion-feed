@@ -41,8 +41,7 @@ define Package/$(PKG_NAME)-gui
   DEPENDS:=+commotion +luci-mod-commotion +luci-proto-commotion +commotion-lua \
 +luci-commotion-dashboard +luci-commotion-apps \
 +luci-commotion-splash +luci-i18n-commotion +luci-theme-commotion \
-+luci-commotion-debug +luci-app-olsr +luci-app-olsr-viz +luci-app-qos \
-+luci-mod-failsafe
++luci-commotion-debug +luci-app-olsr +luci-app-olsr-viz +luci-app-qos
   TITLE:=Commotion GUI
   URL:=https://commotionwireless.net/
 endef
