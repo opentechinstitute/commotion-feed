@@ -24,7 +24,7 @@ define Package/$(PKG_NAME)
   SECTION:=commotion
   CATEGORY:=Commotion
   SUBMENU:=User Interface
-  DEPENDS:=+commotion-lua +luci-mod-commotion +luci-theme-commotion +netcat \
+  DEPENDS:=+luci-mod-commotion +luci-theme-commotion +netcat \
 +commotiond +avahi-daemon +lua-helpers-validate +lua-helpers-encode \
 +lua-helpers-util +commotion-service-manager
   TITLE:=Commotion Application Portal

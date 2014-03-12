@@ -18,7 +18,7 @@ define Package/luci-mod-commotion
   SECTION:=commotion
   CATEGORY:=Commotion
   SUBMENU:=User Interface
-  DEPENDS:=+coreutils +coreutils-sha1sum +commotion-lua +luci +lua-helpers-debugger +lua-helpers-ccbi \
+  DEPENDS:=+coreutils +coreutils-sha1sum +luci +lua-helpers-debugger +lua-helpers-ccbi \
 	+lua-helpers-crypto +lua-helpers-debugger +lua-helpers-dispatch +lua-helpers-encode \
 	+lua-helpers-validate +lua-helpers-network +lua-helpers-setup_wizard +lua-helpers-util +luci-lib-json
   TITLE:=Commotion LuCI Module
