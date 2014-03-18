@@ -15,8 +15,6 @@ PKG_FIXUP:=autoreconf
 
 include $(INCLUDE_DIR)/package.mk
 
-TARGET_CFLAGS+=-DUSE_ABSTRACT_NAMESPACE=0
-
 define Build/Compile
 	$(call Build/Compile/Default)
 	$(call Build/Compile/Default, \
