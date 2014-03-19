@@ -20,6 +20,9 @@ define Build/Compile
 	$(call Build/Compile/Default, \
 		libserval.so \
 	)
+	$(call Build/Compile/Default, \
+		libmdpclient.so \
+	)
 endef
 
 define Package/serval-dna
@@ -73,6 +76,7 @@ endef
 define Package/libserval-dna/install
 	$(INSTALL_DIR) $(1)/usr/lib
 	$(CP) $(PKG_BUILD_DIR)/libserval.so $(1)/usr/lib/
+	$(CP) $(PKG_BUILD_DIR)/libmdpclient.so $(1)/usr/lib/
 	$(INSTALL_DIR) $(1)/etc/serval
 	$(CP) ./files/etc/serval/serval.conf $(1)/etc/serval/serval.conf
 	$(INSTALL_DIR) $(1)/etc/uci-defaults
@@ -82,6 +86,7 @@ endef
 define Build/InstallDev
 	$(INSTALL_DIR) $(1)/usr/lib
 	$(CP) $(PKG_BUILD_DIR)/libserval.so $(1)/usr/lib/
+	$(CP) $(PKG_BUILD_DIR)/libmdpclient.so $(1)/usr/lib/
 	$(INSTALL_DIR) $(1)/usr/include
 	$(CP) $(PKG_BUILD_DIR)/serval.h $(1)/usr/include/
 	$(CP) $(PKG_BUILD_DIR)/sqlite-amalgamation-3070900/sqlite3.h $(1)/usr/include/
