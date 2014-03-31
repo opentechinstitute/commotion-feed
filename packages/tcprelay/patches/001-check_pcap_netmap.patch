@@ -1,0 +1,18 @@
+--- a/configure.ac
++++ b/configure.ac
+@@ -1113,15 +1113,6 @@ done
+ 
+ dnl ## Test for netmap-libpcap
+ have_pcap_netmap=no
+-if test $foundpcap != no ; then
+-    PCAP_NETMAP_C_FILE="$LPCAPINCDIR/pcap-netmap.c"
+-    AC_CHECK_FILE($PCAP_NETMAP_C_FILE,
+-                 [ 
+-                    AC_DEFINE([HAVE_LIBPCAP_NETMAP], [1],
+-                               [Does this version of libpcap support netmap?])
+-                    have_pcap_netmap=yes
+-                 ],[])
+-fi
+ 
+ dnl restore LIBS & CFLAGS
+ LIBS="$OLDLIBS"
