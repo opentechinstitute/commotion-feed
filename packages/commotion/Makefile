@@ -14,7 +14,7 @@ define Package/$(PKG_NAME)
 +olsrd +olsrd-mod-arprefresh +olsrd-mod-nameservice +olsrd-mod-dnssd \
 +olsrd-mod-dyn-gw-plain +olsrd-mod-mdp +olsrd-mod-txtinfo \
 +commotion-service-manager +crda +wpad-mini +freifunk-gwcheck \
-+patch +bridge +commotion-plugins +commotion-mdp-client
++patch +bridge +rng-tools +commotion-plugins +commotion-mdp-client
   TITLE:=Commotion
   URL:=https://commotionwireless.net/
 endef
