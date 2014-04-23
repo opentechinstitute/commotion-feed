@@ -11,7 +11,7 @@ define Package/$(PKG_NAME)
   CATEGORY:=Commotion
   SUBMENU:=Collections
   DEPENDS:=+libcommotion +commotiond +commotion-client +commotion-debug-helper \
-+olsrd +olsrd-mod-arprefresh +olsrd-mod-dnssd \
++olsrd +olsrd-mod-arprefresh +olsrd-mod-nameservice +olsrd-mod-dnssd \
 +olsrd-mod-dyn-gw-plain +olsrd-mod-mdp +olsrd-mod-txtinfo \
 +commotion-service-manager +crda +wpad-mini +freifunk-gwcheck \
 +patch +bridge +commotion-plugins +commotion-mdp-client
