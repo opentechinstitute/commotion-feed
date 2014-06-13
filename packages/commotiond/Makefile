@@ -131,7 +131,9 @@ endef
 
 define Package/commotion-plugins/install
 	$(INSTALL_DIR) $(1)/usr/lib/commotion/plugins
+	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/plugins/libcommotion_serval-dna.so $(1)/usr/lib/commotion/plugins
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/serval-client $(1)/usr/bin/
 endef
 CO_BUILD_PACKAGES += commotion-plugins
 
@@ -150,9 +152,7 @@ endef
 
 define Package/commotion-mdp-client/install
 	$(INSTALL_DIR) $(1)/usr/lib
-	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/plugins/libcommotion_serval-sas.so $(1)/usr/lib
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/serval-client $(1)/usr/bin/
 endef
 CO_BUILD_PACKAGES += commotion-mdp-client
 
