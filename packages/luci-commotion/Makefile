@@ -72,7 +72,7 @@ define Package/luci-mod-commotion/install
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/luasrc/view/commotion/status.htm $(1)/usr/lib/lua/luci/view/commotion
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/luasrc/view/commotion/viz.htm $(1)/usr/lib/lua/luci/view/commotion
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/luasrc/view/commotion/welcome.htm $(1)/usr/lib/lua/luci/view/commotion
-	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/view/cbi
+	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/view/cbi/commotion
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/luasrc/view/cbi/osmll_value.htm $(1)/usr/lib/lua/luci/view/cbi
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/luasrc/view/cbi/commotion/addAP.htm $(1)/usr/lib/lua/luci/view/cbi/commotion
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/luasrc/view/cbi/commotion/addMesh.htm $(1)/usr/lib/lua/luci/view/cbi/commotion
