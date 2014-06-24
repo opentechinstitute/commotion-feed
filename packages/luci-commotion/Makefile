@@ -78,7 +78,9 @@ define Package/luci-mod-commotion/install
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/luasrc/view/cbi/commotion/addMesh.htm $(1)/usr/lib/lua/luci/view/cbi/commotion
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/luasrc/view/cbi/commotion/delegator.htm $(1)/usr/lib/lua/luci/view/cbi/commotion
 	$(INSTALL_DIR) $(1)/www/luci-static/resources/
-	$(CP) $(PKG_BUILD_DIR)/htdocs/luci-static/* $(1)/www/luci-static/ 2>/dev/null || true
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/htdocs/luci-static/commotion_index.html $(1)/www/luci-static/
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/htdocs/luci-static/resources/OSMLatLon.htm $(1)/www/luci-static/resources/
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/htdocs/luci-static/resources/osm.js $(1)/www/luci-static/resources/
 endef
 
 define Package/luci-mod-commotion/postinst
@@ -159,7 +161,7 @@ endef
 
 define Package/luci-commotion-apps/install
 	$(INSTALL_DIR) $(1)/www/luci-static/commotion
-	$(CP) $(PKG_BUILD_DIR)/luci-static/apps/* $(1)/www/luci-static/commotion/ || true
+	$(CP) $(PKG_BUILD_DIR)/htdocs/luci-static/apps/* $(1)/www/luci-static/commotion/ || true
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/view/commotion
 	$(CP) $(PKG_BUILD_DIR)/luasrc/view/commotion/apps_* $(1)/usr/lib/lua/luci/view/commotion/ || true
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/view/themes/commotion
