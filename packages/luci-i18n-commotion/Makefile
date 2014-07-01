@@ -30,7 +30,7 @@ endef
 #Get and make the po2lmo po->lmo script
 define Build/Prepare
 	$(call Build/Prepare/Default,)
-	$(SVN) co http://svn.luci.subsignal.org/luci/trunk/modules/base/ $(PKG_BUILD_DIR)/po2lmo/.
+	$(SVN) co http://svn.luci.subsignal.org/luci/trunk/libs/web/ $(PKG_BUILD_DIR)/po2lmo/.
 	$(MKDIR) $(PKG_BUILD_DIR)/lang
 	$(MAKE_po2lmo)
 endef
