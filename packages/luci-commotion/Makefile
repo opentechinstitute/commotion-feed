@@ -296,7 +296,7 @@ endef
 
 define Package/commotion-debug-helper/install
 	$(INSTALL_DIR) $(1)/usr/sbin
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/usr/sbin/cdh.sh $(1)/usr/sbin
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/usr/sbin/cdh $(1)/usr/sbin
 endef
 
 CO_BUILD_PACKAGES += commotion-debug-helper
