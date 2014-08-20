@@ -188,6 +188,8 @@ define Package/luci-commotion-splash/description
 endef
 
 define Package/luci-commotion-splash/install
+	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/commotion
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/luasrc/commotion/nds_config.lua $(1)/usr/lib/lua/luci/commotion
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/controller/commotion-splash
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/luasrc/controller/commotion-splash/splash.lua $(1)/usr/lib/lua/luci/controller/commotion-splash
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/model/cbi/commotion-splash
