@@ -230,8 +230,6 @@ define Package/olsrd-mod-mdns/install
 endef
 
 define Package/olsrd-mod-mdp/install
-	$(INSTALL_DIR) $(1)/etc/commotion/keys.d/mdp
-	$(CP) ./files/mdp.keyring $(1)/etc/commotion/keys.d/mdp/serval.keyring
 	$(INSTALL_DIR) $(1)/usr/lib
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/lib/mdp/olsrd_mdp.so.* $(1)/usr/lib/
 endef
