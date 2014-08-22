@@ -7,10 +7,10 @@
 
 include $(TOPDIR)/rules.mk
 
-COMMOTION_VERSION:=commotion-0.4
+COMMOTION_VERSION:=commotion-0.5
 
 PKG_NAME:=olsrd
-PKG_VERSION:=0.6.5.4-$(COMMOTION_VERSION)
+PKG_VERSION:=0.6.6-$(COMMOTION_VERSION)
 PKG_RELEASE:=1
 
 PKG_SOURCE_URL:=https://github.com/opentechinstitute/olsrd/archive/$(COMMOTION_VERSION).tar.gz?
