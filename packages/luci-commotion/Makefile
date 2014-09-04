@@ -44,6 +44,7 @@ define Package/luci-mod-commotion/install
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/files/etc/uci-defaults/luci-mod-commotion $(1)/etc/uci-defaults
 	$(INSTALL_DIR) $(1)/etc/config
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/files/etc/config/setup_wizard $(1)/etc/config
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/files/etc/config/serval $(1)/etc/config
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/etc/init.d/hostname $(1)/etc/init.d
 	$(INSTALL_DIR) $(1)/usr/share/commotion/files
