@@ -78,7 +78,9 @@ define Package/luci-mod-commotion/install
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/luasrc/view/cbi/commotion/addMesh.htm $(1)/usr/lib/lua/luci/view/cbi/commotion
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/luasrc/view/cbi/commotion/delegator.htm $(1)/usr/lib/lua/luci/view/cbi/commotion
 	$(INSTALL_DIR) $(1)/www/luci-static/resources/
-	$(CP) $(PKG_BUILD_DIR)/htdocs/luci-static/* $(1)/www/luci-static/ 2>/dev/null || true
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/htdocs/luci-static/commotion_index.html $(1)/www/luci-static/
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/htdocs/luci-static/resources/OSMLatLon.htm $(1)/www/luci-static/resources/
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/htdocs/luci-static/resources/osm.js $(1)/www/luci-static/resources/
 endef
 
 define Package/luci-mod-commotion/postinst
@@ -161,7 +163,7 @@ define Package/luci-commotion-apps/install
 	$(INSTALL_DIR) $(1)/etc/uci-defaults
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/files/etc/uci-defaults/luci-commotion-applications $(1)/etc/uci-defaults
 	$(INSTALL_DIR) $(1)/www/luci-static/commotion
-	$(CP) $(PKG_BUILD_DIR)/luci-static/apps/* $(1)/www/luci-static/commotion/ || true
+	$(CP) $(PKG_BUILD_DIR)/htdocs/luci-static/apps/* $(1)/www/luci-static/commotion/ || true
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/view/commotion
 	$(CP) $(PKG_BUILD_DIR)/luasrc/view/commotion/apps_* $(1)/usr/lib/lua/luci/view/commotion/ || true
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/view/themes/commotion
@@ -195,6 +197,8 @@ define Package/luci-commotion-splash/description
 endef
 
 define Package/luci-commotion-splash/install
+	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/commotion
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/luasrc/commotion/nds_config.lua $(1)/usr/lib/lua/luci/commotion
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/controller/commotion-splash
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/luasrc/controller/commotion-splash/splash.lua $(1)/usr/lib/lua/luci/controller/commotion-splash
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/model/cbi/commotion-splash
@@ -303,7 +307,7 @@ endef
 
 define Package/commotion-debug-helper/install
 	$(INSTALL_DIR) $(1)/usr/sbin
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/usr/sbin/cdh.sh $(1)/usr/sbin
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/usr/sbin/cdh $(1)/usr/sbin
 endef
 
 CO_BUILD_PACKAGES += commotion-debug-helper
