@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=serval-dna
-PKG_VERSION:=commotion-wireless
+PKG_VERSION:=commotion-wireless-singlekey
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
