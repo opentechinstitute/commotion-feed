@@ -15,7 +15,7 @@ PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)/$(PKG_NAME)-$(PKG_VERSION)
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/cmake.mk
 
-SERVAL_VERSION:=commotion-wireless
+SERVAL_VERSION:=commotion-wireless-singlekey
 
 TARGET_CFLAGS += -I$(BUILD_DIR)/serval-dna-$(SERVAL_VERSION) -I$(BUILD_DIR)/serval-dna-$(SERVAL_VERSION)/nacl/include -I$(BUILD_DIR)/serval-dna-$(SERVAL_VERSION)/sqlite-amalgamation-3070900
 CMAKE_OPTIONS+=-DDEBUG:Bool=Off -DOPENWRT:Bool=On -DTEST:Bool=Off
