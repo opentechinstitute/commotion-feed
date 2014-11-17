@@ -150,7 +150,7 @@ define Package/luci-commotion-apps
   CATEGORY:=Commotion
   SUBMENU:=User Interface
   DEPENDS:=+luci-mod-commotion +luci-theme-commotion +netcat \
-+commotiond +avahi-daemon +lua-helpers-validate +lua-helpers-encode \
++commotiond +lua-helpers-validate +lua-helpers-encode \
 +lua-helpers-util +commotion-service-manager
   TITLE:=Commotion Application Portal
   URL:=https://commotionwireless.net
