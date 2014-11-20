@@ -149,7 +149,7 @@ define Package/luci-commotion-apps
   SECTION:=commotion
   CATEGORY:=Commotion
   SUBMENU:=User Interface
-  DEPENDS:=+luci-mod-commotion +luci-theme-commotion +netcat \
+  DEPENDS:=+luci-mod-commotion +luci-theme-commotion \
 +commotiond +lua-helpers-validate +lua-helpers-encode \
 +lua-helpers-util +commotion-service-manager
   TITLE:=Commotion Application Portal
