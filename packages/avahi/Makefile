@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2007-2012 OpenWrt.org
+# Copyright (C) 2007-2014 OpenWrt.org
 #
 # This is free software, licensed under the GNU General Public License v2.
 # See /LICENSE for more information.
@@ -18,12 +18,13 @@ endif
 
 PKG_NAME:=avahi
 PKG_VERSION:=0.6.31
-PKG_RELEASE:=5
+PKG_RELEASE:=6
 
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=http://avahi.org/download/
 PKG_MD5SUM:=2f22745b8f7368ad5a0a3fddac343f2d
+PKG_MAINTAINER:=Ted Hess <thess@kitschensync.net>
 
 PKG_BUILD_DEPENDS:=libexpat libdaemon libgdbm intltool/host libpthread dbus
 
@@ -45,11 +46,11 @@ define Package/avahi/Default
 endef
 
 define Package/avahi/Default/description
- Avahi is an mDNS/DNS-SD (aka RendezVous/Bonjour/ZeroConf) 
- implementation (library). It facilitates 
- service discovery on a local network -- this means that 
+ Avahi is an mDNS/DNS-SD (aka RendezVous/Bonjour/ZeroConf)
+ implementation (library). It facilitates
+ service discovery on a local network -- this means that
  you can plug your laptop or computer into a network and
- instantly be able to view other people who you can chat with, 
+ instantly be able to view other people who you can chat with,
  find printers to print to or find files being shared.
  This kind of technology is already found in MacOS X
  (branded 'Rendezvous', 'Bonjour' and sometimes 'ZeroConf')
@@ -60,7 +61,7 @@ define Package/libavahi
   $(call Package/avahi/Default)
   SECTION:=libs
   CATEGORY:=Libraries
-  DEPENDS:=+libdaemon +libpthread +libgdbm +SSP_SUPPORT:libssp
+  DEPENDS:=+libpthread +SSP_SUPPORT:libssp
   TITLE+= (library)
 endef
 
@@ -86,9 +87,9 @@ endef
 define Package/avahi-autoipd/description
 $(call Package/avahi/Default/description)
  .
- This package implements IPv4LL, "Dynamic Configuration of IPv4 Link-Local 
- Addresses" (IETF RFC3927), a protocol for automatic IP address configuration 
- from the link-local 169.254.0.0/16 range without the need for a central 
+ This package implements IPv4LL, "Dynamic Configuration of IPv4 Link-Local
+ Addresses" (IETF RFC3927), a protocol for automatic IP address configuration
+ from the link-local 169.254.0.0/16 range without the need for a central
  server. It is primarily intended to be used in ad-hoc networks which lack a
  DHCP server.
 endef
@@ -97,9 +98,9 @@ define Package/avahi-daemon
   $(call Package/avahi/Default)
   SUBMENU:=IP Addresses and Names
   ifeq ($(BUILD_VARIANT),dbus)
-  DEPENDS:=+libavahi +libexpat +librt +libdbus
+  DEPENDS:=+libavahi +libexpat +librt +libdaemon +libdbus
   else
-  DEPENDS:=+libavahi +libexpat +librt
+  DEPENDS:=+libavahi +libexpat +librt +libdaemon
   endif
   TITLE+= (daemon)
 endef
@@ -119,7 +120,7 @@ endef
 define Package/avahi-dnsconfd
   $(call Package/avahi/Default)
   SUBMENU:=IP Addresses and Names
-  DEPENDS:=+libavahi
+  DEPENDS:=+libavahi +libdaemon
   TITLE:=A Unicast DNS server from mDNS/DNS-SD configuration daemon
 endef
 
@@ -174,7 +175,7 @@ endef
 define Package/avahi-utils
   $(call Package/avahi/Default)
   SUBMENU:=IP Addresses and Names
-  DEPENDS:=+libavahi-client
+  DEPENDS:=+libavahi-client +libgdbm
   TITLE+= (utilities)
 endef
 
@@ -234,7 +235,7 @@ CONFIGURE_ARGS += \
 	--enable-dbus
 else
 CONFIGURE_ARGS += \
-	--disable-dbus	
+	--disable-dbus
 endif
 
 CONFIGURE_VARS+= \
@@ -310,4 +311,3 @@ $(eval $(call BuildPackage,libavahi))
 $(eval $(call BuildPackage,avahi-autoipd))
 $(eval $(call BuildPackage,avahi-daemon))
 $(eval $(call BuildPackage,avahi-dnsconfd))
-
