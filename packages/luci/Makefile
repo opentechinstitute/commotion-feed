@@ -1,35 +1,26 @@
 include $(TOPDIR)/rules.mk
 
-PKG_BRANCH:=branches/luci-0.12
-
-ifeq ($(DUMP),)
-  USELOCAL:=$(shell grep luci ../../../.project 2>/dev/null >/dev/null && echo 1)
-endif
-
 PKG_NAME:=luci
 PKG_RELEASE:=1
+PKG_BRANCH:=0.12
+
+PKG_SOURCE_PROTO:=git
+PKG_SOURCE_URL:=https://github.com/openwrt/luci.git
+PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_BRANCH)
+PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)/$(PKG_SOURCE_SUBDIR)
+PKG_SOURCE_VERSION:=luci-$(PKG_BRANCH)
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_BRANCH).tar.gz
 
 PKG_BUILD_PARALLEL:=0
 
-ifeq ($(USELOCAL),1)
-  PKG_VERSION:=0.11+svn
-else
-  PKG_SOURCE_URL:=http://svn.luci.subsignal.org/luci/$(PKG_BRANCH)
-  ifeq ($(DUMP),)
-    PKG_REV:=$(shell LC_ALL=C svn info $(CURDIR) | sed -ne's/^Revision: //p')
-    PKG_VERSION:=0.11+svn$(PKG_REV)
-  endif
-  PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
-  PKG_SOURCE:=$(PKG_SOURCE_SUBDIR).tar.gz
-  PKG_SOURCE_PROTO:=svn
-  PKG_SOURCE_VERSION:=$(PKG_REV)
-endif
+PKG_VERSION:=0.12
+#PKG_VERSION:=$(PKG_BRANCH)+$(shell $(PKG_BUILD_DIR)/build/mkrevision.sh 2>/dev/null || echo unknown)
 
-PKG_BUILD_DEPENDS:=$(if $(STAGING_DIR_ROOT),lua/host)
-PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
+PKG_BUILD_DEPENDS:=$(if $(STAGING_DIR_ROOT),lua/host) iwinfo
 PKG_INSTALL_DIR:=$(PKG_BUILD_DIR)/ipkg-install
+PKG_USE_MIPS16:=0
 
-LUA_TARGET:=source
+LUA_TARGET:=compile
 LUCI_CFLAGS:=
 LUCI_BUILD_PACKAGES:=
 LUCI_SELECTED_MODULES:=
@@ -47,7 +38,7 @@ endef
 
 
 ### Core package ###
-define Package/luci-lib-core
+define Package/luci-base
   SECTION:=luci
   CATEGORY:=LuCI
   TITLE:=LuCI - Lua Configuration Interface
@@ -58,52 +49,56 @@ define Package/luci-lib-core
   TITLE:=LuCI core libraries
 endef
 
-define Package/luci-lib-core/install
-	$(call Package/luci/install/template,$(1),libs/core)
+define Package/luci-base/install
+	$(call Package/luci/install/template,$(1),modules/base)
 	$(PKG_BUILD_DIR)/build/mkversion.sh $(1)/usr/lib/lua/luci/version.lua \
 		"OpenWrt Firmware" \
 		"$(OPENWRTVERSION)" \
-		"$(PKG_BRANCH)" \
+		"luci-0.12" \
 		"$(PKG_VERSION)"
 endef
 
-define Package/luci-lib-core/config
+define Package/luci-base/config
        choice
                prompt "Build Target"
-               default PACKAGE_luci-lib-core_source
+               default PACKAGE_luci-base_source
 
-       config PACKAGE_luci-lib-core_compile
+       config PACKAGE_luci-base_compile
                bool "Precompiled"
 
-       config PACKAGE_luci-lib-core_stripped
+       config PACKAGE_luci-base_stripped
                bool "Stripped"
 
-       config PACKAGE_luci-lib-core_srcdiet
+       config PACKAGE_luci-base_srcdiet
                bool "Compressed Source"
 
-       config PACKAGE_luci-lib-core_source
+       config PACKAGE_luci-base_source
                bool "Full Source"
 
        endchoice
 endef
 
-ifneq ($(CONFIG_PACKAGE_luci-lib-core_compile),)
+define Package/luci-base/conffiles
+/etc/config/luci
+endef
+
+ifneq ($(CONFIG_PACKAGE_luci-base_compile),)
   LUA_TARGET:=compile
 endif
 
-ifneq ($(CONFIG_PACKAGE_luci-lib-core_stripped),)
+ifneq ($(CONFIG_PACKAGE_luci-base_stripped),)
   LUA_TARGET:=strip
 endif
 
-ifneq ($(CONFIG_PACKAGE_luci-lib-core_srcdiet),)
+ifneq ($(CONFIG_PACKAGE_luci-base_srcdiet),)
   LUA_TARGET:=diet
 endif
 
-ifneq ($(CONFIG_PACKAGE_luci-lib-core),)
-  LUCI_SELECTED_MODULES+=libs/core
+ifneq ($(CONFIG_PACKAGE_luci-base),)
+  LUCI_SELECTED_MODULES+=modules/base
 endif
 
-LUCI_BUILD_PACKAGES += luci-lib-core
+LUCI_BUILD_PACKAGES += luci-base
 
 
 ### Libraries ###
@@ -116,7 +111,7 @@ define library
     MAINTAINER:=LuCI Development Team <luci@lists.subsignal.org>
     SUBMENU:=8. Libraries
     TITLE:=$(if $(2),$(2),LuCI $(1) library)
-    $(if $(3),DEPENDS:=+luci-lib-core $(3))
+    $(if $(3),DEPENDS:=+luci-base $(3))
   endef
 
   define Package/luci-lib-$(1)/install
@@ -129,10 +124,6 @@ define library
   endif
 
   LUCI_BUILD_PACKAGES += luci-lib-$(1)
-endef
-
-define Package/luci-lib-web/conffiles
-/etc/config/luci
 endef
 
 define Package/luci-lib-nixio/config
@@ -173,14 +164,11 @@ ifneq ($(CONFIG_PACKAGE_luci-lib-nixio_cyassl),)
 endif
 
 
-$(eval $(call library,fastindex,Fastindex indexing module,+PACKAGE_luci-lib-fastindex:liblua))
-$(eval $(call library,httpclient,HTTP(S) client library,+luci-lib-web +luci-lib-nixio))
-$(eval $(call library,ipkg,LuCI IPKG/OPKG call abstraction library))
+$(eval $(call library,httpclient,HTTP(S) client library,+luci-base +luci-lib-nixio))
 $(eval $(call library,json,LuCI JSON library))
 $(eval $(call library,nixio,NIXIO POSIX library,+PACKAGE_luci-lib-nixio_openssl:libopenssl +PACKAGE_luci-lib-nixio_cyassl:libcyassl))
 $(eval $(call library,px5g,RSA/X.509 Key Generator (required for LuCId SSL support),+luci-lib-nixio))
-$(eval $(call library,sys,LuCI Linux/POSIX system library))
-$(eval $(call library,web,MVC Webframework,+luci-lib-sys +luci-lib-nixio +luci-lib-core +luci-sgi-cgi))
+$(eval $(call library,luaneightbl,neightbl - Lua lib for IPv6 neighbors,+luci-base))
 
 
 ### Protocols ###
@@ -207,40 +195,11 @@ define protocol
   LUCI_BUILD_PACKAGES += luci-proto-$(1)
 endef
 
-$(eval $(call protocol,core,Support for static/dhcp/none))
 $(eval $(call protocol,ppp,Support for PPP/PPPoE/PPPoA/PPtP))
 $(eval $(call protocol,ipv6,Support for DHCPv6/6in4/6to4/6rd/DS-Lite))
 $(eval $(call protocol,3g,Support for 3G,+PACKAGE_luci-proto-3g:comgt))
+$(eval $(call protocol,hso,Support for HSO,+PACKAGE_luci-proto-hso:comgt +PACKAGE_luci-proto-hso:kmod-usb-net +PACKAGE_luci-proto-hso:kmod-usb-net-hso))
 $(eval $(call protocol,relay,Support for relayd pseudo bridges,+PACKAGE_luci-proto-relay:relayd))
-
-
-### Community Packages ###
-define Package/luci-mod-freifunk-community
-  SECTION:=luci
-  CATEGORY:=LuCI
-  TITLE:=LuCI - Lua Configuration Interface
-  URL:=http://luci.subsignal.org/
-  MAINTAINER:=LuCI Development Team <luci@lists.subsignal.org>
-  SUBMENU:=9. Freifunk
-  TITLE:=Freifunk Community Meta-Package
-  DEPENDS+= \
-   +luci-lib-web +luci-app-splash +luci-i18n-german \
-   +PACKAGE_luci-mod-freifunk-community:olsrd +PACKAGE_luci-mod-freifunk-community:olsrd-mod-dyn-gw-plain \
-   +PACKAGE_luci-mod-freifunk-community:olsrd-mod-txtinfo +PACKAGE_luci-mod-freifunk-community:olsrd-mod-nameservice \
-   +PACKAGE_luci-mod-freifunk-community:olsrd-mod-watchdog +PACKAGE_luci-mod-freifunk-community:kmod-tun \
-   +PACKAGE_luci-mod-freifunk-community:ip +PACKAGE_luci-mod-freifunk-community:freifunk-watchdog +luci-app-olsr \
-   +luci-app-olsr-services +freifunk-gwcheck +freifunk-mapupdate
-endef
-
-define Package/luci-mod-freifunk-community/install
-	$(call Package/luci/install/template,$(1),applications/freifunk-community)
-endef
-
-ifneq ($(CONFIG_PACKAGE_luci-mod-freifunk-community),)
-	LUCI_SELECTED_MODULES+=applications/freifunk-community
-endif
-
-LUCI_BUILD_PACKAGES += luci-mod-freifunk-community
 
 
 ### Modules ###
@@ -269,12 +228,9 @@ define module
 endef
 
 
-define Package/luci-mod-admin-core/extra-install
-	touch $(1)/etc/init.d/luci_fixtime || true
-endef
-
-$(eval $(call module,admin-core,Web UI Core module,+luci-lib-web +luci-proto-core +luci-i18n-english))
-$(eval $(call module,admin-full,LuCI Administration - full-featured for full control,+luci-mod-admin-core +luci-lib-ipkg))
+$(eval $(call module,admin-mini,LuCI Essentials - stripped down and user-friendly,+luci-base @BROKEN))
+$(eval $(call module,admin-full,LuCI Administration - full-featured for full control,+luci-base))
+$(eval $(call module,failsafe,LuCI Fail-Safe - Fail-Safe sysupgrade module,+luci-base))
 $(eval $(call module,rpc,LuCI RPC - JSON-RPC API,+luci-lib-json))
 
 
@@ -303,69 +259,20 @@ define application
   LUCI_BUILD_PACKAGES += luci-app-$(1)
 endef
 
-define Package/luci-app-splash/conffiles
-/etc/config/luci_splash
-/usr/lib/luci-splash/splashtext.html
-endef
-
 define Package/luci-app-olsr-viz/extra-install
-$(CP) ./files/* $(1)/
+	$(CP) ./files/* $$(1)/
 endef
-
-$(eval $(call application,siitwizard,SIIT IPv4-over-IPv6 configuration wizard,\
-	+PACKAGE_luci-app-siitwizard:kmod-siit))
 
 $(eval $(call application,firewall,Firewall and Portforwarding application,\
 	+PACKAGE_luci-app-firewall:firewall))
 
-$(eval $(call application,freifunk-policyrouting,Policy routing for mesh traffic,\
-        +PACKAGE_luci-app-freifunk-policyrouting:freifunk-policyrouting))
-
-$(eval $(call application,olsr,OLSR configuration and status module,\
-	+olsrd-mod-txtinfo))
-
-$(eval $(call application,olsr-viz,OLSR Visualisation,\
-	luci-app-olsr +olsrd-mod-txtinfo))
-
-$(eval $(call application,olsr-services,Show services announced with the nameservice plugin,\
-	luci-app-olsr +olsrd-mod-nameservice))
-
 $(eval $(call application,qos,Quality of Service configuration module,\
 	+PACKAGE_luci-app-qos:qos-scripts))
 
-$(eval $(call application,splash,Freifunk DHCP-Splash application,\
-	+luci-lib-nixio +tc +kmod-sched +iptables-mod-nat-extra +iptables-mod-ipopt))
+$(eval $(call application,commands,LuCI Shell Command Module))
 
-$(eval $(call application,p2pblock,LuCI Support for the Freifunk P2P-Block addon,\
-	luci-app-firewall +PACKAGE_luci-app-p2pblock:freifunk-p2pblock))
-
-
-### Server Gateway Interfaces ###
-define sgi
-  define Package/luci-sgi-$(1)
-    SECTION:=luci
-    CATEGORY:=LuCI
-    TITLE:=LuCI - Lua Configuration Interface
-    URL:=http://luci.subsignal.org/
-    MAINTAINER:=LuCI Development Team <luci@lists.subsignal.org>
-    SUBMENU:=7. Server Interfaces
-    TITLE:=$(if $(2),$(2),LuCI $(1) server gateway interface)
-	DEPENDS:=$(3)
-  endef
-
-  define Package/luci-sgi-$(1)/install
-	$(call Package/luci/install/template,$$(1),libs/sgi-$(1))
-  endef
-
-  ifneq ($(CONFIG_PACKAGE_luci-sgi-$(1)),)
-    LUCI_SELECTED_MODULES+=libs/sgi-$(1)
-  endif
-
-  LUCI_BUILD_PACKAGES += luci-sgi-$(1)
-endef
-
-$(eval $(call sgi,cgi,CGI Gateway behind existing Webserver))
-$(eval $(call sgi,uhttpd,Binding for the uHTTPd server,+uhttpd +uhttpd-mod-lua))
+$(eval $(call application,olsr-viz,OLSR Visualisation,\
+	+luci-app-olsr +olsrd-mod-txtinfo))
 
 
 ### Themes ###
@@ -377,9 +284,7 @@ define theme
     URL:=http://luci.subsignal.org/
     SUBMENU:=4. Themes
     TITLE:=$(if $(2),$(2),LuCI $(1) theme)
-	MAINTAINER:=$(if $(3),$(3),LuCI Development Team <luci@lists.subsignal.org>)
-	DEPENDS:=$(if $(filter-out base,$(1)),+luci-theme-base) $(4)
-	$(if $(5),DEFAULT:=PACKAGE_luci-lib-core)
+    MAINTAINER:=$(if $(3),$(3),LuCI Development Team <luci@lists.subsignal.org>)
   endef
 
   define Package/luci-theme-$(1)/install
@@ -393,7 +298,9 @@ define theme
   LUCI_BUILD_PACKAGES += luci-theme-$(1)
 endef
 
-$(eval $(call theme,base,Common base for all themes))
+$(eval $(call theme,openwrt,OpenWrt.org))
+$(eval $(call theme,bootstrap,Bootstrap Theme (default)))
+
 
 ### Translations ###
 define translation
@@ -418,7 +325,27 @@ define translation
   LUCI_BUILD_PACKAGES += luci-i18n-$(1)
 endef
 
+$(eval $(call translation,german,German))
 $(eval $(call translation,english,English))
+$(eval $(call translation,french,French (by Florian Fainelli)))
+$(eval $(call translation,italian,Italian (by Matteo Croce)))
+$(eval $(call translation,russian,Russian (by Skryabin Dmitry)))
+$(eval $(call translation,portuguese-brazilian,Portuguese (Brazilian) (by Carlos Cesario)))
+$(eval $(call translation,chinese,Chinese (by Chinese Translators)))
+$(eval $(call translation,japanese,Japanese (by Tsukasa Hamano)))
+$(eval $(call translation,greek,Greek (by Vasilis Tsiligiannis)))
+$(eval $(call translation,catalan,Catalan (by Eduard Duran)))
+$(eval $(call translation,portuguese,Portuguese (by Jose Monteiro)))
+$(eval $(call translation,spanish,Spanish (by Guillermo Javier Nardoni)))
+$(eval $(call translation,vietnamese,Vietnamese (by Hong Phuc Dang)))
+$(eval $(call translation,malay,Malay (by Teow Wai Chet)))
+$(eval $(call translation,norwegian,Norwegian (by Lars Hardy)))
+$(eval $(call translation,hebrew,Hebrew))
+$(eval $(call translation,romanian,Romanian))
+$(eval $(call translation,ukrainian,Ukrainian))
+$(eval $(call translation,hungarian,Hungarian))
+$(eval $(call translation,polish,Polish))
+
 
 ### Collections ###
 define collection
@@ -443,12 +370,12 @@ endef
 $(eval $(call collection,,\
 	Standard OpenWrt set including full admin with ppp support and the \
 	default OpenWrt theme,\
-	+uhttpd +luci-mod-admin-full +luci-theme-openwrt +luci-app-firewall \
-	+luci-proto-core +luci-proto-ppp +libiwinfo-lua))
+	+uhttpd +uhttpd-mod-ubus +luci-mod-admin-full +luci-theme-bootstrap \
+	+luci-app-firewall +luci-proto-ppp +libiwinfo-lua +luci-lib-nixio))
 
 $(eval $(call collection,ssl,\
 	Standard OpenWrt set with HTTPS support,\
-	+luci +uhttpd-mod-tls +px5g))
+	+luci +libustream-polarssl +px5g))
 
 $(eval $(call collection,light,\
 	Minimum package set using only admin mini and the standard theme,\
@@ -460,16 +387,22 @@ PKG_CONFIG_DEPENDS=$(patsubst %,CONFIG_PACKAGE_%,$(LUCI_BUILD_PACKAGES))
 
 include $(INCLUDE_DIR)/package.mk
 
-ifeq ($(USELOCAL),1)
-  define Build/Prepare
+define Build/Prepare
+	#@if [ ! -x $(PKG_BUILD_DIR)/build/mkrevision.sh ]; then \
+	#	echo "*** Repository layout changed!" >&2; \
+	#	echo "*** PKG_BUILD_DIR: $(PKG_BUILD_DIR)" >&2; \
+	#	echo "*** Please change the LuCI url in feeds.conf to http://svn.luci.subsignal.org/luci/trunk and reinstall the feed with" >&2; \
+	#	echo "*** ./scripts/feeds update luci; ./scripts/feeds install -a -p luci" >&2; \
+	#	exit 1; \
+	#fi
 	mkdir -p $(PKG_BUILD_DIR)
-	$(TAR) c -C ../../../ . \
+	$(TAR) c -C $(PKG_BUILD_DIR) . \
 		--exclude=.pc --exclude=.svn --exclude=.git \
-		--exclude='boa-0*' --exclude='*.o' --exclude='*.so' \
+		--exclude='*.o' --exclude='*.so' \
 		--exclude=dist | \
 			tar x -C $(PKG_BUILD_DIR)/
-  endef
-endif
+	$(call Build/Prepare/Default)
+endef
 
 define Build/Configure
 endef
