@@ -1,6 +1,6 @@
---- admin-full/luasrc/model/cbi/admin_network/wifi.lua.orig	2013-05-17 16:21:56.712967654 -0400
-+++ admin-full/luasrc/model/cbi/admin_network/wifi.lua	2013-05-17 16:18:08.879076509 -0400
-@@ -673,8 +673,8 @@ cipher:depends({encryption="wpa-mixed"})
+--- a/modules/admin-full/luasrc/model/cbi/admin_network/wifi.lua
++++ b/modules/admin-full/luasrc/model/cbi/admin_network/wifi.lua
+@@ -674,8 +674,8 @@ cipher:depends({encryption="wpa-mixed"})
  cipher:depends({encryption="psk-mixed"})
  cipher:value("auto", translate("auto"))
  cipher:value("ccmp", translate("Force CCMP (AES)"))
@@ -11,16 +11,18 @@
  
  function encr.cfgvalue(self, section)
  	local v = tostring(ListValue.cfgvalue(self, section))
-@@ -717,8 +717,6 @@ end
+@@ -718,8 +718,8 @@ end
  
  
- encr:value("none", translate("No Encryption"))
+ encr:value("none", "No Encryption")
 -encr:value("wep-open",   translate("WEP Open System"), {mode="ap"}, {mode="sta"}, {mode="ap-wds"}, {mode="sta-wds"}, {mode="adhoc"}, {mode="ahdemo"}, {mode="wds"})
 -encr:value("wep-shared", translate("WEP Shared Key"),  {mode="ap"}, {mode="sta"}, {mode="ap-wds"}, {mode="sta-wds"}, {mode="adhoc"}, {mode="ahdemo"}, {mode="wds"})
++--encr:value("wep-open",   translate("WEP Open System"), {mode="ap"}, {mode="sta"}, {mode="ap-wds"}, {mode="sta-wds"}, {mode="adhoc"}, {mode="ahdemo"}, {mode="wds"})
++--encr:value("wep-shared", translate("WEP Shared Key"),  {mode="ap"}, {mode="sta"}, {mode="ap-wds"}, {mode="sta-wds"}, {mode="adhoc"}, {mode="ahdemo"}, {mode="wds"})
  
  if hwtype == "atheros" or hwtype == "mac80211" or hwtype == "prism2" then
  	local supplicant = fs.access("/usr/sbin/wpa_supplicant")
-@@ -730,7 +728,7 @@ 
+@@ -731,7 +731,7 @@ if hwtype == "atheros" or hwtype == "mac
  
  	if hostapd and supplicant then
  		encr:value("psk", "WPA-PSK", {mode="ap"}, {mode="sta"}, {mode="ap-wds"}, {mode="sta-wds"})

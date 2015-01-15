@@ -1,6 +1,6 @@
---- libs/web/luasrc/dispatcher.lua	2013-10-11 14:46:09.553407012 -0400
-+++ libs/web/luasrc/dispatcher-cookies.lua	2013-10-11 14:49:51.833402451 -0400
-@@ -382,7 +382,7 @@
+--- a/modules/base/luasrc/dispatcher.lua
++++ b/modules/base/luasrc/dispatcher.lua
+@@ -382,7 +382,7 @@ function dispatch(request)
  						})
  						ctx.urltoken.stok = token
  					end
