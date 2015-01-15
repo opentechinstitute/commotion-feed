@@ -57,7 +57,8 @@ CONFIGURE_ARGS += \
 	--disable-gost \
 	--with-drill \
 	--without-ssl \
-	--disable-sha2
+	--disable-sha2 \
+	--disable-dane
 
 define Build/InstallDev
 	$(INSTALL_DIR) $(1)/usr/include
