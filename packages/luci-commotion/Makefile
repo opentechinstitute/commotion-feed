@@ -149,8 +149,8 @@ define Package/luci-commotion-apps
   SECTION:=commotion
   CATEGORY:=Commotion
   SUBMENU:=User Interface
-  DEPENDS:=+luci-mod-commotion +luci-theme-commotion +netcat \
-+commotiond +avahi-daemon +lua-helpers-validate +lua-helpers-encode \
+  DEPENDS:=+luci-mod-commotion +luci-theme-commotion \
++commotiond +lua-helpers-validate +lua-helpers-encode \
 +lua-helpers-util +commotion-service-manager
   TITLE:=Commotion Application Portal
   URL:=https://commotionwireless.net
@@ -161,25 +161,14 @@ define Package/luci-commotion-apps/description
 endef
 
 define Package/luci-commotion-apps/install
-	$(INSTALL_DIR) $(1)/etc/uci-defaults
-	$(INSTALL_DATA) $(PKG_BUILD_DIR)/files/etc/uci-defaults/luci-commotion-applications $(1)/etc/uci-defaults
 	$(INSTALL_DIR) $(1)/www/luci-static/commotion
 	$(CP) $(PKG_BUILD_DIR)/htdocs/luci-static/apps/* $(1)/www/luci-static/commotion/ || true
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/view/commotion
 	$(CP) $(PKG_BUILD_DIR)/luasrc/view/commotion/apps_* $(1)/usr/lib/lua/luci/view/commotion/ || true
-	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/view/themes/commotion
-	$(CP) $(PKG_BUILD_DIR)/luasrc/view/themes/commotion/apps_* $(1)/usr/lib/lua/luci/view/themes/commotion/ || true
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/model/cbi/commotion
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/luasrc/model/cbi/commotion/app_settings.lua $(1)/usr/lib/lua/luci/model/cbi/commotion
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/controller/commotion
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/luasrc/controller/commotion/apps_controller.lua $(1)/usr/lib/lua/luci/controller/commotion
-endef
-
-define Package/luci-commotion-apps/postinst
-#!/bin/sh
-[ -n "$${IPKG_INSTROOT}" ] || {
-	( . /etc/uci-defaults/luci-commotion-applications ) && rm -f /etc/uci-defaults/luci-commotion-applications
-}
 endef
 
 CO_BUILD_PACKAGES += luci-commotion-apps
