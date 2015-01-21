@@ -41,6 +41,10 @@ endef
 define Build/InstallDev
 	$(INSTALL_DIR) $(1)/usr/include
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/src/commotion.h $(1)/usr/include
+	$(INSTALL_DIR) $(1)/usr/include/commotion
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/src/*.h $(1)/usr/include/commotion
+	$(INSTALL_DIR) $(1)/usr/include/commotion/extern
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/src/extern/*.h $(1)/usr/include/commotion/extern
 	$(INSTALL_DIR) $(1)/usr/lib
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/libcommotion.so $(1)/usr/lib
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/plugins/libcommotion_serval-sas.so $(1)/usr/lib
