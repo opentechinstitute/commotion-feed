@@ -30,7 +30,7 @@ endef
 #Get and make the po2lmo po->lmo script
 define Build/Prepare
 	$(call Build/Prepare/Default,)
-	git clone -b luci-0.11 git://github.com/openwrt/luci.git
+	[ -d luci ] || git clone -b luci-0.11 git://github.com/openwrt/luci.git
 	$(CP) -r luci/libs/web/ $(PKG_BUILD_DIR)/po2lmo
 	$(MKDIR) $(PKG_BUILD_DIR)/lang
 	$(MAKE_po2lmo)
