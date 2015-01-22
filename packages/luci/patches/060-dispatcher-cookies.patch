@@ -1,0 +1,11 @@
+--- a/modules/base/luasrc/dispatcher.lua
++++ b/modules/base/luasrc/dispatcher.lua
+@@ -382,7 +382,7 @@ function dispatch(request)
+ 						})
+ 						ctx.urltoken.stok = token
+ 					end
+-					luci.http.header("Set-Cookie", "sysauth=" .. sid.."; path="..build_url())
++					luci.http.header("Set-Cookie", "sysauth=" .. sid.."; path="..build_url() .. "; secure; HttpOnly;")
+ 					ctx.authsession = sid
+ 					ctx.authuser = user
+ 				end

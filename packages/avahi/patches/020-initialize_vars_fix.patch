@@ -1,0 +1,13 @@
+--- a/avahi-core/browse-service.c
++++ b/avahi-core/browse-service.c
+@@ -61,7 +61,9 @@ static void record_browser_callback(
+     flags &= AVAHI_LOOKUP_RESULT_CACHED | AVAHI_LOOKUP_RESULT_MULTICAST | AVAHI_LOOKUP_RESULT_WIDE_AREA;
+ 
+     if (record) {
+-        char service[AVAHI_LABEL_MAX], type[AVAHI_DOMAIN_NAME_MAX], domain[AVAHI_DOMAIN_NAME_MAX];
++        char service[AVAHI_LABEL_MAX] = {'\0',};
++        char type[AVAHI_DOMAIN_NAME_MAX] = {'\0',};
++        char domain[AVAHI_DOMAIN_NAME_MAX] = {'\0',};
+ 
+         assert(record->key->type == AVAHI_DNS_TYPE_PTR);
+ 

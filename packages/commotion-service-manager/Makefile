@@ -11,6 +11,7 @@ PKG_SOURCE_VERSION:=$(PKG_VERSION)
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_SOURCE_VERSION).tar.gz
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
+PKG_BUILD_DEPENDS:=+argp-standalone
 
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/cmake.mk
@@ -23,7 +24,7 @@ define Package/$(PKG_NAME)
   SUBMENU:=Utilities
   TITLE:=Commotion Service Manager
   MAINTAINER:=Open Technology Institute
-  DEPENDS:=+libavahi +libuci +commotiond +libcommotion +commotion-plugins +commotion-mdp-client +libm +argp-standalone +liblua
+  DEPENDS:=+libavahi +libuci +commotiond +libcommotion +commotion-plugins +commotion-mdp-client +libm +liblua
   URL:=https://commotionwireless.net/
 endef
 

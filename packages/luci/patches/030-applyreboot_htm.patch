@@ -1,0 +1,15 @@
+--- a/modules/admin-full/luasrc/view/admin_system/applyreboot.htm
++++ b/modules/admin-full/luasrc/view/admin_system/applyreboot.htm
+@@ -24,10 +24,10 @@ $Id$
+ 
+ 				img.onload = function() {
+ 					window.clearInterval(interval);
+-					location.href = ('https:' == document.location.protocol ? 'https://' : 'http://') + '<%=addr or luci.http.getenv("SERVER_NAME")%>/';
++					location.href = ('https:' == document.location.protocol ? 'https://' : 'http://') + '<% if addr then %>thisnode<% else %><%=luci.http.getenv("SERVER_NAME")%><% end %>/';
+ 				};
+ 
+-				img.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + '<%=addr or luci.http.getenv("SERVER_NAME")%><%=resource%>/icons/loading.gif?' + Math.random();
++				img.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + '<% if addr then %>thisnode<% else %><%=luci.http.getenv("SERVER_NAME")%><% end %><%=resource%>/icons/loading.gif?' + Math.random();
+ 			}, 5000);
+ 		//]]></script>
+ 	</head>
