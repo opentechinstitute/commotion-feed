@@ -12,7 +12,7 @@ define Package/$(PKG_NAME)
   SUBMENU:=Collections
   DEPENDS:=+libcommotion +commotiond +commotion-client +commotion-debug-helper \
 +olsrd +olsrd-mod-arprefresh +olsrd-mod-nameservice +olsrd-mod-dnssd \
-+olsrd-mod-dyn-gw-plain +olsrd-mod-mdp +olsrd-mod-txtinfo \
++olsrd-mod-dyn-gw-plain +olsrd-mod-mdp +olsrd-mod-txtinfo +dnsmasq\
 +commotion-service-manager +crda +wpad-mini +freifunk-gwcheck \
 +patch +bridge +rng-tools +commotion-plugins +commotion-mdp-client
   TITLE:=Commotion
@@ -41,7 +41,7 @@ define Package/$(PKG_NAME)-gui
   DEPENDS:=+commotion +luci-mod-commotion +luci-proto-commotion \
 +luci-commotion-dashboard +olsrd-mod-jsoninfo +luci-commotion-apps \
 +luci-commotion-splash +luci-i18n-commotion +luci-theme-commotion \
-+luci-commotion-debug +luci-app-olsr +luci-app-olsr-viz
++luci-commotion-debug +luci-app-olsr +luci-app-olsr-viz +netcat
   TITLE:=Commotion GUI
   URL:=https://commotionwireless.net/
 endef
