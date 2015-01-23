@@ -46,7 +46,7 @@ define Package/$(PKG_NAME)-gui
   URL:=https://commotionwireless.net/
 endef
 
-define Package/$(PKG_NAME)/description
+define Package/$(PKG_NAME)-gui/description
   A metapackage that includes all available GUI Commotion packages.
 endef
 
@@ -56,7 +56,7 @@ endef
 define Build/Compile
 endef
 
-define Package/$(PKG_NAME)/install
+define Package/$(PKG_NAME)-gui/install
 	true
 endef
 CO_BUILD_PACKAGES += commotion-gui
