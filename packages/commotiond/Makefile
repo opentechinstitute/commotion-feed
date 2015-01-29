@@ -79,7 +79,6 @@ define Package/commotiond/install
 	$(INSTALL_DIR) $(1)/lib/netifd
 	$(INSTALL_DIR) $(1)/lib/netifd/proto
 	$(INSTALL_DIR) $(1)/lib/functions
-	$(INSTALL_DIR) $(1)/usr/share/commotion/patches
 	$(INSTALL_DIR) $(1)/usr/lib/commotion/plugins
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/commotiond $(1)/usr/sbin
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/openwrt/etc/uci-defaults/commotiond $(1)/etc/uci-defaults
@@ -88,7 +87,6 @@ define Package/commotiond/install
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/openwrt/lib/netifd/commotion.dhcp.script $(1)/lib/netifd
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/openwrt/lib/netifd/proto/commotion.sh $(1)/lib/netifd/proto
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/openwrt/lib/functions/commotion.sh $(1)/lib/functions
-	$(CP) $(PKG_BUILD_DIR)/openwrt/usr/share/commotion/patches/* $(1)/usr/share/commotion/patches/
 	$(CP) $(PKG_BUILD_DIR)/files/commotiond.conf $(1)/etc/commotion/
 endef
 
