@@ -271,8 +271,11 @@ $(eval $(call application,qos,Quality of Service configuration module,\
 
 $(eval $(call application,commands,LuCI Shell Command Module))
 
+$(eval $(call application,olsr,OLSR Configuration Interface,\
+	+PACKAGE_luci-app-olsr:olsrd +PACKAGE_luci-app-olsr:olsrd-mod-jsoninfo))
+
 $(eval $(call application,olsr-viz,OLSR Visualisation,\
-	+luci-app-olsr +olsrd-mod-txtinfo))
+	+PACKAGE_luci-app-olsr-viz:luci-app-olsr +PACKAGE_luci-app-olsr-viz:olsrd-mod-txtinfo))
 
 
 ### Themes ###
