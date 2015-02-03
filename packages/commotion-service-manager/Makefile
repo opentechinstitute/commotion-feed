@@ -24,7 +24,7 @@ define Package/$(PKG_NAME)
   SUBMENU:=Utilities
   TITLE:=Commotion Service Manager
   MAINTAINER:=Open Technology Institute
-  DEPENDS:=+libavahi +libuci +commotiond +libcommotion +commotion-plugins +commotion-mdp-client +libm +liblua
+  DEPENDS:=+libavahi +libuci +commotiond +libcommotion +commotion-plugins +commotion-mdp-client +liblua
   URL:=https://commotionwireless.net/
 endef
 

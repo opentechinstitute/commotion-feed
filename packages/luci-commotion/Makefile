@@ -119,7 +119,7 @@ define Package/luci-theme-commotion
   SECTION:=commotion
   CATEGORY:=Commotion
   SUBMENU:=User Interface
-  DEPENDS:=+luci-theme-base +lua-helpers-crypto
+  DEPENDS:=+luci +lua-helpers-crypto
   TITLE:=LuCI Theme - Commotion
   URL:=https://www.commotionwireless.net/
 endef
@@ -227,7 +227,7 @@ define Package/commotion-dashboard-helper
 	SECTION:=commotion
 	CATEGORY:=Commotion
   SUBMENU:=Utilities
-	DEPENDS:=+luci-lib-httpclient +luci-lib-nixio +luci-lib-sys +lua-helpers-debugger +luci-lib-core
+	DEPENDS:=+luci-lib-httpclient +luci-lib-nixio +lua-helpers-debugger
 	TITLE:=Commotion Dashboard Helper
 	URL:=https://commotionwireless.net
 endef
