@@ -41,7 +41,7 @@ endef
 
 define Package/luci-mod-commotion/install
 	$(INSTALL_DIR) $(1)/etc/uci-defaults
-	$(INSTALL_DATA) $(PKG_BUILD_DIR)/files/etc/uci-defaults/luci-mod-commotion $(1)/etc/uci-defaults
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/etc/uci-defaults/luci-mod-commotion $(1)/etc/uci-defaults
 	$(INSTALL_DIR) $(1)/etc/config
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/files/etc/config/setup_wizard $(1)/etc/config
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/files/etc/config/serval $(1)/etc/config
@@ -126,7 +126,7 @@ endef
 
 define Package/luci-theme-commotion/install
 	$(INSTALL_DIR) $(1)/etc/uci-defaults
-	$(INSTALL_DATA) $(PKG_BUILD_DIR)/files/etc/uci-defaults/luci-theme-commotion $(1)/etc/uci-defaults
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/etc/uci-defaults/luci-theme-commotion $(1)/etc/uci-defaults
 	$(INSTALL_DIR) $(1)/www/luci-static/commotion
 	$(CP) $(PKG_BUILD_DIR)/htdocs/luci-static/commotion/* $(1)/www/luci-static/commotion/ 2>/dev/null || true
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/view/themes/commotion
