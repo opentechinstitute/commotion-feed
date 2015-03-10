@@ -5,7 +5,7 @@ PKG_RELEASE:=1
 PKG_BRANCH:=0.12
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_URL:=https://github.com/openwrt/luci.git
+PKG_SOURCE_URL:=https://github.com/opentechinstitute/luci.git
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_BRANCH)
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)/$(PKG_SOURCE_SUBDIR)
 PKG_SOURCE_VERSION:=luci-$(PKG_BRANCH)
