@@ -47,7 +47,7 @@ define Package/luci-mod-commotion/install
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/files/etc/config/serval $(1)/etc/config
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/etc/init.d/hostname $(1)/etc/init.d
-	$(INSTALL_DIR) $(1)/usr/share/commotion/files
+	$(INSTALL_DIR) $(1)/usr/share/commotion/files	
 	$(CP) $(PKG_BUILD_DIR)/files/usr/share/commotion/files/* $(1)/usr/share/commotion/files/ 2>/dev/null || true
 	$(INSTALL_DIR) $(1)/usr/share/commotion/patches
 	$(CP) $(PKG_BUILD_DIR)/files/usr/share/commotion/patches/* $(1)/usr/share/commotion/patches/ 2>/dev/null || true
@@ -82,6 +82,10 @@ define Package/luci-mod-commotion/install
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/htdocs/luci-static/commotion_index.html $(1)/www/luci-static/
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/htdocs/luci-static/resources/OSMLatLon.htm $(1)/www/luci-static/resources/
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/htdocs/luci-static/resources/osm.js $(1)/www/luci-static/resources/
+	$(INSTALL_DIR) $(1)/lib/upgrade/commotion/
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/lib/upgrade/commotion/upgrade.awk $(1)/lib/upgrade/commotion/
+	$(INSTALL_DIR) $(1)/sbin/
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/sbin/commotion-upgrade $(1)/sbin/
 endef
 
 define Package/luci-mod-commotion/postinst
