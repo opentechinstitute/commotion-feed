@@ -30,7 +30,7 @@ start_service() {
 	config_foreach dnsproxy_config dnsproxy
 
 	procd_open_instance
-	procd_set_param command "$DAEMON" -n -p "$PORT" -s "$SPORT" -i "$IFACE" -p "$PID"
+	procd_set_param command "$DAEMON" -n -b "$PORT" -s "$SPORT" -i "$IFACE" -p "$PID"
 	procd_set_param respawn
 	procd_close_instance
 }
