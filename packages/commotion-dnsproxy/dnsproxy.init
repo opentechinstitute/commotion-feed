@@ -1,0 +1,36 @@
+#!/bin/sh /etc/rc.common
+
+USE_PROCD=1
+
+START=61
+
+DAEMON="/usr/sbin/dnsproxy"
+PORT="53"
+SPORT="53530"
+IFACE="br-lan"
+PID="/var/run/dnsproxy.pid"
+
+dnsproxy_config() {
+	local config="$1"
+
+	config_get PORT "$config" port "$PORT"
+	config_get SPORT "$config" server_port "$SPORT"
+	config_get IFACE "$config" interface "$IFACE"
+	
+	return 1
+}
+
+service_triggers() {
+	procd_add_reload_trigger "dnsproxy"
+}
+
+start_service() {
+	
+	config_load dnsproxy
+	config_foreach dnsproxy_config dnsproxy
+
+	procd_open_instance
+	procd_set_param command "$DAEMON" -n -p "$PORT" -s "$SPORT" -i "$IFACE" -p "$PID"
+	procd_set_param respawn
+	procd_close_instance
+}
