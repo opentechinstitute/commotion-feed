@@ -36,9 +36,9 @@ define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/usr/sbin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/dnsproxy $(1)/usr/sbin/dnsproxy
 	$(INSTALL_DIR) $(1)/etc/init.d
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/dnsproxy.init $(1)/etc/init.d/dnsproxy
+	$(INSTALL_BIN) ./dnsproxy.init $(1)/etc/init.d/dnsproxy
 	$(INSTALL_DIR) $(1)/etc/config
-	$(INSTALL_DATA) $(PKG_BUILD_DIR)/dnsproxy.config $(1)/etc/config/dnsproxy
+	$(INSTALL_DATA) ./dnsproxy.config $(1)/etc/config/dnsproxy
 endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)))
