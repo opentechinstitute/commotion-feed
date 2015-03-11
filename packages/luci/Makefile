@@ -263,6 +263,12 @@ define Package/luci-app-olsr-viz/extra-install
 	$(CP) ./files/* $$(1)/
 endef
 
+define Package/luci-app-splash/conffiles
+	/etc/config/luci_splash
+	/usr/lib/luci-splash/splashtext.html
+	/usr/lib/luci-splash/splashtextinclude.html
+endef
+
 $(eval $(call application,firewall,Firewall and Portforwarding application,\
 	+PACKAGE_luci-app-firewall:firewall))
 
@@ -273,6 +279,11 @@ $(eval $(call application,commands,LuCI Shell Command Module))
 
 $(eval $(call application,olsr,OLSR Configuration Interface,\
 	+PACKAGE_luci-app-olsr:olsrd +PACKAGE_luci-app-olsr:olsrd-mod-jsoninfo))
+
+$(eval $(call application,splash,LuCI Captive Portal,\
+	+PACKAGE_luci-app-splash:luci-lib-nixio +PACKAGE_luci-app-splash:tc \
+	+PACKAGE_luci-app-splash:kmod-sched +PACKAGE_luci-app-splash:iptables-mod-nat-extra \
+	+PACKAGE_luci-app-splash:iptables-mod-ipopt))
 
 $(eval $(call application,olsr-viz,OLSR Visualisation,\
 	+PACKAGE_luci-app-olsr-viz:luci-app-olsr +PACKAGE_luci-app-olsr-viz:olsrd-mod-txtinfo))
