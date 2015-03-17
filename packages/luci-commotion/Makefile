@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-commotion
-PKG_VERSION:=upgrade-util
+PKG_VERSION:=master
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
@@ -47,7 +47,7 @@ define Package/luci-mod-commotion/install
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/files/etc/config/serval $(1)/etc/config
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/etc/init.d/hostname $(1)/etc/init.d
-	$(INSTALL_DIR) $(1)/usr/share/commotion/files	
+	$(INSTALL_DIR) $(1)/usr/share/commotion/files
 	$(CP) $(PKG_BUILD_DIR)/files/usr/share/commotion/files/* $(1)/usr/share/commotion/files/ 2>/dev/null || true
 	$(INSTALL_DIR) $(1)/usr/share/commotion/patches
 	$(CP) $(PKG_BUILD_DIR)/files/usr/share/commotion/patches/* $(1)/usr/share/commotion/patches/ 2>/dev/null || true
