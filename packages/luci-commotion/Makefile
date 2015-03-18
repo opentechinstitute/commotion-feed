@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-commotion
-PKG_VERSION:=master
+PKG_VERSION:=commotion-splash
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
