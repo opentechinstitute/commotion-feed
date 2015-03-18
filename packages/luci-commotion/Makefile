@@ -177,7 +177,7 @@ define Package/luci-commotion-splash
   SECTION:=commotion
   CATEGORY:=Commotion
   SUBMENU:=User Interface
-  DEPENDS:=+luci-mod-commotion +lua-helpers-encode +lua-helpers-util +lua-helpers-debugger +lua-helpers-validate +lua-helpers-network
+  DEPENDS:=+luci-mod-commotion +lua-helpers-encode +lua-helpers-util +lua-helpers-debugger +lua-helpers-validate +lua-helpers-network +iptables-mod-extra +kmod-ipt-extra
   TITLE:=Commotion Captive Portal
   URL:=https://commotionwireless.net
 endef
