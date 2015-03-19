@@ -206,18 +206,22 @@ define Package/luci-commotion-splash/install
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/usr/sbin/luci-splash $(1)/usr/sbin/
 	$(INSTALL_DIR) $(1)/etc/config
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/files/etc/config/luci_splash $(1)/etc/config/
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/files/etc/config/luci_splash_leases $(1)/etc/config/
+	$(INSTALL_DIR) $(1)/etc/hotplug.d/iface
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/etc/hotplug.d/iface/25-splash $(1)/etc/hotplug.d/iface
 	$(INSTALL_DIR) $(1)/www/luci-static/commotion
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/htdocs/commotion/apps.128.png $(1)/www/luci-static/commotion
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/htdocs/commotion/internet.128.png $(1)/www/luci-static/commotion
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/htdocs/commotion/local.128.png $(1)/www/luci-static/commotion
 	$(INSTALL_DIR) $(1)/www/cgi-bin/splash
-	$(INSTALL_DATA) $(PKG_BUILD_DIR)/htdocs/cgi-bin/splash/splash.sh $(1)/www/cgi-bin/splash
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/htdocs/cgi-bin/splash/splash.sh $(1)/www/cgi-bin/splash
 endef
 
 define Package/luci-commotion-splash/postinst
 #!/bin/sh
 [ -n "$${IPKG_INSTROOT}" ] || {
-        ( . /etc/uci-defaults/luci-commotion-splash ) && rm -f /etc/uci-defaults/luci-commotion-splash
+				/etc/init.d/luci_splash enabled || /etc/init.d/luci_splash enable
+				exit 0
 }
 endef
 
