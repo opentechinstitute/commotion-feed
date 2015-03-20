@@ -260,7 +260,7 @@ define application
 endef
 
 define Package/luci-app-olsr-viz/extra-install
-	$(CP) ./files/* $$(1)/
+	$(CP) -a ./files/* $$(1)/ -R
 endef
 
 define Package/luci-app-splash/conffiles
