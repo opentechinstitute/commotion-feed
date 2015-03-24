@@ -13,7 +13,7 @@ PKG_SOURCE:=$(PKG_NAME)-$(PKG_BRANCH).tar.gz
 
 PKG_BUILD_PARALLEL:=0
 
-PKG_VERSION:=0.12
+PKG_VERSION:=0.12+commotion
 #PKG_VERSION:=$(PKG_BRANCH)+$(shell $(PKG_BUILD_DIR)/build/mkrevision.sh 2>/dev/null || echo unknown)
 
 PKG_BUILD_DEPENDS:=$(if $(STAGING_DIR_ROOT),lua/host) iwinfo
