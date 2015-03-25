@@ -260,7 +260,10 @@ define application
 endef
 
 define Package/luci-app-olsr-viz/extra-install
-	$(CP) -a ./files/* $$(1)/ -R
+	$(INSTALL_BIN) ./files/www/cgi-bin/olsr-viz.sh $$(1)/www/cgi-bin/
+	$(INSTALL_DATA) ./files/www/luci-static/resources/olsr-viz/node-mini.gif $$(1)/www/luci-static/resources/olsr-viz/
+	$(INSTALL_DATA) ./files/www/luci-static/resources/olsr-viz/node-hna-mini.gif $$(1)/www/luci-static/resources/olsr-viz/
+	$(INSTALL_DATA) ./files/www/luci-static/resources/olsr-viz/olsr-viz.js $$(1)/www/luci-static/resources/olsr-viz/
 endef
 
 define Package/luci-app-splash/conffiles
