@@ -183,7 +183,7 @@ define Package/luci-commotion-splash
 endef
 
 define Package/luci-commotion-splash/description
-  Provides a LuCI interface for the Nodogsplash captive portal software
+  A version of the luci_splash captive portal, customized for Commotion.
 endef
 
 define Package/luci-commotion-splash/install
@@ -191,15 +191,14 @@ define Package/luci-commotion-splash/install
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/luasrc/controller/commotion-splash/splash.lua $(1)/usr/lib/lua/luci/controller/commotion-splash
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/model/cbi/commotion-splash
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/luasrc/model/cbi/commotion-splash/splash_settings.lua $(1)/usr/lib/lua/luci/model/cbi/commotion-splash
-	$(INSTALL_DATA) $(PKG_BUILD_DIR)/luasrc/model/cbi/commotion-splash/splashtext.lua $(1)/usr/lib/lua/luci/model/cbi/commotion-splash
+	$(INSTALL_DIR) $(1)/usr/lib/commotion-splash
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/view/commotion-splash
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/luasrc/view/commotion-splash/splash.htm $(1)/usr/lib/lua/luci/view/commotion-splash
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/luasrc/view/commotion-splash/blocked.htm $(1)/usr/lib/lua/luci/view/commotion-splash
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/luasrc/view/commotion-splash/splash_settings.htm $(1)/usr/lib/lua/luci/view/commotion-splash
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/luasrc/view/commotion-splash/splashtext.htm $(1)/usr/lib/lua/luci/view/commotion-splash
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/view/admin_status
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/luasrc/view/admin_status/splash.htm $(1)/usr/lib/lua/luci/view/admin_status
-	$(INSTALL_DIR) $(1)/usr/share/commotion/files
-	$(INSTALL_DATA) $(PKG_BUILD_DIR)/files/usr/share/commotion/files/splash.html $(1)/usr/share/commotion/files
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/etc/init.d/luci_splash $(1)/etc/init.d/
 	$(INSTALL_DIR) $(1)/usr/sbin/
