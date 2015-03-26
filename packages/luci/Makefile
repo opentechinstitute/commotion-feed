@@ -13,7 +13,7 @@ PKG_SOURCE:=$(PKG_NAME)-$(PKG_BRANCH).tar.gz
 
 PKG_BUILD_PARALLEL:=0
 
-PKG_VERSION:=0.12
+PKG_VERSION:=0.12-commotion
 #PKG_VERSION:=$(PKG_BRANCH)+$(shell $(PKG_BUILD_DIR)/build/mkrevision.sh 2>/dev/null || echo unknown)
 
 PKG_BUILD_DEPENDS:=$(if $(STAGING_DIR_ROOT),lua/host) iwinfo
@@ -260,7 +260,16 @@ define application
 endef
 
 define Package/luci-app-olsr-viz/extra-install
-	$(CP) ./files/* $$(1)/
+	$(INSTALL_BIN) ./files/www/cgi-bin/olsr-viz.sh $$(1)/www/cgi-bin/
+	$(INSTALL_DATA) ./files/www/luci-static/resources/olsr-viz/node-mini.gif $$(1)/www/luci-static/resources/olsr-viz/
+	$(INSTALL_DATA) ./files/www/luci-static/resources/olsr-viz/node-hna-mini.gif $$(1)/www/luci-static/resources/olsr-viz/
+	$(INSTALL_DATA) ./files/www/luci-static/resources/olsr-viz/olsr-viz.js $$(1)/www/luci-static/resources/olsr-viz/
+endef
+
+define Package/luci-app-splash/conffiles
+	/etc/config/luci_splash
+	/usr/lib/luci-splash/splashtext.html
+	/usr/lib/luci-splash/splashtextinclude.html
 endef
 
 $(eval $(call application,firewall,Firewall and Portforwarding application,\
@@ -273,6 +282,11 @@ $(eval $(call application,commands,LuCI Shell Command Module))
 
 $(eval $(call application,olsr,OLSR Configuration Interface,\
 	+PACKAGE_luci-app-olsr:olsrd +PACKAGE_luci-app-olsr:olsrd-mod-jsoninfo))
+
+$(eval $(call application,splash,LuCI Captive Portal,\
+	+PACKAGE_luci-app-splash:luci-lib-nixio +PACKAGE_luci-app-splash:tc \
+	+PACKAGE_luci-app-splash:kmod-sched +PACKAGE_luci-app-splash:iptables-mod-nat-extra \
+	+PACKAGE_luci-app-splash:iptables-mod-ipopt))
 
 $(eval $(call application,olsr-viz,OLSR Visualisation,\
 	+PACKAGE_luci-app-olsr-viz:luci-app-olsr +PACKAGE_luci-app-olsr-viz:olsrd-mod-txtinfo))

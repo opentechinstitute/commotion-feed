@@ -181,47 +181,50 @@ define Package/luci-commotion-splash
   SECTION:=commotion
   CATEGORY:=Commotion
   SUBMENU:=User Interface
-  DEPENDS:=+nodogsplash +luci-mod-commotion +lua-helpers-encode +lua-helpers-util +lua-helpers-debugger +lua-helpers-validate +lua-helpers-network
+  DEPENDS:=+luci-mod-commotion +lua-helpers-encode +lua-helpers-util +lua-helpers-debugger +lua-helpers-validate +lua-helpers-network +iptables-mod-extra +kmod-ipt-extra
   TITLE:=Commotion Captive Portal
   URL:=https://commotionwireless.net
 endef
 
 define Package/luci-commotion-splash/description
-  Provides a LuCI interface for the Nodogsplash captive portal software
+  A version of the luci_splash captive portal, customized for Commotion.
 endef
 
 define Package/luci-commotion-splash/install
-	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/commotion
-	$(INSTALL_DATA) $(PKG_BUILD_DIR)/luasrc/commotion/nds_config.lua $(1)/usr/lib/lua/luci/commotion
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/controller/commotion-splash
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/luasrc/controller/commotion-splash/splash.lua $(1)/usr/lib/lua/luci/controller/commotion-splash
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/model/cbi/commotion-splash
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/luasrc/model/cbi/commotion-splash/splash_settings.lua $(1)/usr/lib/lua/luci/model/cbi/commotion-splash
-	$(INSTALL_DATA) $(PKG_BUILD_DIR)/luasrc/model/cbi/commotion-splash/splashtext.lua $(1)/usr/lib/lua/luci/model/cbi/commotion-splash
+	$(INSTALL_DIR) $(1)/usr/lib/commotion-splash
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/view/commotion-splash
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/luasrc/view/commotion-splash/splash.htm $(1)/usr/lib/lua/luci/view/commotion-splash
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/luasrc/view/commotion-splash/blocked.htm $(1)/usr/lib/lua/luci/view/commotion-splash
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/luasrc/view/commotion-splash/splash_settings.htm $(1)/usr/lib/lua/luci/view/commotion-splash
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/luasrc/view/commotion-splash/splashtext.htm $(1)/usr/lib/lua/luci/view/commotion-splash
-	$(INSTALL_DIR) $(1)/usr/share/commotion/files
-	$(INSTALL_DATA) $(PKG_BUILD_DIR)/files/usr/share/commotion/files/splash.html $(1)/usr/share/commotion/files
-	$(INSTALL_DIR) $(1)/etc/uci-defaults
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/etc/uci-defaults/luci-commotion-splash $(1)/etc/uci-defaults/
+	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/view/admin_status
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/luasrc/view/admin_status/splash.htm $(1)/usr/lib/lua/luci/view/admin_status
 	$(INSTALL_DIR) $(1)/etc/init.d
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/etc/init.d/ucidog $(1)/etc/init.d/
-	$(INSTALL_DIR) $(1)/usr/bin/
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/usr/bin/uci2nds.lua $(1)/usr/bin/
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/etc/init.d/luci_splash $(1)/etc/init.d/
+	$(INSTALL_DIR) $(1)/usr/sbin/
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/usr/sbin/luci-splash $(1)/usr/sbin/
 	$(INSTALL_DIR) $(1)/etc/config
-	$(INSTALL_DATA) $(PKG_BUILD_DIR)/files/etc/config/nodogsplash $(1)/etc/config/
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/files/etc/config/luci_splash $(1)/etc/config/
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/files/etc/config/luci_splash_leases $(1)/etc/config/
+	$(INSTALL_DIR) $(1)/etc/hotplug.d/iface
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/etc/hotplug.d/iface/25-splash $(1)/etc/hotplug.d/iface
 	$(INSTALL_DIR) $(1)/www/luci-static/commotion
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/htdocs/commotion/apps.128.png $(1)/www/luci-static/commotion
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/htdocs/commotion/internet.128.png $(1)/www/luci-static/commotion
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/htdocs/commotion/local.128.png $(1)/www/luci-static/commotion
+	$(INSTALL_DIR) $(1)/www/cgi-bin/splash
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/htdocs/cgi-bin/splash/splash.sh $(1)/www/cgi-bin/splash
 endef
 
 define Package/luci-commotion-splash/postinst
 #!/bin/sh
 [ -n "$${IPKG_INSTROOT}" ] || {
-        ( . /etc/uci-defaults/luci-commotion-splash ) && rm -f /etc/uci-defaults/luci-commotion-splash
+				/etc/init.d/luci_splash enabled || /etc/init.d/luci_splash enable
+				exit 0
 }
 endef
 
