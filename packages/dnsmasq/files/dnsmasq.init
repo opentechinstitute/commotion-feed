@@ -144,6 +144,7 @@ dnsmasq() {
 	append_parm "$cfg" "tftp_root" "--tftp-root"
 	append_parm "$cfg" "dhcp_boot" "--dhcp-boot"
 	append_parm "$cfg" "local_ttl" "--local-ttl"
+	append_parm "$cfg" "dhcp_relay" "--dhcp-relay"
 
 	config_get DOMAIN "$cfg" domain
 

@@ -75,7 +75,7 @@ endef
 Package/dnsmasq-dhcpv6/conffiles = $(Package/dnsmasq/conffiles)
 Package/dnsmasq-full/conffiles = $(Package/dnsmasq/conffiles)
 
-TARGET_CFLAGS += -ffunction-sections -fdata-sections
+TARGET_CFLAGS += -ffunction-sections -fdata-sections -fno-merge-constants
 TARGET_LDFLAGS += -Wl,--gc-sections
 
 COPTS = $(if $(CONFIG_IPV6),,-DNO_IPV6)
