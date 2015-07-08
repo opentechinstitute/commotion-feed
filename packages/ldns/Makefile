@@ -60,6 +60,11 @@ CONFIGURE_ARGS += \
 	--disable-sha2 \
 	--disable-dane
 
+define Build/Prepare
+	$(Build/Prepare/Default)
+	sed -i 's/defined(@\$also)/@$also/' $(PKG_BUILD_DIR)/doc/doxyparse.pl
+endef
+
 define Build/InstallDev
 	$(INSTALL_DIR) $(1)/usr/include
 	$(CP) $(PKG_INSTALL_DIR)/usr/include/ldns $(1)/usr/include/
