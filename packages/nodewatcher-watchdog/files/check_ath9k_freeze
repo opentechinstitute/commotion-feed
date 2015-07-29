@@ -1,0 +1,11 @@
+#!/bin/sh
+
+FAIL_MATCH="qdepth:  0 ampdu-depth:  0 pending: 123 stopped: 1"
+FAIL_FILES="/sys/kernel/debug/ieee80211/phy*/ath9k/queues"
+if [ "`grep "${FAIL_MATCH}" ${FAIL_FILES}`" != "" ]; then
+  logger "nodewatcher: ath9k freeze detected, rebooting in 30 seconds"
+  sleep 30
+  logger "nodewatcher: ath9k freeze detected, rebooting"
+  reboot
+fi
+

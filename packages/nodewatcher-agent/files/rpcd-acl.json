@@ -1,0 +1,12 @@
+{
+	"unauthenticated": {
+		"description": "Functions allowed for unauthenticated requests",
+		"read": {
+			"ubus": {
+				"nodewatcher.agent": [
+					"get_data"
+				]
+			}
+		}
+	}
+}
