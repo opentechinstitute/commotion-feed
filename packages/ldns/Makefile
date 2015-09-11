@@ -7,13 +7,11 @@
 
 include $(TOPDIR)/rules.mk
 
-LDNS_VERSION:=1.6.17
-
 PKG_NAME:=ldns
-PKG_VERSION:=$(LDNS_VERSION)-commotion
+PKG_VERSION:=1.6.17
 PKG_RELEASE:=1
 
-PKG_SOURCE:=$(PKG_NAME)-$(LDNS_VERSION).tar.gz
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=http://www.nlnetlabs.nl/downloads/ldns
 PKG_MD5SUM:=a79423bcc4129e6d59b616b1cae11e5e
 
