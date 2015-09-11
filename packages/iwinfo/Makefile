@@ -8,7 +8,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=libiwinfo
 PKG_VERSION:=2015-06-12
-PKG_RELEASE=$(PKG_SOURCE_VERSION)
+PKG_RELEASE=commotion-$(PKG_SOURCE_VERSION)
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://github.com/wlanslovenija/iwinfo.git

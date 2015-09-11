@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=cyassl
 PKG_VERSION:=3.3.0
-PKG_RELEASE:=2
+PKG_RELEASE:=commotion-2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).zip
 PKG_SOURCE_URL:=http://www.yassl.com/

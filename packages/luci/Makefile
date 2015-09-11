@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci
-PKG_RELEASE:=1
+PKG_RELEASE:=commotion-1
 PKG_BRANCH:=0.12
 
 PKG_SOURCE_PROTO:=git
