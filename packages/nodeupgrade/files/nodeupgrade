@@ -1,0 +1,127 @@
+#!/bin/sh
+
+. /lib/functions.sh
+. /usr/share/libubox/jshn.sh
+
+# List of files to keep after upgrade.
+KEEP_FILES="/etc/crypto/private_key/identity /etc/crypto/certificate/identity /etc/dropbear/dropbear_dss_host_key /etc/dropbear/dropbear_rsa_host_key"
+
+# Location of sysupgrade archive.
+SYSUPGRADE_ARCHIVE="/tmp/nodeupgrade.tgz"
+
+if [ -z "$1" ]; then
+  echo "Usage: $0 <image file or UUID>"
+  exit 1
+fi
+
+nodeupgrade_get()
+{
+  local filename=$1
+  local output=$2
+
+  scp -P ${NODEUPGRADE_PORT} -i ${NODEUPGRADE_PRIVATE_KEY} ${NODEUPGRADE_USER}@${NODEUPGRADE_SERVER}:/files/generator/${FIRMWARE_UUID}/${filename} ${output}
+}
+
+# If the file exists, assume the argument is a filename. Otherwise assume it is UUID.
+FIRMWARE_FILENAME=""
+if [ -f $1 ]; then
+  FIRMWARE_FILENAME="$1"
+else
+  FIRMWARE_UUID="$1"
+
+  # Load nodeupgrade configuration.
+  NODEUPGRADE_SERVER=$(uci get nodeupgrade.@nodeupgrade[0].server)
+  NODEUPGRADE_PORT=$(uci get nodeupgrade.@nodeupgrade[0].port)
+  NODEUPGRADE_USER=$(uci get nodeupgrade.@nodeupgrade[0].user)
+  NODEUPGRADE_PRIVATE_KEY=$(uci get nodeupgrade.@nodeupgrade[0].private_key)
+  NODEUPGRADE_SERVER_PUBLIC_KEY=$(uci get nodeupgrade.@nodeupgrade[0].server_public_key)
+
+  MY_NODE_UUID="$(uci get system.@system[0].uuid)"
+
+  if [ -z "${NODEUPGRADE_SERVER}" ]; then
+    echo "ERROR: Build result UUID passed as argument, but server not configured."
+    exit 1
+  fi
+
+  # Configure known public key.
+  mkdir -p /tmp/.ssh
+  echo "${NODEUPGRADE_SERVER} $(cat ${NODEUPGRADE_SERVER_PUBLIC_KEY})" > /tmp/.ssh/known_hosts
+
+  # Fetch manifest.
+  echo ">>> Downloading build result manifest..."
+  local manifest="/tmp/.nodeupgrade-${FIRMWARE_UUID}-manifest.json"
+  nodeupgrade_get manifest.json ${manifest} 2>/dev/null || {
+    echo "ERROR: Unable to fetch build result manifest for '${FIRMWARE_UUID}'."
+    exit 1
+  }
+
+  # Parse the manifest and select a suitable firmware file to download.
+  echo ">>> Loading build result manifest..."
+  local selected_filename selected_checksum_md5
+  json_load "$(cat ${manifest})"
+  json_select files
+  json_get_keys manifest_indices
+  for index in ${manifest_indices}; do
+    json_select ${index}
+    json_get_vars filename checksum_md5
+
+    # Select firmware image.
+    if [[ -z "${selected_filename}" ]] || [[ ${selected_filename} == *sysupgrade* ]]; then
+      selected_filename="${filename}"
+      selected_checksum_md5="${checksum_md5}"
+    fi
+
+    json_select ..
+  done
+  json_select ..
+
+  # Verify that the upgrade is for a correct node.
+  local node_uuid node_name
+  json_select node
+  json_get_var node_uuid uuid
+  json_get_var node_name name
+  if [ "${MY_NODE_UUID}" != "${node_uuid}" ]; then
+    echo "ERROR: This firmware is for node '${node_name}' (${node_uuid})."
+    echo "       You are trying to install on node with UUID '${MY_NODE_UUID}'."
+    exit 1
+  fi
+  json_select ..
+
+  if [ -z "${selected_filename}" ]; then
+    echo "ERROR: No suitable firmware images found."
+    exit 1
+  fi
+
+  # Download firmware image.
+  echo ">>> Downloading firmware image '${selected_filename}'..."
+  FIRMWARE_FILENAME="/tmp/.nodeupgrade.firmware.bin"
+  nodeupgrade_get "${selected_filename}" ${FIRMWARE_FILENAME} 2>/dev/null || {
+    echo "ERROR: Unable to download firmware image."
+    exit 1
+  }
+
+  # Verify checksum.
+  echo ">>> Verifying checksum..."
+  if [ "$(md5sum ${FIRMWARE_FILENAME} | cut -d ' ' -f 1)" != "${selected_checksum_md5}" ]; then
+    echo "ERROR: Checksum verification failed."
+    exit 1
+  fi
+
+  echo ">>> Got firmware image. Proceeding with upgrade."
+fi
+
+# Archive files.
+echo ">>> Archiving files."
+TMPFILE=/tmp/nodeupgrade.files
+for file in ${KEEP_FILES}; do
+  echo ${file} >> ${TMPFILE}
+done
+
+rm -f "${SYSUPGRADE_ARCHIVE}"
+tar cpzf "${SYSUPGRADE_ARCHIVE}" -T "${TMPFILE}" 2>/dev/null
+rm -f "${TMPFILE}"
+
+# Perform the upgrade.
+echo ">>> Doing sysupgrade."
+sysupgrade -f "${SYSUPGRADE_ARCHIVE}" "$FIRMWARE_FILENAME"
+

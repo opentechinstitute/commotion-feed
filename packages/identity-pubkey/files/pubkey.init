@@ -1,0 +1,22 @@
+#!/bin/sh /etc/rc.common
+
+START=35
+
+IDENTITY_KEY_FILE=/etc/crypto/private_key/identity
+IDENTITY_CERTIFICATE_FILE=/etc/crypto/certificate/identity
+
+start() {
+	if [[ ! -f ${IDENTITY_KEY_FILE} || ! -f ${IDENTITY_CERTIFICATE_FILE} ]]; then
+		# Generate a new node identity if one does not yet exist.
+		mkdir -p $(dirname ${IDENTITY_KEY_FILE})
+		mkdir -p $(dirname ${IDENTITY_CERTIFICATE_FILE})
+
+		/usr/sbin/px5g selfsigned \
+				-subj "/CN=$(uci get system.@system[0].hostname)" \
+				-days -1 \
+				-newkey rsa:2048 \
+				-keyout ${IDENTITY_KEY_FILE} \
+				-out ${IDENTITY_CERTIFICATE_FILE}
+	fi
+}
+
